@@ -7,12 +7,12 @@ python manage.py migrate
 python manage.py runserver
 
 git add .
-git commit -m "Prepare project for Heroku deployment"
+git commit -m "Prepare Footer and About Us page"
 git push -u origin main
 
 
 git add .
-git commit -m "Prepare project for Heroku deployment"
+git commit -m "Prepare Footer and About Us page"
 git push heroku main
 
 python manage.py runserver
