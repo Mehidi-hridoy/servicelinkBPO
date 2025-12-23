@@ -1,0 +1,600 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - ServiceLink BPO{% endblock %}
+
+{% block content %}
+<style>
+/* Page Header */
+.page-header {
+    padding: 120px 0 60px;
+    background-size: cover;
+    background-position: center;
+    background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9));
+}
+
+/* Form Styles */
+.form-control, .form-select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+    outline: none;
+}
+
+.form-control.is-invalid, .form-select.is-invalid {
+    border-color: #dc3545;
+}
+
+.form-control.is-invalid:focus, .form-select.is-invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.form-check-input:checked {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.form-check-input.is-invalid {
+    border-color: #dc3545;
+}
+
+/* Alert Styles */
+.alert {
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+/* Button loading state */
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.spinner-border {
+    vertical-align: middle;
+}
+
+/* Contact Info */
+.contact-info .rounded-circle {
+    flex-shrink: 0;
+}
+
+.contact-info h5 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.contact-info p {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Office Hours */
+.office-hours li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.office-hours li:last-child {
+    border-bottom: none;
+}
+
+/* Map Wrapper */
+.map-wrapper {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Accordion */
+.accordion-button:not(.collapsed) {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+}
+
+.accordion-button:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+/* Social Links */
+.social-links a {
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    transform: translateY(-3px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-header {
+        padding: 100px 0 40px;
+    }
+    
+    .display-4 {
+        font-size: 2.2rem;
+    }
+    
+    .lead {
+        font-size: 1.1rem;
+    }
+}
+</style>
+
+<!-- Page Header -->
+<section class="page-header py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center text-white">
+                <h1 class="display-4 fw-bold">Get In Touch</h1>
+                <p class="lead">Let's discuss how we can help scale your business</p>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="{% url 'website:home' %}" class="text-white">Home</a></li>
+                        <li class="breadcrumb-item active text-light" aria-current="page">Contact</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Information -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-4">
+                <h2 class="fw-bold mb-4">Contact Information</h2>
+                <p class="text-muted mb-5">Reach out to us through any of these channels. Our team typically responds within 2 business hours.</p>
+                
+                <div class="contact-info mb-4">
+                    <div class="d-flex mb-4">
+                        <div class="flex-shrink-0">
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" 
+                                 style="width: 50px; height: 50px;">
+                                <i class="fas fa-map-marker-alt fa-lg text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="fw-bold">Our Location</h5>
+                            <p class="text-muted mb-0">{{ contact_info.address|default:"Road 35, House 7, Uttara Dhaka-1230" }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-4">
+                        <div class="flex-shrink-0">
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" 
+                                 style="width: 50px; height: 50px;">
+                                <i class="fas fa-envelope fa-lg text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="fw-bold">Email Address</h5>
+                            <p class="text-muted mb-0">
+                                <a href="mailto:{{ contact_info.email|default:'info@servicelinkbpo.com' }}" class="text-decoration-none">
+                                    {{ contact_info.email|default:"info@servicelinkbpo.com" }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-4">
+                        <div class="flex-shrink-0">
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" 
+                                 style="width: 50px; height: 50px;">
+                                <i class="fas fa-phone fa-lg text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="fw-bold">Phone Number</h5>
+                            <p class="text-muted mb-0">
+                                <a href="tel:{{ contact_info.phone|default:'+8801886100303' }}" class="text-decoration-none">
+                                    {{ contact_info.phone|default:"+8801886100303" }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    {% if contact_info.whatsapp %}
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" 
+                                 style="width: 50px; height: 50px;">
+                                <i class="fab fa-whatsapp fa-lg text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="fw-bold">WhatsApp</h5>
+                            <p class="text-muted mb-0">
+                                <a href="https://wa.me/{{ contact_info.whatsapp }}" target="_blank" class="text-decoration-none">
+                                    {{ contact_info.whatsapp }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="social-links mt-5">
+                    <h5 class="fw-bold mb-3">Follow Us</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-primary">
+                            <i class="fab fa-facebook-f fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-primary">
+                            <i class="fab fa-twitter fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-primary">
+                            <i class="fab fa-linkedin-in fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-primary">
+                            <i class="fab fa-instagram fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-8">
+                <div class="contact-form-wrapper">
+                    <h2 class="fw-bold mb-4">Send Us a Message</h2>
+                    <p class="text-muted mb-4">Fill out the form below and our team will get back to you promptly.</p>
+                    
+                    <form id="contactForm" method="POST" action="{% url 'website:submit_contact' %}">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name" class="form-label fw-bold">Full Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Your name" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email" class="form-label fw-bold">Email Address *</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Your email" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone" class="form-label fw-bold">Phone Number *</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Your phone number" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="company" class="form-label fw-bold">Company Name</label>
+                                    <input type="text" class="form-control" id="company" name="company" placeholder="Your company name">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="service_interest" class="form-label fw-bold">Service Interest *</label>
+                                    <select class="form-select" id="service_interest" name="service_interest" required>
+                                        <option value="" selected disabled>Select a service</option>
+                                        <option value="customer-service">Customer Service Staffing</option>
+                                        <option value="back-office">Back-Office & Administrative Support</option>
+                                        <option value="finance">Finance & Accounting</option>
+                                        <option value="digital-marketing">Digital Marketing Staffing</option>
+                                        <option value="it-solutions">IT & Technology Solutions</option>
+                                        <option value="data-analytics">Data Analytics Services</option>
+                                        <option value="multiple">Multiple Services</option>
+                                        <option value="custom">Custom Solution</option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="message" class="form-label fw-bold">Your Message *</label>
+                                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Tell us about your requirements..." required></textarea>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12">
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" id="privacy_policy" name="privacy_policy" required>
+                                    <label class="form-check-label" for="privacy_policy">
+                                        I agree to the <a href="#" class="text-primary">Privacy Policy</a> and consent to ServiceLink BPO contacting me about my inquiry.
+                                    </label>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <span class="submit-text">Send Message</span>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                                    <i class="fas fa-paper-plane ms-2"></i>
+                                </button>
+                                <div class="alert mt-3 d-none" id="formMessage"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Office Location -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 mb-5 mb-lg-0">
+                <h2 class="display-6 fw-bold mb-4">Visit Our Office</h2>
+                <p class="lead text-muted mb-4">Schedule a visit to our headquarters in Dhaka to see our operations firsthand.</p>
+                
+                <div class="office-hours">
+                    <h5 class="fw-bold mb-3">Office Hours</h5>
+                    <ul class="list-unstyled">
+                        <li class="d-flex justify-content-between mb-2">
+                            <span>Monday - Friday</span>
+                            <span class="fw-bold">9:00 AM - 6:00 PM</span>
+                        </li>
+                        <li class="d-flex justify-content-between mb-2">
+                            <span>Saturday</span>
+                            <span class="fw-bold">10:00 AM - 4:00 PM</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                            <span>Sunday</span>
+                            <span class="fw-bold">Closed</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="tel:{{ contact_info.phone|default:'+8801886100303' }}" class="btn btn-primary me-3">
+                        <i class="fas fa-phone me-2"></i>Call Office
+                    </a>
+                    <a href="mailto:{{ contact_info.email|default:'info@servicelinkbpo.com' }}" class="btn btn-outline-primary">
+                        <i class="fas fa-envelope me-2"></i>Email Appointment
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-7">
+                <div class="map-wrapper">
+                    {% if contact_info.google_map_embed %}
+                        {{ contact_info.google_map_embed|safe }}
+                    {% else %}
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.837240932876!2d90.39963531538567!3d23.790161793226275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c711d13bbec7%3A0xc47f7c3c8f93e000!2sUttara%2C Dhaka%2C Bangladesh!5e0!3m2!1sen!2s!4v1638356787894!5m2!1sen!2s" 
+                                style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Contact Section -->
+{% if faqs %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Frequently Asked Questions</h2>
+            <p class="lead text-muted">Quick answers to commonly asked questions</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="accordion" id="contactFAQ">
+                    {% for faq in faqs %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" 
+                                    type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#faq{{ faq.id }}">
+                                {{ faq.question }}
+                            </button>
+                        </h2>
+                        <div id="faq{{ faq.id }}" 
+                             class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" 
+                             data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                {{ faq.answer|safe }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="display-6 fw-bold mb-3">Start Your BPO Journey Today</h2>
+                <p class="lead opacity-75 mb-4">Join the hundreds of businesses that have transformed their operations with ServiceLink BPO.</p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="#contactForm" class="btn btn-light btn-lg">
+                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                    </a>
+                    <a href="tel:{{ contact_info.phone|default:'+8801886100303' }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-phone me-2"></i>Call Now: {{ contact_info.phone|default:'+8801886100303' }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Contact form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const submitText = submitBtn.querySelector('.submit-text');
+            const spinner = submitBtn.querySelector('.spinner-border');
+            const formMessage = document.getElementById('formMessage');
+            
+            // Show loading state
+            submitText.classList.add('d-none');
+            spinner.classList.remove('d-none');
+            submitBtn.disabled = true;
+            
+            // Clear previous message
+            if (formMessage) {
+                formMessage.classList.add('d-none');
+                formMessage.textContent = '';
+            }
+            
+            // Clear previous error styles
+            this.querySelectorAll('.is-invalid').forEach(el => {
+                el.classList.remove('is-invalid');
+            });
+            this.querySelectorAll('.invalid-feedback').forEach(el => {
+                el.textContent = '';
+            });
+            
+            try {
+                const formData = new FormData(this);
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Show success message
+                    if (formMessage) {
+                        formMessage.textContent = data.message;
+                        formMessage.classList.remove('d-none', 'alert-danger');
+                        formMessage.classList.add('alert-success');
+                    }
+                    
+                    // Reset form
+                    this.reset();
+                    
+                    // Scroll to message
+                    if (formMessage) {
+                        formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                } else {
+                    // Show error message
+                    if (formMessage) {
+                        formMessage.textContent = data.message;
+                        formMessage.classList.remove('d-none', 'alert-success');
+                        formMessage.classList.add('alert-danger');
+                    }
+                    
+                    // Show field errors if available
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(fieldName => {
+                            const field = this.querySelector(`[name="${fieldName}"]`);
+                            if (field) {
+                                field.classList.add('is-invalid');
+                                
+                                // Get error message element
+                                let errorDiv = field.parentNode.querySelector('.invalid-feedback');
+                                if (!errorDiv) {
+                                    errorDiv = document.createElement('div');
+                                    errorDiv.className = 'invalid-feedback';
+                                    field.parentNode.appendChild(errorDiv);
+                                }
+                                
+                                // Set error message
+                                if (data.errors[fieldName] && data.errors[fieldName][0]) {
+                                    errorDiv.textContent = data.errors[fieldName][0].message;
+                                }
+                            }
+                        });
+                    }
+                }
+            } catch (error) {
+                // Show error message
+                if (formMessage) {
+                    formMessage.textContent = 'An error occurred. Please try again.';
+                    formMessage.classList.remove('d-none', 'alert-success');
+                    formMessage.classList.add('alert-danger');
+                }
+            } finally {
+                // Reset button state
+                submitText.classList.remove('d-none');
+                spinner.classList.add('d-none');
+                submitBtn.disabled = false;
+            }
+        });
+    }
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            if (this.getAttribute('href') === '#') return;
+            
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

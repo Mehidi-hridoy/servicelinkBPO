@@ -1,0 +1,75 @@
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <h4 class="fw-bold">ServiceLink BPO</h4>
+                <p class="text-light mt-3" style="opacity: 0.8;">
+                    Your Partner in Digital Excellence and Customer Engagement.
+                </p>
+                <div class="mt-4">
+                    <h6 class="text-primary">Tagline</h6>
+                    <h5 class="fw-bold">Scale Smarter. Grow Faster.</h5>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h5 class="fw-bold">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{% url 'website:home' %}" class="text-light">Home</a></li>
+                    <li class="mb-2"><a href="{% url 'website:about' %}" class="text-light">About Us</a></li>
+                    <li class="mb-2"><a href="{% url 'website:services' %}" class="text-light">Services</a></li>
+                    <li class="mb-2"><a href="{% url 'website:contact' %}" class="text-light">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="fw-bold">Services</h5>
+                <ul class="list-unstyled">
+                    {% for category in view.get_context_data.categories|slice:":4" %}
+                    <li class="mb-2">
+                        <a href="{% url 'website:services' %}#{{ category.slug }}" class="text-light">
+                            {{ category.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="col-lg-3 mb-4">
+                <h5 class="fw-bold">Contact Us</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                        Road 35, House 7, Uttara Dhaka-1230
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-envelope text-primary me-2"></i>
+                        info@servicelinkbpo.com
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-phone text-primary me-2"></i>
+                        +8801886100303
+                    </li>
+                    <li>
+                        <i class="fab fa-whatsapp text-primary me-2"></i>
+                        +8801886100303
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <hr class="bg-light">
+        
+        <div class="row pt-3">
+            <div class="col-md-6 text-center text-md-start">
+                <p>&copy; {% now "Y" %} ServiceLink BPO. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-light me-3"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="text-light"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>

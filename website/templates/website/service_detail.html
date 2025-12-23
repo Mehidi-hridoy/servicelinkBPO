@@ -1,0 +1,622 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}{{ service.title }} - ServiceLink BPO{% endblock %}
+
+{% block content %}
+<style>
+/* Page Header */
+.page-header {
+    padding: 120px 0 60px;
+    background-size: cover;
+    background-position: center;
+    margin-top: 0;
+}
+
+/* Form Styles */
+.form-control, .form-select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+    outline: none;
+}
+
+.form-control.is-invalid, .form-select.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+}
+
+.alert {
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.spinner-border {
+    vertical-align: middle;
+}
+
+/* Service Meta */
+.service-meta .badge {
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Result Icons */
+.result-icon .rounded-circle {
+    background: #3498db;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Card Hover Effects */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Related Services */
+.list-unstyled li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.list-unstyled li:last-child {
+    border-bottom: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-header {
+        padding: 100px 0 40px;
+    }
+    
+    .display-4 {
+        font-size: 2.2rem;
+    }
+    
+    .lead {
+        font-size: 1.1rem;
+    }
+    
+    .service-meta {
+        flex-direction: column;
+        gap: 10px !important;
+    }
+}
+
+/* Sticky Sidebar */
+.sticky-top {
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+}
+</style>
+
+<!-- Page Header -->
+<section class="page-header py-5" style="background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), 
+{% if service.image and service.image.url %}url('{{ service.image.url }}'){% else %}#2c3e50{% endif %};">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center text-white">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="{% url 'website:home' %}" class="text-white">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'website:services' %}" class="text-white">Services</a></li>
+                        <li class="breadcrumb-item active text-light" aria-current="page">{{ service.title }}</li>
+                    </ol>
+                </nav>
+                
+                <h1 class="display-4 fw-bold mb-3">{{ service.title }}</h1>
+                <p class="lead mb-4">{{ service.short_description }}</p>
+                
+                <div class="service-meta d-flex justify-content-center gap-4">
+                    <span class="badge bg-light text-dark p-2">
+                        <i class="{{ service.category.icon }} me-2"></i>{{ service.category.name }}
+                    </span>
+                    {% if service.is_featured %}
+                    <span class="badge bg-warning text-dark p-2">Featured Service</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Service Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="service-content mb-5">
+                    <h2 class="fw-bold mb-4">Service Overview</h2>
+                    <div class="service-description">
+                        {{ service.detailed_description|safe }}
+                    </div>
+                </div>
+                
+                <!-- Key Features -->
+                <div class="key-features mb-5">
+                    <h3 class="fw-bold mb-4">Key Features & Benefits</h3>
+                    <div class="row">
+                        {% for feature in service.get_features_list %}
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="mb-0">{{ feature }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- How We Deliver -->
+                <div class="delivery-process mb-5">
+                    <h3 class="fw-bold mb-4">How We Deliver {{ service.title }}</h3>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" 
+                                             style="width: 50px; height: 50px;">
+                                            <i class="fas fa-user-tie fa-lg text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Expert Team Allocation</h5>
+                                            <p class="text-muted small">We match your requirements with our most qualified professionals.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" 
+                                             style="width: 50px; height: 50px;">
+                                            <i class="fas fa-cogs fa-lg text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Process Integration</h5>
+                                            <p class="text-muted small">Seamless integration with your existing workflows and systems.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" 
+                                             style="width: 50px; height: 50px;">
+                                            <i class="fas fa-chart-line fa-lg text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Performance Tracking</h5>
+                                            <p class="text-muted small">Regular reporting and KPI monitoring to ensure quality delivery.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" 
+                                             style="width: 50px; height: 50px;">
+                                            <i class="fas fa-sync-alt fa-lg text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Continuous Optimization</h5>
+                                            <p class="text-muted small">Ongoing improvement based on performance data and feedback.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+<div class="col-lg-4">
+    <div class="sticky-top">
+        <!-- Service Inquiry Card -->
+        <div class="card border-0 shadow-lg mb-4">
+            <div class="card-body p-4">
+                <h4 class="fw-bold mb-3">Get Started With This Service</h4>
+                <form id="serviceInquiryForm" method="POST" action="{% url 'website:submit_service_inquiry' service.slug %}">
+                    {% csrf_token %}
+                    
+                    {% if inquiry_form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ inquiry_form.non_field_errors }}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Hidden fields from form -->
+                    {{ inquiry_form.service_type }}
+                    {{ inquiry_form.specific_service }}
+                    
+                    <div class="mb-3">
+                        {{ inquiry_form.name.label_tag }}
+                        {{ inquiry_form.name }}
+                        <div class="invalid-feedback">{{ inquiry_form.name.errors }}</div>
+                    </div>
+                    <div class="mb-3">
+                        {{ inquiry_form.email.label_tag }}
+                        {{ inquiry_form.email }}
+                        <div class="invalid-feedback">{{ inquiry_form.email.errors }}</div>
+                    </div>
+                    <div class="mb-3">
+                        {{ inquiry_form.phone.label_tag }}
+                        {{ inquiry_form.phone }}
+                        <div class="invalid-feedback">{{ inquiry_form.phone.errors }}</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Service</label>
+                        <input type="text" class="form-control" value="{{ service.title }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        {{ inquiry_form.company.label_tag }}
+                        {{ inquiry_form.company }}
+                        <div class="invalid-feedback">{{ inquiry_form.company.errors }}</div>
+                    </div>
+                    <div class="mb-3">
+                        {{ inquiry_form.team_size.label_tag }}
+                        {{ inquiry_form.team_size }}
+                        <div class="invalid-feedback">{{ inquiry_form.team_size.errors }}</div>
+                    </div>
+                    <div class="mb-3">
+                        {{ inquiry_form.budget_range.label_tag }}
+                        {{ inquiry_form.budget_range }}
+                        <div class="invalid-feedback">{{ inquiry_form.budget_range.errors }}</div>
+                    </div>
+                    <div class="mb-3">
+                        {{ inquiry_form.timeline.label_tag }}
+                        {{ inquiry_form.timeline }}
+                        <div class="invalid-feedback">{{ inquiry_form.timeline.errors }}</div>
+                    </div>
+                    <div class="mb-3">
+                        {{ inquiry_form.additional_requirements.label_tag }}
+                        {{ inquiry_form.additional_requirements }}
+                        <div class="invalid-feedback">{{ inquiry_form.additional_requirements.errors }}</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <span class="submit-text">Request Service Details</span>
+                        <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                    <div class="alert mt-3 d-none" id="serviceInquiryMessage"></div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Rest of your sidebar remains the same -->
+        <!-- Service Info Card -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Service Details</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2 d-flex align-items-center">
+                        <i class="{{ service.category.icon }} text-primary me-3"></i>
+                        <span>{{ service.category.name }}</span>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center">
+                        <i class="fas fa-clock text-primary me-3"></i>
+                        <span>24/7 Support Available</span>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center">
+                        <i class="fas fa-globe text-primary me-3"></i>
+                        <span>Global Delivery</span>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center">
+                        <i class="fas fa-calendar-check text-primary me-3"></i>
+                        <span>Quick Onboarding</span>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <i class="fas fa-handshake text-primary me-3"></i>
+                        <span>Flexible Engagement</span>
+                    </li>
+                </ul>
+                
+                <hr class="my-3">
+                
+                <div class="text-center">
+                    <a href="tel:{{ contact_info.phone|default:'+8801886100303' }}" class="btn btn-outline-primary btn-sm w-100 mb-2">
+                        <i class="fas fa-phone me-2"></i>Call Now
+                    </a>
+                    <a href="mailto:{{ contact_info.email|default:'info@servicelinkbpo.com' }}" class="btn btn-outline-primary btn-sm w-100">
+                        <i class="fas fa-envelope me-2"></i>Email Us
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Related Services -->
+        {% if related_services %}
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Related Services</h5>
+                <ul class="list-unstyled mb-0">
+                    {% for related in related_services %}
+                    <li class="mb-2 pb-2 border-bottom">
+                        <a href="{% url 'website:service_detail' related.slug %}" class="text-dark d-flex align-items-center">
+                            <i class="{{ related.category.icon }} text-primary me-2"></i>
+                            <span>{{ related.title }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'website:services' %}" class="btn btn-link text-primary p-0 mt-2">
+                    View All Services <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+        </div>
+    </div>
+</section>
+
+<!-- Results Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Expected Results</h2>
+            <p class="lead text-muted">What you can expect when you choose our {{ service.title }}</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center p-3">
+                    <div class="result-icon mb-3">
+                        <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-percentage fa-2x text-white"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-3">Cost Reduction</h5>
+                    <p class="text-muted">Reduce operational costs by 40-60% while maintaining or improving service quality.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="text-center p-3">
+                    <div class="result-icon mb-3">
+                        <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-bolt fa-2x text-white"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-3">Increased Efficiency</h5>
+                    <p class="text-muted">Improve process efficiency and turnaround times by leveraging specialized expertise.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="text-center p-3">
+                    <div class="result-icon mb-3">
+                        <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px;">
+                            <i class="fas fa-chart-line fa-2x text-white"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-3">Scalable Growth</h5>
+                    <p class="text-muted">Easily scale operations up or down based on business demands without infrastructure investment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <h2 class="display-6 fw-bold mb-3">Ready to Implement {{ service.title }}?</h2>
+                <p class="lead opacity-75">Let's discuss how we can customize this service for your specific business needs.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{% url 'website:contact' %}" class="btn btn-light btn-lg me-2">
+                    <i class="fas fa-calendar me-2"></i>Schedule Demo
+                </a>
+                <a href="tel:{{ contact_info.phone|default:'+8801886100303' }}" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-phone me-2"></i>Call Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+
+    // In your AJAX success handler
+success: function(response) {
+    if (response.redirect) {
+        // Redirect to show Django message
+        window.location.href = response.url;
+    } else if (response.success) {
+        // Handle AJAX success (if you keep fallback)
+        $('#serviceInquiryMessage').removeClass('alert-danger d-none').addClass('alert-success').text(response.message);
+        $('#serviceInquiryForm')[0].reset();
+    } else {
+        // Handle AJAX errors
+        $('#serviceInquiryMessage').removeClass('alert-success d-none').addClass('alert-danger').text(response.message);
+    }
+}
+document.addEventListener('DOMContentLoaded', function() {
+    // Service inquiry form submission
+    const serviceInquiryForm = document.getElementById('serviceInquiryForm');
+    if (serviceInquiryForm) {
+        serviceInquiryForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const submitText = submitBtn.querySelector('.submit-text');
+            const spinner = submitBtn.querySelector('.spinner-border');
+            const messageDiv = document.getElementById('serviceInquiryMessage');
+            
+            // Show loading state
+            submitText.classList.add('d-none');
+            spinner.classList.remove('d-none');
+            submitBtn.disabled = true;
+            
+            // Clear previous message
+            if (messageDiv) {
+                messageDiv.classList.add('d-none');
+                messageDiv.textContent = '';
+            }
+            
+            // Clear previous error styles
+            this.querySelectorAll('.is-invalid').forEach(el => {
+                el.classList.remove('is-invalid');
+            });
+            this.querySelectorAll('.invalid-feedback').forEach(el => {
+                el.textContent = '';
+            });
+            
+            try {
+                const formData = new FormData(this);
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Show success message
+                    if (messageDiv) {
+                        messageDiv.textContent = data.message;
+                        messageDiv.classList.remove('d-none', 'alert-danger');
+                        messageDiv.classList.add('alert-success');
+                    }
+                    
+                    // Reset form (except service name)
+                    const serviceNameField = this.querySelector('input[readonly]');
+                    const serviceName = serviceNameField ? serviceNameField.value : '';
+                    
+                    this.reset();
+                    
+                    // Restore service name if it was readonly
+                    if (serviceNameField && serviceName) {
+                        serviceNameField.value = serviceName;
+                    }
+                    
+                    // Scroll to message
+                    if (messageDiv) {
+                        messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                } else {
+                    // Show error message
+                    if (messageDiv) {
+                        messageDiv.textContent = data.message;
+                        messageDiv.classList.remove('d-none', 'alert-success');
+                        messageDiv.classList.add('alert-danger');
+                    }
+                    
+                    // Show field errors if available
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(fieldName => {
+                            const field = this.querySelector(`[name="${fieldName}"]`);
+                            if (field) {
+                                field.classList.add('is-invalid');
+                                
+                                // Get error message element
+                                let errorDiv = field.parentNode.querySelector('.invalid-feedback');
+                                if (!errorDiv) {
+                                    errorDiv = document.createElement('div');
+                                    errorDiv.className = 'invalid-feedback';
+                                    field.parentNode.appendChild(errorDiv);
+                                }
+                                
+                                // Set error message
+                                if (data.errors[fieldName] && data.errors[fieldName][0]) {
+                                    errorDiv.textContent = data.errors[fieldName][0].message;
+                                }
+                            }
+                        });
+                    }
+                }
+            } catch (error) {
+                // Show error message
+                if (messageDiv) {
+                    messageDiv.textContent = 'An error occurred. Please try again.';
+                    messageDiv.classList.remove('d-none', 'alert-success');
+                    messageDiv.classList.add('alert-danger');
+                }
+            } finally {
+                // Reset button state
+                submitText.classList.remove('d-none');
+                spinner.classList.add('d-none');
+                submitBtn.disabled = false;
+            }
+        });
+    }
+    
+    // Smooth scrolling for phone links
+    document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Allow default behavior for phone links
+        });
+    });
+});
+</script>
+{% endblock %}
+

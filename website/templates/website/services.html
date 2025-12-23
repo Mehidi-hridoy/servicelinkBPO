@@ -1,0 +1,351 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Our Services - ServiceLink BPO{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header py-5" style="background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('{% static 'images/services-bg.jpg' %}');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center text-white">
+                <h1 class="display-4 fw-bold">Our Core Services</h1>
+                <p class="lead">Comprehensive BPO solutions designed to scale your business</p>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="{% url 'website:home' %}" class="text-white">Home</a></li>
+                        <li class="breadcrumb-item active text-light" aria-current="page">Services</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Introduction -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h2 class="display-6 fw-bold mb-4">Scale Smarter. Grow Faster.</h2>
+                <p class="lead text-muted mb-5">
+                    At ServiceLink BPO, we provide comprehensive business process outsourcing solutions that help you focus on core business activities while we handle the rest. Our services are designed to deliver excellence across every touchpoint of your business.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services by Category -->
+<section class="py-5 bg-light">
+    <div class="container">
+        {% for category in categories %}
+        <div id="{{ category.slug }}" class="service-category mb-5">
+            <div class="row align-items-center mb-4">
+                <div class="col-md-8">
+                    <h2 class="fw-bold d-flex align-items-center">
+                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" 
+                             style="width: 60px; height: 60px;">
+                            <i class="{{ category.icon }} fa-lg text-white"></i>
+                        </div>
+                        {{ category.name }}
+                    </h2>
+                    {% if category.description %}
+                    <p class="text-muted mb-0">{{ category.description }}</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <a href="#consultation" class="btn btn-primary">
+                        Get Quote <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="row">
+                {% for service in category.services.all %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-3">{{ service.title }}</h5>
+                            <p class="text-muted mb-4">{{ service.short_description }}</p>
+                            
+                            <ul class="list-unstyled mb-4">
+                                {% for feature in service.get_features_list|slice:":3" %}
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    {{ feature }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'website:service_detail' service.slug %}" class="btn btn-link text-primary p-0">
+                                    Learn More <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                                {% if service.is_featured %}
+                                <span class="badge bg-warning text-dark">Featured</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Services for this category will be added soon.
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-5">
+            <h3 class="fw-bold mb-3">Our Services Categories</h3>
+            <p class="text-muted mb-4">Services will be available soon. Check back later or contact us for more information.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- All Services List -->
+{% if all_services %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Browse All Services</h2>
+            <p class="lead text-muted">Explore our complete portfolio of BPO solutions</p>
+        </div>
+        
+        <div class="row">
+            {% for service in all_services %}
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 50px; height: 50px;">
+                                <i class="{{ service.category.icon }} text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">{{ service.title }}</h6>
+                                <small class="text-muted">{{ service.category.name }}</small>
+                            </div>
+                        </div>
+                        <p class="small text-muted">{{ service.short_description|truncatewords:15 }}</p>
+                        <a href="{% url 'website:service_detail' service.slug %}" class="btn btn-sm btn-outline-primary w-100">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- How We Work -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h2 class="display-6 fw-bold mb-4">How We Deliver Excellence</h2>
+                <div class="how-we-work-item mb-4">
+                    <h5 class="fw-bold mb-2"><i class="fas fa-user-check me-2"></i>Rigorous Screening</h5>
+                    <p class="opacity-75">Every candidate undergoes multiple rounds of interviews and skill assessments.</p>
+                </div>
+                <div class="how-we-work-item mb-4">
+                    <h5 class="fw-bold mb-2"><i class="fas fa-graduation-cap me-2"></i>Comprehensive Training</h5>
+                    <p class="opacity-75">Industry-specific training ensures your team understands your business inside-out.</p>
+                </div>
+                <div class="how-we-work-item mb-4">
+                    <h5 class="fw-bold mb-2"><i class="fas fa-tachometer-alt me-2"></i>Performance Monitoring</h5>
+                    <p class="opacity-75">Real-time tracking and regular reporting keep you informed about team performance.</p>
+                </div>
+                <div class="how-we-work-item">
+                    <h5 class="fw-bold mb-2"><i class="fas fa-sync-alt me-2"></i>Continuous Improvement</h5>
+                    <p class="opacity-75">Regular feedback loops and optimization strategies ensure ongoing improvement.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <h3 class="fw-bold mb-4 text-center">Get Your Free Service Assessment</h3>
+                        <form id="serviceAssessmentForm">
+                            <div class="mb-3">
+                                <label for="serviceSelect" class="form-label">Select Service Category</label>
+                                <select class="form-select" id="serviceSelect" required>
+                                    <option value="" selected disabled>Choose a service</option>
+                                    {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="companySize" class="form-label">Company Size</label>
+                                <select class="form-select" id="companySize" required>
+                                    <option value="" selected disabled>Select company size</option>
+                                    <option value="1-10">1-10 employees</option>
+                                    <option value="11-50">11-50 employees</option>
+                                    <option value="51-200">51-200 employees</option>
+                                    <option value="201-500">201-500 employees</option>
+                                    <option value="500+">500+ employees</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="serviceNeeds" class="form-label">Describe Your Needs</label>
+                                <textarea class="form-control" id="serviceNeeds" rows="3" placeholder="Tell us about your specific requirements..."></textarea>
+                            </div>
+                            
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" placeholder="Your Email" required>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100">
+                                Get Free Assessment <i class="fas fa-chart-bar ms-2"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Frequently Asked Questions</h2>
+            <p class="lead text-muted">Common questions about our services</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="accordion" id="servicesFAQ">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                What makes ServiceLink BPO different from other BPO providers?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#servicesFAQ">
+                            <div class="accordion-body">
+                                We focus on building partnerships rather than just providing services. Our distinctively different approach involves deep integration with your business culture, customized solutions, and ongoing performance optimization to ensure you get maximum value from your offshore team.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                How quickly can you scale my team up or down?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#servicesFAQ">
+                            <div class="accordion-body">
+                                We maintain a talent pool of pre-vetted professionals ready for deployment. Typically, we can scale your team within 2-4 weeks, depending on role complexity. For emergency scaling, we can deploy resources within 7-10 days.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                What industries do you specialize in?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#servicesFAQ">
+                            <div class="accordion-body">
+                                We serve a wide range of industries including e-commerce, healthcare, finance, technology, retail, education, and manufacturing. Our teams are trained in industry-specific protocols and compliance requirements.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                How do you ensure data security and compliance?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#servicesFAQ">
+                            <div class="accordion-body">
+                                We implement enterprise-grade security measures including encrypted communications, secure VPN access, regular security audits, and compliance with GDPR, HIPAA, and other relevant regulations. All team members sign strict confidentiality agreements and undergo security training.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Consultation CTA -->
+<section id="consultation" class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="display-6 fw-bold mb-3">Not Sure Which Service You Need?</h2>
+                <p class="lead text-muted mb-4">Our experts will analyze your business requirements and recommend the perfect solution.</p>
+                <a href="{% url 'website:contact' %}" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-calendar-check me-2"></i>Schedule Consultation
+                </a>
+                <a href="tel:{{ contact_info.phone|default:'+8801886100303' }}" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-phone me-2"></i>Call Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Service assessment form submission
+    $('#serviceAssessmentForm').submit(function(e) {
+        e.preventDefault();
+        
+        // Simple validation
+        let isValid = true;
+        $(this).find('[required]').each(function() {
+            if ($(this).val() === '') {
+                isValid = false;
+                $(this).addClass('is-invalid');
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
+        
+        if (isValid) {
+            // In a real application, you would send this data to your backend
+            alert('Thank you for your interest! Our team will contact you within 24 hours with your free service assessment.');
+            this.reset();
+        } else {
+            alert('Please fill in all required fields.');
+        }
+    });
+    
+    // Smooth scrolling for category links
+    $('a[href^="#"]').on('click', function(e) {
+        var target = $(this.getAttribute('href'));
+        if(target.length) {
+            e.preventDefault();
+            $('html, body').stop().animate({
+                scrollTop: target.offset().top - 100
+            }, 1000);
+        }
+    });
+});
+</script>
+{% endblock %}
