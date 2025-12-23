@@ -26,9 +26,7 @@ pip install -r requirements.txt
 git reset --hard HEAD
 git pull origin main
 
-git branch -M main
-git remote add origin https://github.com/Mehidi-hridoy/paddle_coach.git
-git push -u origin main
+
 
 pip install gunicorn whitenoise psycopg2-binary dj-database-url
 pip freeze > requirements.txt
