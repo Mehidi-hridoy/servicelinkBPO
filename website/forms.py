@@ -206,7 +206,6 @@ class ConsultationForm(forms.ModelForm):
                 raise forms.ValidationError("Please select a future date")
         return date
 
-
 class ServiceInquiryForm(forms.ModelForm):
     SERVICE_TYPE_CHOICES = [
         ('single-service', 'Single Service'),

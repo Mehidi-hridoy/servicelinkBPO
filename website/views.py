@@ -3,8 +3,34 @@ from django.views.generic import TemplateView, ListView, DetailView
 from .models import (
     HeroSlide, ServiceCategory, Service, 
     ProcessStep, AboutContent, ContactInfo,
-    ContactSubmission, ConsultationRequest, ServiceInquiry, FAQ
+    ContactSubmission, ConsultationRequest, ServiceInquiry, FAQ,ServiceDetailHero,ServiceHero
 )
+# views.py - Update submit_service_inquiry function
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.http import JsonResponse
+from django.conf import settings
+from django.core.mail import send_mail
+from django.urls import reverse
+from .forms import ServiceInquiryForm
+from .models import Service
+
+# views.py - ContactView with fixed form_invalid method
+from django.views.generic import FormView
+from django.urls import reverse_lazy
+from django.contrib import messages
+from .models import ContactHero, ContactInfo, FAQ
+from .forms import ContactForm
+from django.contrib import messages
+from django.shortcuts import redirect, get_object_or_404
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
+from django.conf import settings
+from django.core.mail import send_mail
+from .models import Service
+from .forms import ServiceInquiryForm
+from django.views.generic import TemplateView
+from .models import AboutHero, AboutContent, ProcessStep  # Add AboutHero import
 
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView
@@ -33,9 +59,6 @@ class HomeView(TemplateView):
         context['consultation_form'] = ConsultationForm()
         return context
 
-
-from django.views.generic import TemplateView
-from .models import AboutHero, AboutContent, ProcessStep  # Add AboutHero import
 
 class AboutView(TemplateView):
     template_name = 'website/about.html'
@@ -66,16 +89,63 @@ class AboutView(TemplateView):
         return context
 
 
-
-class ServicesView(ListView):
-    model = ServiceCategory
-    template_name = 'website/services.html'
-    context_object_name = 'categories'
+class ContactView(FormView):
+    template_name = 'website/contact.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('website:contact')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_services'] = Service.objects.all()
+        
+        # Get contact hero section or create a default one
+        contact_hero = ContactHero.objects.filter(is_active=True).first()
+        if not contact_hero:
+            contact_hero = ContactHero.objects.create(
+                title="Contact ServiceLink BPO",
+                subtitle="Your Trusted Partner in Business Process Outsourcing",
+                is_active=True
+            )
+        
+        # Get contact info or create default
+        contact_info = ContactInfo.objects.first()
+        if not contact_info:
+            contact_info = ContactInfo.objects.create(
+                company_name="ServiceLink BPO",
+                address="123 Business Avenue\nSuite 100\nNew York, NY 10001",
+                email="info@servicelinkbpo.com",
+                phone="+1 (555) 123-4567",
+                whatsapp="+1 (555) 123-4567",
+                google_map_embed='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.177858804427!2d-73.98784468459436!3d40.70555197933217!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a315cdf4c9b%3A0x8b934de5cae6f7a!2sWall%20St%2C New York, NY, USA!5e0!3m2!1sen!2s!4v1648158082355!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+            )
+        
+        context['contact_hero'] = contact_hero
+        context['contact_info'] = contact_info
+        context['faqs'] = FAQ.objects.filter(category='contact', is_active=True).order_by('order')
         return context
+    
+    def form_valid(self, form):
+        # Save the contact submission
+        submission = form.save(commit=False)
+        
+        # Get user IP and user agent
+        x_forwarded_for = self.request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = self.request.META.get('REMOTE_ADDR')
+        
+        submission.ip_address = ip
+        submission.user_agent = self.request.META.get('HTTP_USER_AGENT', '')
+        submission.save()
+        
+        messages.success(self.request, 'Thank you for your message! We will get back to you within 24 hours.')
+        return super().form_valid(form)
+    
+    # FIXED METHOD - Remove the extra 'self' argument
+    def form_invalid(self, form):
+        messages.error(self.request, 'Please correct the errors below.')
+        return super().form_invalid(form)  # Only pass 'form'
+    
 
 
 def error_404_view(request, exception):
@@ -208,37 +278,60 @@ Submitted at: {consultation.submitted_at}
     })
 
 
-from django.contrib import messages
-from django.shortcuts import redirect, get_object_or_404
-from django.http import JsonResponse, HttpResponseRedirect
-from django.urls import reverse
-from django.conf import settings
-from django.core.mail import send_mail
-from .models import Service
-from .forms import ServiceInquiryForm
-
-def submit_service_inquiry(request, service_slug=None):  # Change parameter to match URL pattern
+def submit_service_inquiry(request, service_slug=None):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     
     if request.method == 'POST':
-        # Get the service - use service_slug parameter
-        service = get_object_or_404(Service, slug=service_slug)
+        # Print debug info
+        print("=== DEBUG FORM SUBMISSION ===")
+        print(f"Service slug: {service_slug}")
+        print(f"POST data: {request.POST}")
         
-        # Prepare initial data
-        initial_data = {
-            'specific_service': service.id,
-            'service_type': 'single-service'
-        }
+        service = None
+        if service_slug:
+            service = get_object_or_404(Service, slug=service_slug)
+            print(f"Found service: {service.title} (ID: {service.id})")
         
-        form = ServiceInquiryForm(request.POST, initial=initial_data)
+        # Create form with POST data
+        form = ServiceInquiryForm(request.POST)
+        
+        print(f"Form is bound: {form.is_bound}")
+        print(f"Form is valid: {form.is_valid()}")
+        
+        if not form.is_valid():
+            print(f"Form errors: {form.errors}")
         
         if form.is_valid():
             try:
                 # Save the form data
-                inquiry = form.save()
+                inquiry = form.save(commit=False)
+                
+                # If service is provided, set it
+                if service:
+                    inquiry.specific_service = service
+                    inquiry.service_type = 'single-service'
+                    print(f"Set specific_service to: {service.id}")
+                    print(f"Set service_type to: single-service")
+                
+                # Get user IP and user agent
+                x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+                if x_forwarded_for:
+                    ip = x_forwarded_for.split(',')[0]
+                else:
+                    ip = request.META.get('REMOTE_ADDR')
+                
+                inquiry.ip_address = ip
+                inquiry.user_agent = request.META.get('HTTP_USER_AGENT', '')
+                
+                # Save to database
+                inquiry.save()
+                print(f"Inquiry saved with ID: {inquiry.id}")
                 
                 # Get service name for email
-                service_name = inquiry.specific_service.title if inquiry.specific_service else 'Multiple/Custom Services'
+                if inquiry.specific_service:
+                    service_name = inquiry.specific_service.title
+                else:
+                    service_name = inquiry.get_service_type_display()
                 
                 # Send email notification
                 if hasattr(settings, 'EMAIL_HOST_USER') and settings.EMAIL_HOST_USER:
@@ -251,56 +344,76 @@ New service inquiry:
 Name: {inquiry.name}
 Email: {inquiry.email}
 Phone: {inquiry.phone}
-Company: {inquiry.company}
+Company: {inquiry.company or 'Not provided'}
+Service Type: {inquiry.get_service_type_display()}
 Service: {service_name}
 Team Size: {inquiry.get_team_size_display()}
-Budget Range: {inquiry.budget_range}
-Timeline: {inquiry.timeline}
-Additional Requirements: {inquiry.additional_requirements}
+Budget Range: {inquiry.budget_range or 'Not specified'}
+Timeline: {inquiry.timeline or 'Not specified'}
+Additional Requirements: {inquiry.additional_requirements or 'None'}
 
 Submitted at: {inquiry.submitted_at}
+IP Address: {ip}
                             """,
                             from_email=settings.DEFAULT_FROM_EMAIL,
                             recipient_list=[settings.ADMIN_EMAIL],
                             fail_silently=True,
                         )
+                        print("Email sent successfully")
                     except Exception as e:
                         print(f"Email sending failed: {e}")
                 
                 # Add Django message
-                messages.success(
-                    request, 
-                    'Thank you for your inquiry! Our sales team will contact you with detailed information.'
-                )
+                success_message = 'Thank you for your inquiry! Our sales team will contact you with detailed information.'
+                messages.success(request, success_message)
                 
                 if is_ajax:
+                    print("AJAX request detected")
                     # Build redirect URL
-                    redirect_url = reverse('website:service_detail', kwargs={'slug': service_slug})
+                    if service:
+                        redirect_url = reverse('website:service_detail', kwargs={'slug': service_slug})
+                    else:
+                        redirect_url = reverse('website:services')
+                        
                     return JsonResponse({
                         'success': True,
-                        'message': 'Thank you for your inquiry! Our sales team will contact you with detailed information.',
+                        'message': success_message,
                         'redirect': True,
                         'redirect_url': redirect_url
                     })
                 else:
+                    print("Non-AJAX request")
                     # For non-AJAX submission
-                    return redirect('website:service_detail', slug=service_slug)
+                    if service:
+                        return redirect('website:service_detail', slug=service_slug)
+                    else:
+                        return redirect('website:services')
                 
             except Exception as e:
+                print(f"Exception during form save: {str(e)}")
+                import traceback
+                traceback.print_exc()
+                
+                error_message = f'An error occurred: {str(e)}'
                 if is_ajax:
                     return JsonResponse({
                         'success': False,
-                        'message': f'An error occurred: {str(e)}'
+                        'message': error_message
                     })
                 else:
-                    messages.error(request, f'An error occurred: {str(e)}')
-                    return redirect('website:service_detail', slug=service_slug)
+                    messages.error(request, error_message)
+                    if service:
+                        return redirect('website:service_detail', slug=service_slug)
+                    else:
+                        return redirect('website:services')
         else:
+            print("Form is invalid")
+            error_message = 'Please correct the errors below.'
             if is_ajax:
                 errors = form.errors.get_json_data()
                 return JsonResponse({
                     'success': False,
-                    'message': 'Please correct the errors below.',
+                    'message': error_message,
                     'errors': errors
                 })
             else:
@@ -308,7 +421,10 @@ Submitted at: {inquiry.submitted_at}
                 for field, error_list in form.errors.items():
                     for error in error_list:
                         messages.error(request, f"{field}: {error}")
-                return redirect('website:service_detail', slug=service_slug)
+                if service:
+                    return redirect('website:service_detail', slug=service_slug)
+                else:
+                    return redirect('website:services')
     
     # GET request
     if is_ajax:
@@ -316,11 +432,43 @@ Submitted at: {inquiry.submitted_at}
             'success': False,
             'message': 'Invalid request method'
         })
-    return redirect('website:service_detail', slug=service_slug)
+    
+    # Redirect to appropriate page
+    if service_slug:
+        return redirect('website:service_detail', slug=service_slug)
+    else:
+        return redirect('website:services')
 
 
+# views.py - Update ServicesView
+class ServicesView(ListView):
+    model = ServiceCategory
+    template_name = 'website/services.html'
+    context_object_name = 'categories'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Get service list hero or create default
+        service_hero = ServiceHero.objects.filter(page_type='list', is_active=True).first()
+        if not service_hero:
+            service_hero = ServiceHero.objects.create(
+                page_type='list',
+                title="Our BPO Services",
+                subtitle="Comprehensive Business Process Outsourcing Solutions to Drive Your Growth",
+                is_active=True
+            )
+        
+        # Add ServiceInquiryForm to context
+        context['service_inquiry_form'] = ServiceInquiryForm(
+            initial={'service_type': 'single-service'}
+        )
+        context['service_hero'] = service_hero
+        context['all_services'] = Service.objects.all()
+        return context
 
-# Update your ServiceDetailView to pass the form
+
+# views.py - Update ServiceDetailView
 class ServiceDetailView(DetailView):
     model = Service
     template_name = 'website/service_detail.html'
@@ -329,6 +477,37 @@ class ServiceDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        # Get or create service detail hero
+        service_detail_hero = ServiceDetailHero.objects.filter(service=self.object).first()
+        if not service_detail_hero:
+            service_detail_hero = ServiceDetailHero.objects.create(
+                service=self.object,
+                show_default=True
+            )
+        
+        # Use custom hero if available, otherwise use service data
+        if service_detail_hero and not service_detail_hero.show_default:
+            hero_title = service_detail_hero.custom_title or self.object.title
+            hero_subtitle = service_detail_hero.custom_subtitle or self.object.short_description
+            hero_image = service_detail_hero.custom_image
+        else:
+            # Get service detail page hero template
+            service_hero_template = ServiceHero.objects.filter(page_type='detail', is_active=True).first()
+            if service_hero_template:
+                hero_title = self.object.title
+                hero_subtitle = service_hero_template.subtitle.replace('{service}', self.object.title)
+            else:
+                hero_title = self.object.title
+                hero_subtitle = self.object.short_description
+            hero_image = None
+        
+        context['service_hero'] = {
+            'title': hero_title,
+            'subtitle': hero_subtitle,
+            'image': hero_image,
+            'service': self.object
+        }
         context['related_services'] = Service.objects.filter(
             category=self.object.category
         ).exclude(id=self.object.id)[:3]
@@ -339,16 +518,4 @@ class ServiceDetailView(DetailView):
             }
         )
         return context
-
-
-class ContactView(TemplateView):
-    template_name = 'website/contact.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['contact_info'] = ContactInfo.objects.first()
-        context['contact_form'] = ContactForm()
-        context['faqs'] = FAQ.objects.filter(category='contact', is_active=True).order_by('order')
-        return context
-    
     

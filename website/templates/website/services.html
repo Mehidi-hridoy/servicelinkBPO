@@ -1,26 +1,17 @@
+<!-- templates/website/services.html -->
 {% extends 'website/base.html' %}
 {% load static %}
 
-{% block title %}Our Services - ServiceLink BPO{% endblock %}
+{% block title %}
+    {% if service_hero.title %}
+        {{ service_hero.title }} - ServiceLink BPO
+    {% else %}
+        Our Services - ServiceLink BPO
+    {% endif %}
+{% endblock %}
 
 {% block content %}
-<!-- Page Header -->
-<section class="page-header py-5" style="background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('{% static 'images/services-bg.jpg' %}');">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center text-white">
-                <h1 class="display-4 fw-bold">Our Core Services</h1>
-                <p class="lead">Comprehensive BPO solutions designed to scale your business</p>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb justify-content-center">
-                        <li class="breadcrumb-item"><a href="{% url 'website:home' %}" class="text-white">Home</a></li>
-                        <li class="breadcrumb-item active text-light" aria-current="page">Services</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-</section>
+{% include 'website/includes/services_hero.html' %}
 
 <!-- Services Introduction -->
 <section class="py-5">
@@ -37,7 +28,7 @@
 </section>
 
 <!-- Services by Category -->
-<section class="py-5 bg-light">
+<section id="services-list" class="py-5 bg-light">
     <div class="container">
         {% for category in categories %}
         <div id="{{ category.slug }}" class="service-category mb-5">
@@ -108,45 +99,9 @@
     </div>
 </section>
 
-<!-- All Services List -->
-{% if all_services %}
-<section class="py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-6 fw-bold">Browse All Services</h2>
-            <p class="lead text-muted">Explore our complete portfolio of BPO solutions</p>
-        </div>
-        
-        <div class="row">
-            {% for service in all_services %}
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 50px; height: 50px;">
-                                <i class="{{ service.category.icon }} text-primary"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1">{{ service.title }}</h6>
-                                <small class="text-muted">{{ service.category.name }}</small>
-                            </div>
-                        </div>
-                        <p class="small text-muted">{{ service.short_description|truncatewords:15 }}</p>
-                        <a href="{% url 'website:service_detail' service.slug %}" class="btn btn-sm btn-outline-primary w-100">
-                            View Details
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
 
 <!-- How We Work -->
-<section class="py-5 bg-primary text-white">
+<section id="consultation" class="py-5 bg-primary text-white">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
@@ -169,50 +124,82 @@
                 </div>
             </div>
             
-            <div class="col-lg-6">
-                <div class="card shadow-lg">
+            <div  class="col-lg-6">
+                <div  class="card shadow-lg">
                     <div class="card-body p-5">
                         <h3 class="fw-bold mb-4 text-center">Get Your Free Service Assessment</h3>
-                        <form id="serviceAssessmentForm">
-                            <div class="mb-3">
-                                <label for="serviceSelect" class="form-label">Select Service Category</label>
-                                <select class="form-select" id="serviceSelect" required>
-                                    <option value="" selected disabled>Choose a service</option>
-                                    {% for category in categories %}
-                                    <option value="{{ category.id }}">{{ category.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="companySize" class="form-label">Company Size</label>
-                                <select class="form-select" id="companySize" required>
-                                    <option value="" selected disabled>Select company size</option>
-                                    <option value="1-10">1-10 employees</option>
-                                    <option value="11-50">11-50 employees</option>
-                                    <option value="51-200">51-200 employees</option>
-                                    <option value="201-500">201-500 employees</option>
-                                    <option value="500+">500+ employees</option>
-                                </select>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="serviceNeeds" class="form-label">Describe Your Needs</label>
-                                <textarea class="form-control" id="serviceNeeds" rows="3" placeholder="Tell us about your specific requirements..."></textarea>
-                            </div>
+                        <form method="post" action="{% url 'website:submit_inquiry' %}">
+                            {% csrf_token %}
                             
                             <div class="row g-3 mb-3">
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Your Name" required>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="name" 
+                                               placeholder="Your Name *" required>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="email" class="form-control" placeholder="Your Email" required>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" name="email" 
+                                               placeholder="Your Email *" required>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <button type="submit" class="btn btn-primary w-100">
-                                Get Free Assessment <i class="fas fa-chart-bar ms-2"></i>
-                            </button>
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <input type="tel" class="form-control" name="phone" 
+                                           placeholder="Your Phone Number *" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="company" 
+                                           placeholder="Your Company (Optional)">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <select class="form-select" name="team_size" required>
+                                        <option value="" selected disabled>Select team size needed *</option>
+                                        <option value="1-5">1-5 team members</option>
+                                        <option value="6-10">6-10 team members</option>
+                                        <option value="11-20">11-20 team members</option>
+                                        <option value="20+">20+ team members</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <select class="form-select" name="service_type" required>
+                                        <option value="" selected disabled>Select service type *</option>
+                                        <option value="single-service">Single Service</option>
+                                        <option value="multiple-services">Multiple Services</option>
+                                        <option value="custom-solution">Custom Solution</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <textarea class="form-control" name="additional_requirements" 
+                                              rows="3" placeholder="Tell us about your specific requirements..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    Get Free Assessment <i class="fas fa-chart-bar ms-2"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Hidden fields for ServiceInquiryForm -->
+                            <input type="hidden" name="specific_service" value="">
+                            <input type="hidden" name="budget_range" value="">
+                            <input type="hidden" name="timeline" value="">
                         </form>
                     </div>
                 </div>
@@ -290,14 +277,14 @@
 </section>
 
 <!-- Consultation CTA -->
-<section id="consultation" class="py-5 bg-light">
+<section class="py-5 bg-light">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
                 <h2 class="display-6 fw-bold mb-3">Not Sure Which Service You Need?</h2>
                 <p class="lead text-muted mb-4">Our experts will analyze your business requirements and recommend the perfect solution.</p>
                 <a href="{% url 'website:contact' %}" class="btn btn-primary btn-lg me-3">
-                    <i class="fas fa-calendar-check me-2"></i>Schedule Consultation
+                    <i  class="fas fa-calendar-check me-2"></i>Schedule Consultation
                 </a>
                 <a href="tel:{{ contact_info.phone|default:'+8801886100303' }}" class="btn btn-outline-primary btn-lg">
                     <i class="fas fa-phone me-2"></i>Call Now
@@ -309,33 +296,162 @@
 
 {% endblock %}
 
+{% block extra_css %}
+<style>
+.services-hero-section {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.services-hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 110, 253, 0.05) 100%);
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+
+.services-hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent 0%, #ffffff 100%);
+    opacity: 0.02;
+}
+
+.hero-title {
+    color: #ffffff;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.25rem;
+}
+
+.hero-cta .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.hero-cta .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.hero-cta .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+.hero-cta .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+.placeholder-image {
+    animation: pulse 2s infinite;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes pulse {
+    0% { 
+        opacity: 0.9;
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
+    }
+    50% { 
+        opacity: 1;
+        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.05);
+    }
+    100% { 
+        opacity: 0.9;
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+.fa-cogs {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(-10px) rotate(5deg); 
+    }
+}
+
+@media (max-width: 992px) {
+    .services-hero-section {
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+}
+
+/* Keep your existing card styling */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+.service-category {
+    padding: 2rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.service-category:last-child {
+    border-bottom: none;
+}
+
+.how-we-work-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.how-we-work-item:last-child {
+    border-bottom: none;
+}
+
+.accordion-button {
+    font-weight: 500;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+</style>
+{% endblock %}
+
 {% block extra_js %}
 <script>
 $(document).ready(function() {
-    // Service assessment form submission
-    $('#serviceAssessmentForm').submit(function(e) {
-        e.preventDefault();
-        
-        // Simple validation
-        let isValid = true;
-        $(this).find('[required]').each(function() {
-            if ($(this).val() === '') {
-                isValid = false;
-                $(this).addClass('is-invalid');
-            } else {
-                $(this).removeClass('is-invalid');
-            }
-        });
-        
-        if (isValid) {
-            // In a real application, you would send this data to your backend
-            alert('Thank you for your interest! Our team will contact you within 24 hours with your free service assessment.');
-            this.reset();
-        } else {
-            alert('Please fill in all required fields.');
-        }
-    });
-    
     // Smooth scrolling for category links
     $('a[href^="#"]').on('click', function(e) {
         var target = $(this.getAttribute('href'));

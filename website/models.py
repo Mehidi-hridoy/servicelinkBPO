@@ -19,6 +19,7 @@ class HeroSlide(models.Model):
     def __str__(self):
         return self.title
 
+
 class ServiceCategory(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, blank=True)
@@ -64,6 +65,48 @@ class Service(models.Model):
     def __str__(self):
         return self.title
 
+
+# models.py - Add these models
+class ServiceHero(models.Model):
+    PAGE_TYPE_CHOICES = [
+        ('list', 'Services List Page'),
+        ('detail', 'Service Detail Page'),
+    ]
+    
+    page_type = models.CharField(max_length=20, choices=PAGE_TYPE_CHOICES, default='list')
+    title = models.CharField(max_length=200)
+    subtitle = models.TextField()
+    background_image = models.ImageField(upload_to='service_hero/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name_plural = "Service Hero Sections"
+    
+    def __str__(self):
+        return f"{self.get_page_type_display()} - {self.title}"
+    
+    def save(self, *args, **kwargs):
+        # Ensure only one active hero per page type
+        if self.is_active:
+            ServiceHero.objects.filter(page_type=self.page_type, is_active=True).exclude(pk=self.pk).update(is_active=False)
+        super().save(*args, **kwargs)
+
+
+class ServiceDetailHero(models.Model):
+    service = models.OneToOneField(Service, on_delete=models.CASCADE, related_name='hero')
+    custom_title = models.CharField(max_length=200, blank=True)
+    custom_subtitle = models.TextField(blank=True)
+    custom_image = models.ImageField(upload_to='service_detail_hero/', blank=True, null=True)
+    show_default = models.BooleanField(default=True)
+    
+    class Meta:
+        verbose_name_plural = "Service Detail Heroes"
+    
+    def __str__(self):
+        return f"Hero for {self.service.title}"
+
 class ProcessStep(models.Model):
     step_number = models.IntegerField()
     title = models.CharField(max_length=100)
@@ -101,6 +144,27 @@ class AboutContent(models.Model):
     
     def __str__(self):
         return self.title
+
+
+class ContactHero(models.Model):
+    title = models.CharField(max_length=200, default="Contact ServiceLink BPO")
+    subtitle = models.TextField(default="Get in touch with our expert team. We're here to help you streamline your business operations.")
+    background_image = models.ImageField(upload_to='hero_images/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name_plural = "Contact Hero Sections"
+    
+    def __str__(self):
+        return self.title
+    
+    def save(self, *args, **kwargs):
+        # Ensure only one active hero at a time
+        if self.is_active:
+            ContactHero.objects.filter(is_active=True).exclude(pk=self.pk).update(is_active=False)
+        super().save(*args, **kwargs)
 
 
 class ContactInfo(models.Model):
