@@ -76,6 +76,23 @@ class ProcessStep(models.Model):
     def __str__(self):
         return f"Step {self.step_number}: {self.title}"
 
+
+# Add this to your existing models.py, before the AboutContent model
+
+class AboutHero(models.Model):
+    title = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=300, blank=True)
+    background_image = models.ImageField(upload_to='about/hero/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    
+    class Meta:
+        verbose_name = "About Hero Section"
+        verbose_name_plural = "About Hero Section"
+    
+    def __str__(self):
+        return self.title
+
+
 class AboutContent(models.Model):
     title = models.CharField(max_length=200)
     tagline = models.CharField(max_length=300)
@@ -84,6 +101,7 @@ class AboutContent(models.Model):
     
     def __str__(self):
         return self.title
+
 
 class ContactInfo(models.Model):
     company_name = models.CharField(max_length=200)
@@ -99,7 +117,6 @@ class ContactInfo(models.Model):
     def __str__(self):
         return self.company_name
     
-
 # Add these new models to your models.py
 
 class ContactSubmission(models.Model):

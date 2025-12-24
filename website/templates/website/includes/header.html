@@ -1,52 +1,428 @@
-<header class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+<!-- website/includes/header.html -->
+<style>
+/* ===== HEADER STYLES ===== */
+/* Base Header - Transparent */
+#mainHeader {
+    background: transparent !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 25px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+    border-bottom: 1px solid transparent;
+}
+
+/* Header on non-hero pages (default solid) */
+body:not(.has-hero) #mainHeader {
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Header on hero pages - transparent start */
+body.has-hero #mainHeader {
+    background: transparent !important;
+    box-shadow: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Scrolled State - Solid Background */
+#mainHeader.scrolled {
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Brand Logo */
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+/* Hero page: White text initially */
+body.has-hero #mainHeader:not(.scrolled) .navbar-brand span.text-primary {
+    color: #ffffff !important;
+}
+
+body.has-hero #mainHeader:not(.scrolled) .navbar-brand span:not(.text-primary) {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Navigation Links */
+.nav-link {
+    font-weight: 500;
+    font-size: 1rem;
+    margin: 0 8px;
+    padding: 8px 12px !important;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+/* Hero page: White links initially */
+body.has-hero #mainHeader:not(.scrolled) .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+body.has-hero #mainHeader:not(.scrolled) .nav-link:hover,
+body.has-hero #mainHeader:not(.scrolled) .nav-link.active {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Default/Scrolled state links */
+#mainHeader .nav-link {
+    color: rgba(0, 0, 0, 0.85) !important;
+}
+
+#mainHeader .nav-link:hover,
+#mainHeader .nav-link.active {
+    color: #4361ee !important;
+    background: rgba(67, 97, 238, 0.1);
+}
+
+/* Hero page special hover for unscrolled state */
+body.has-hero #mainHeader:not(.scrolled) .nav-link:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Dropdown Styling */
+.dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-menu {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    margin-top: 15px;
+    min-width: 320px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    animation: dropdownFade 0.25s ease-out;
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-item {
+    padding: 16px 20px;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+    color: white !important;
+    padding-left: 25px;
+}
+
+.dropdown-item:hover .dropdown-icon {
+    transform: scale(1.1);
+    color: white !important;
+}
+
+.dropdown-item:hover .category-description {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Category Icons */
+.dropdown-icon {
+    font-size: 1.2rem;
+    color: #4361ee;
+    transition: all 0.2s ease;
+    width: 24px;
+    text-align: center;
+}
+
+/* Consultation Button */
+.btn-primary {
+    background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+}
+
+/* Hero page: Transparent button initially */
+body.has-hero #mainHeader:not(.scrolled) .btn-primary {
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+body.has-hero #mainHeader:not(.scrolled) .btn-primary:hover {
+    background: white !important;
+    color: #4361ee !important;
+    border-color: white;
+}
+
+/* Mobile Responsive */
+@media (max-width: 991.98px) {
+    /* On mobile, always show solid navbar for better UX */
+    #mainHeader {
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(10px) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+        padding: 15px 0 !important;
+    }
+    
+    .nav-link {
+        color: rgba(0, 0, 0, 0.85) !important;
+        margin: 2px 0;
+    }
+    
+    .navbar-toggler {
+        border: none;
+        padding: 6px;
+    }
+    
+    .navbar-toggler:focus {
+        box-shadow: none;
+        outline: none;
+    }
+    
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(67, 97, 238, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+    
+    .navbar-collapse {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dropdown-menu {
+        box-shadow: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin: 10px 0;
+    }
+    
+    .btn-primary {
+        margin-top: 10px;
+        background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%) !important;
+        color: white !important;
+        border: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .btn-primary {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+
+<header class="navbar navbar-expand-lg fixed-top" id="mainHeader">
     <div class="container">
         <a class="navbar-brand" href="{% url 'website:home' %}">
-            <span class="fw-bold text-primary">ServiceLink</span>
-            <span class="fw-bold text-dark">BPO</span>
+            <span class="text-primary">ServiceLink</span>
+            <span>BPO</span>
         </a>
         
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#navbarContent" aria-controls="navbarContent" 
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'website:home' %}">Home</a>
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'website:home' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'website:about' %}">About Us</a>
+                    <a class="nav-link {% if 'about' in request.path %}active{% endif %}" href="{% url 'website:about' %}">About Us</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" 
-                       data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle {% if 'services' in request.path %}active{% endif %}" 
+                       href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Services
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
                         {% for category in view.get_context_data.categories|default:"" %}
                         <li>
                             <a class="dropdown-item" href="{% url 'website:services' %}#{{ category.slug }}">
-                                <i class="{{ category.icon }} me-2"></i>{{ category.name }}
+                                <div class="dropdown-icon">
+                                    {% if category.icon %}
+                                        <i class="{{ category.icon }}"></i>
+                                    {% else %}
+                                        <!-- Default icons based on category name -->
+                                        {% if 'it' in category.name|lower %}
+                                        <i class="fas fa-laptop-code"></i>
+                                        {% elif 'customer' in category.name|lower %}
+                                        <i class="fas fa-headset"></i>
+                                        {% elif 'finance' in category.name|lower %}
+                                        <i class="fas fa-chart-line"></i>
+                                        {% elif 'marketing' in category.name|lower %}
+                                        <i class="fas fa-bullhorn"></i>
+                                        {% else %}
+                                        <i class="fas fa-cogs"></i>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <strong>{{ category.name }}</strong>
+                                    <div class="category-description">
+                                        {{ category.description|truncatechars:50|default:"Professional services tailored to your needs" }}
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {% empty %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'website:services' %}">
+                                <div class="dropdown-icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <div>
+                                    <strong>Our Services</strong>
+                                    <div class="category-description">
+                                        Explore our professional services
+                                    </div>
+                                </div>
                             </a>
                         </li>
                         {% endfor %}
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item" href="{% url 'website:services' %}">
-                                <i class="fas fa-list me-2"></i>All Services
+                                <div class="dropdown-icon">
+                                    <i class="fas fa-list-alt"></i>
+                                </div>
+                                <div>
+                                    <strong>View All Services</strong>
+                                    <div class="category-description">
+                                        Browse our complete service catalog
+                                    </div>
+                                </div>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'website:contact' %}">Contact</a>
+                    <a class="nav-link {% if 'contact' in request.path %}active{% endif %}" href="{% url 'website:contact' %}">Contact</a>
                 </li>
-                <li class="nav-item ms-lg-3">
-                    <a href="#consultation" class="btn btn-primary btn-sm">
-                        Get Consultation <i class="fas fa-arrow-right ms-1"></i>
+                <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                    <a href="#consultation" class="btn btn-primary">
+                        <i class="fas fa-calendar-check me-2"></i>
+                        Get Consultation
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 </header>
+
+<!-- JavaScript for Header Behavior -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const header = document.getElementById('mainHeader');
+    const heroSection = document.querySelector('.hero-section');
+    
+    // Check if we're on a page with hero section
+    if (heroSection) {
+        document.body.classList.add('has-hero');
+        
+        // Initial state - transparent
+        header.classList.remove('scrolled');
+        
+        // Scroll effect for hero pages
+        window.addEventListener('scroll', function() {
+            const heroHeight = heroSection.offsetHeight;
+            const scrollPosition = window.scrollY;
+            
+            if (scrollPosition > heroHeight * 0.8 || scrollPosition > 300) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Initialize scroll state
+        if (window.scrollY > 300) {
+            header.classList.add('scrolled');
+        }
+    } else {
+        // Pages without hero - always solid
+        document.body.classList.remove('has-hero');
+        header.classList.add('scrolled');
+    }
+    
+    // Smooth dropdown hover effects for desktop
+    if (window.innerWidth >= 992) {
+        const dropdowns = document.querySelectorAll('.nav-item.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener('mouseenter', function() {
+                const toggle = this.querySelector('.dropdown-toggle');
+                const menu = this.querySelector('.dropdown-menu');
+                
+                this.classList.add('show');
+                if (toggle) toggle.setAttribute('aria-expanded', 'true');
+                if (menu) menu.classList.add('show');
+            });
+            
+            dropdown.addEventListener('mouseleave', function() {
+                const toggle = this.querySelector('.dropdown-toggle');
+                const menu = this.querySelector('.dropdown-menu');
+                
+                this.classList.remove('show');
+                if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                if (menu) menu.classList.remove('show');
+            });
+        });
+    }
+    
+    // Mobile menu close on click
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth < 992) {
+                const navbarCollapse = document.querySelector('.navbar-collapse.show');
+                if (navbarCollapse) {
+                    const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || 
+                                      new bootstrap.Collapse(navbarCollapse);
+                    bsCollapse.hide();
+                }
+            }
+        });
+    });
+});
+</script>

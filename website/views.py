@@ -33,14 +33,39 @@ class HomeView(TemplateView):
         context['consultation_form'] = ConsultationForm()
         return context
 
+
+from django.views.generic import TemplateView
+from .models import AboutHero, AboutContent, ProcessStep  # Add AboutHero import
+
 class AboutView(TemplateView):
     template_name = 'website/about.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['about_content'] = AboutContent.objects.first()
-        context['process_steps'] = ProcessStep.objects.all()
+        # Get hero section or create a default one
+        hero = AboutHero.objects.filter(is_active=True).first()
+        if not hero:
+            hero = AboutHero.objects.create(
+                title="About ServiceLink BPO",
+                subtitle="Your Trusted Partner in Business Process Outsourcing",
+                is_active=True
+            )
+        
+        # Get about content or create default
+        about_content = AboutContent.objects.first()
+        if not about_content:
+            about_content = AboutContent.objects.create(
+                title="About Our Company",
+                tagline="Delivering Excellence in BPO Services",
+                content="<p>Your default about content goes here...</p>"
+            )
+        
+        context['hero'] = hero
+        context['about_content'] = about_content
+        context['process_steps'] = ProcessStep.objects.all().order_by('step_number')
         return context
+
+
 
 class ServicesView(ListView):
     model = ServiceCategory

@@ -1,213 +1,36 @@
+<!-- templates/website/about.html -->
 {% extends 'website/base.html' %}
 {% load static %}
 
-{% block title %}About Us - ServiceLink BPO{% endblock %}
+{% block title %}{% if hero %}{{ hero.title }} - ServiceLink BPO{% else %}About Us - ServiceLink BPO{% endif %}{% endblock %}
+
+{% block meta_description %}{% if hero %}{{ hero.subtitle }}{% else %}Learn about ServiceLink BPO, your trusted partner in business process outsourcing services.{% endif %}{% endblock %}
 
 {% block content %}
-<!-- Page Header -->
-<section class="page-header py-5" style="background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), 
-           {% static 'images/about-bg.png' as about_bg %}
-           {% if about_bg %}url('{{ about_bg }}'){% else %}#2c3e50{% endif %};">
+
+<!-- Include the about-specific hero section -->
+{% include 'website/includes/about_hero.html' %}
+
+
+<!-- Our Process Section -->
+<section class="process-section py-5 bg-light">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto text-center text-white">
-                <h1 class="display-4 fw-bold">About ServiceLink BPO</h1>
-                <p class="lead">Your Partner in Digital Excellence and Customer Engagement</p>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb justify-content-center">
-                        <li class="breadcrumb-item"><a href="{% url 'website:home' %}" class="text-white">Home</a></li>
-                        <li class="breadcrumb-item active text-light" aria-current="page">About Us</li>
-                    </ol>
-                </nav>
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Our Process</h2>
+                <p class="section-subtitle">How we deliver excellence in BPO services</p>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- About Content -->
-<section class="py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-5 mb-lg-0">
-                {% if about_content.image %}
-                <img src="{{ about_content.image.url }}" alt="About ServiceLink BPO" 
-                     class="img-fluid rounded shadow-lg">
-                {% else %}
-                <img src="{% static 'images/about-detail.jpg' %}" alt="About ServiceLink BPO" 
-                     class="img-fluid rounded shadow-lg">
-                {% endif %}
-            </div>
-            <div class="col-lg-6">
-                <div class="ps-lg-5">
-                    <h2 class="fw-bold mb-4">{{ about_content.title|default:"Welcome to Service Link BPO" }}</h2>
-                    <p class="lead text-muted mb-4">{{ about_content.tagline|default:"Your Partner in Digital Excellence and Customer Engagement." }}</p>
-                    
-                    <div class="about-content">
-                        {% if about_content.content %}
-                            {{ about_content.content|safe }}
-                        {% else %}
-                            <p>At Service Link BPO, we bridge the gap between your brand and your audience. In today's fast-paced digital landscape, every interaction is an opportunity. We specialize in world-class business process outsourcing that helps businesses of all sizes connect, engage, and grow.</p>
-                            
-                            <p>Whether it's managing community conversations, optimizing e-commerce support, or executing complex digital marketing strategies, our mission is to strengthen your brand's presence. With a blend of experienced professionals and cutting-edge technology, we provide scalable solutions so you can focus on what matters most: growing your business.</p>
-                            
-                            <h5 class="fw-bold mt-4">Our Vision</h5>
-                            <p>To be the most trusted and innovative BPO partner globally, transforming businesses through exceptional service delivery and technological excellence.</p>
-                            
-                            <h5 class="fw-bold mt-4">Our Mission</h5>
-                            <p>To empower businesses with scalable, high-quality outsourcing solutions that drive growth, enhance customer experiences, and maximize operational efficiency.</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Core Values -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-6 fw-bold">Our Core Values</h2>
-            <p class="lead text-muted">The principles that guide everything we do</p>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="value-icon mb-3">
-                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
-                                 style="width: 70px; height: 70px;">
-                                <i class="fas fa-handshake fa-2x text-white"></i>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mb-3">Partnership Focused</h5>
-                        <p class="text-muted">We build long-term relationships based on trust, transparency, and mutual success.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="value-icon mb-3">
-                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
-                                 style="width: 70px; height: 70px;">
-                                <i class="fas fa-rocket fa-2x text-white"></i>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mb-3">Innovation Driven</h5>
-                        <p class="text-muted">We continuously adopt new technologies and methodologies to deliver cutting-edge solutions.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="value-icon mb-3">
-                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
-                                 style="width: 70px; height: 70px;">
-                                <i class="fas fa-chart-line fa-2x text-white"></i>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mb-3">Excellence Oriented</h5>
-                        <p class="text-muted">We maintain the highest standards of quality in every service we deliver.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Our Process -->
-<section class="py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-6 fw-bold">Our Distinctively Different Approach</h2>
-            <p class="lead text-muted">We don't just provide staff; we build high-performing, engaged offshore teams</p>
-        </div>
-        
         <div class="row">
             {% for step in process_steps %}
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="process-icon mb-3">
-                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
-                                 style="width: 70px; height: 70px;">
-                                <i class="{{ step.icon }} fa-2x text-white"></i>
-                            </div>
-                            <span class="step-number">{{ step.step_number }}</span>
-                        </div>
-                        <h5 class="fw-bold">{{ step.title }}</h5>
-                        <p class="text-muted">{{ step.description }}</p>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="process-card text-center">
+                    <div class="process-icon">
+                        <i class="{{ step.icon }}"></i>
+                        <span class="step-number">0{{ step.step_number }}</span>
                     </div>
-                </div>
-            </div>
-            {% empty %}
-            <!-- Default process steps if none exist -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="process-icon mb-3">
-                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
-                                 style="width: 70px; height: 70px;">
-                                <i class="fas fa-search fa-2x text-white"></i>
-                            </div>
-                            <span class="step-number">1</span>
-                        </div>
-                        <h5 class="fw-bold">Strategic Assessment</h5>
-                        <p class="text-muted">We analyze your business needs to formulate a customized staffing roadmap.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="process-icon mb-3">
-                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
-                                 style="width: 70px; height: 70px;">
-                                <i class="fas fa-tasks fa-2x text-white"></i>
-                            </div>
-                            <span class="step-number">2</span>
-                        </div>
-                        <h5 class="fw-bold">Role Definition</h5>
-                        <p class="text-muted">We precisely define job responsibilities and expected performance outcomes.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="process-icon mb-3">
-                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
-                                 style="width: 70px; height: 70px;">
-                                <i class="fas fa-users fa-2x text-white"></i>
-                            </div>
-                            <span class="step-number">3</span>
-                        </div>
-                        <h5 class="fw-bold">Global Onboarding</h5>
-                        <p class="text-muted">Our seamless hiring process ensures your new team is ready to deliver from day one.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="process-icon mb-3">
-                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center" 
-                                 style="width: 70px; height: 70px;">
-                                <i class="fas fa-hands-helping fa-2x text-white"></i>
-                            </div>
-                            <span class="step-number">4</span>
-                        </div>
-                        <h5 class="fw-bold">Continuous Partnership</h5>
-                        <p class="text-muted">We provide ongoing support to maximize the value and productivity of your offshore team.</p>
-                    </div>
+                    <h4 class="process-title">{{ step.title }}</h4>
+                    <p class="process-description">{{ step.description }}</p>
                 </div>
             </div>
             {% endfor %}
@@ -215,80 +38,377 @@
     </div>
 </section>
 
-<!-- Why Choose Us -->
-<section class="py-5 bg-primary text-white">
+<!-- Our Values Section -->
+<section class="values-section py-5 bg-light">
     <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-6 fw-bold">Why Choose ServiceLink BPO?</h2>
-            <p class="lead opacity-75">The competitive advantages that set us apart</p>
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Our Values</h2>
+                <p class="section-subtitle">What drives us to deliver exceptional service</p>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Value 1 -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="value-card h-100">
+                    <div class="value-icon mb-4">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h4 class="value-title">Client-Centric Excellence</h4>
+                    <p class="value-description">
+                        We prioritize your business goals, delivering tailored solutions that drive measurable results and exceed expectations.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Value 2 -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="value-card h-100">
+                    <div class="value-icon mb-4">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4 class="value-title">Integrity & Transparency</h4>
+                    <p class="value-description">
+                        Open communication, honest partnerships, and clear processes define every interaction with our team and clients.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Value 3 -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="value-card h-100">
+                    <div class="value-icon mb-4">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h4 class="value-title">Innovation & Agility</h4>
+                    <p class="value-description">
+                        We embrace change, leverage cutting-edge technology, and adapt quickly to evolving market demands and challenges.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Value 4 -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="value-card h-100">
+                    <div class="value-icon mb-4">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4 class="value-title">Team Empowerment</h4>
+                    <p class="value-description">
+                        We invest in our talent, fostering growth, collaboration, and ownership to deliver exceptional service quality.
+                    </p>
+                </div>
+            </div>
         </div>
         
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="text-center p-3">
-                    <div class="rounded-circle bg-white d-inline-flex align-items-center justify-content-center mb-3" 
-                         style="width: 80px; height: 80px;">
-                        <i class="fas fa-globe-americas fa-2x text-primary"></i>
-                    </div>
-                    <h5 class="fw-bold">Global Talent Pool</h5>
-                    <p>Access to top-tier professionals from around the world, vetted and trained to meet your specific needs.</p>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-3">
-                <div class="text-center p-3">
-                    <div class="rounded-circle bg-white d-inline-flex align-items-center justify-content-center mb-3" 
-                         style="width: 80px; height: 80px;">
-                        <i class="fas fa-chart-pie fa-2x text-primary"></i>
-                    </div>
-                    <h5 class="fw-bold">Cost Efficiency</h5>
-                    <p>Reduce operational costs by up to 60% while maintaining or improving service quality and output.</p>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-3">
-                <div class="text-center p-3">
-                    <div class="rounded-circle bg-white d-inline-flex align-items-center justify-content-center mb-3" 
-                         style="width: 80px; height: 80px;">
-                        <i class="fas fa-expand-arrows-alt fa-2x text-primary"></i>
-                    </div>
-                    <h5 class="fw-bold">Scalability</h5>
-                    <p>Easily scale your team up or down based on seasonal demands or business growth requirements.</p>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-3">
-                <div class="text-center p-3">
-                    <div class="rounded-circle bg-white d-inline-flex align-items-center justify-content-center mb-3" 
-                         style="width: 80px; height: 80px;">
-                        <i class="fas fa-shield-alt fa-2x text-primary"></i>
-                    </div>
-                    <h5 class="fw-bold">Risk Mitigation</h5>
-                    <p>Comprehensive security protocols, compliance management, and business continuity planning.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="py-5">
-    <div class="container">
+        <!-- Optional: Additional value cards -->
         <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <h2 class="display-6 fw-bold mb-4">Ready to Transform Your Business Operations?</h2>
-                <p class="lead mb-4">Join hundreds of satisfied clients who have scaled their businesses with ServiceLink BPO.</p>
-                <div class="d-flex flex-wrap justify-content-center gap-3">
-                    <a href="{% url 'website:contact' %}" class="btn btn-primary btn-lg">
-                        Get In Touch <i class="fas fa-arrow-right ms-2"></i>
-                    </a>
-                    <a href="{% url 'website:services' %}" class="btn btn-outline-primary btn-lg">
-                        View Our Services <i class="fas fa-list ms-2"></i>
-                    </a>
+            <!-- Value 5 -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="value-card h-100">
+                    <div class="value-icon mb-4">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4 class="value-title">Sustainable Growth</h4>
+                    <p class="value-description">
+                        Building long-term partnerships focused on scalable, efficient, and profitable outcomes for all stakeholders.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Value 6 -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="value-card h-100">
+                    <div class="value-icon mb-4">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h4 class="value-title">Global Excellence</h4>
+                    <p class="value-description">
+                        Delivering world-class BPO solutions with local market understanding and international best practices.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<style>
+/* Values Section Styling */
+.values-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Card Styling matching service cards */
+.value-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.value-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Add subtle gradient border on hover */
+.value-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1e3c72, #2a5298);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.value-card:hover::before {
+    opacity: 1;
+}
+
+/* Icon Styling */
+.value-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.value-card:hover .value-icon {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(30, 60, 114, 0.3);
+}
+
+.value-icon i {
+    font-size: 1.8rem;
+    color: white;
+}
+
+/* Text Styling */
+.value-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1e3c72;
+    margin-bottom: 1rem;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.value-description {
+    color: #555;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e3c72;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #1e3c72, #2a5298);
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .value-card {
+        padding: 1.75rem;
+    }
+    
+    .value-icon {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .value-icon i {
+        font-size: 1.6rem;
+    }
+    
+    .value-title {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+    }
+    
+    .value-card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .value-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .value-icon i {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .value-card {
+        padding: 1.25rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .values-section {
+        padding: 3rem 0;
+    }
+}
+</style>
+
+<style>
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e3c72;
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+.about-content-section {
+    background: white;
+}
+
+.tagline {
+    font-size: 1.4rem;
+    color: #2a5298;
+    font-weight: 300;
+    margin-bottom: 2rem;
+}
+
+.about-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+}
+
+.about-image img {
+    transition: transform 0.3s ease;
+}
+
+.about-image img:hover {
+    transform: scale(1.02);
+}
+
+.process-card {
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.process-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.process-icon {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.process-icon i {
+    font-size: 2rem;
+    color: white;
+}
+
+.step-number {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    background: #ff6b6b;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.process-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1e3c72;
+    margin-bottom: 1rem;
+}
+
+.process-description {
+    color: #666;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .process-card {
+        margin-bottom: 2rem;
+    }
+}
+</style>
 {% endblock %}

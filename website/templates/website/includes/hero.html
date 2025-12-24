@@ -1,20 +1,21 @@
+{% load static %}
 {% load custom_filters %}
 
 <section class="hero-section">
     <div class="hero-slider">
         {% for slide in hero_slides %}
-<div class="hero-slide" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-    {% if slide.image and slide.image.url %}url('{{ slide.image.url }}'){% else %}#2c3e50{% endif %};">
-    <div class="container">
-        <div class="hero-content text-white">
-            <h1 class="display-4 fw-bold mb-3">{{ slide.title }}</h1>
-            <p class="lead mb-4">{{ slide.subtext }}</p>
-            <a href="{{ slide.cta_link }}" class="btn btn-primary btn-lg">
-                {{ slide.cta_text }} <i class="fas fa-arrow-right ms-2"></i>
-            </a>
+        <div class="hero-slide" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+            {% if slide.image and slide.image.url %}url('{{ slide.image.url }}'){% else %}#2c3e50{% endif %};">
+            <div class="container">
+                <div class="hero-content text-white">
+                    <h1 class="display-4 fw-bold mb-3">{{ slide.title }}</h1>
+                    <p class="lead mb-4">{{ slide.subtext }}</p>
+                    <a href="{{ slide.cta_link }}" class="btn btn-primary btn-lg">
+                        {{ slide.cta_text }} <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
         {% empty %}
         <!-- Default slides -->
         <div class="hero-slide" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), #2c3e50;">
@@ -30,14 +31,34 @@
         </div>
         {% endfor %}
     </div>
+    
+    <!-- Navigation Controls -->
+    <div class="hero-controls">
+        <button class="hero-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="hero-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    
+    <!-- Indicators -->
+    <div class="hero-indicators">
+        {% for slide in hero_slides %}
+        <button class="hero-indicator" data-index="{{ forloop.counter0 }}"></button>
+        {% empty %}
+        <button class="hero-indicator active" data-index="0"></button>
+        {% endfor %}
+    </div>
 </section>
 
 <style>
 .hero-section {
     position: relative;
-    height: 100vh;
+    height: 7cqi;
     min-height: 600px;
     overflow: hidden;
+    margin-top: calc(-1 * var(--header-height));
 }
 
 .hero-slider {
@@ -71,6 +92,7 @@
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    padding-top: calc(var(--header-height) + 50px);
 }
 
 .hero-slide.active .hero-content {
@@ -167,146 +189,73 @@
     .lead {
         font-size: 1.1rem;
     }
+    
+    .hero-content {
+        padding-top: calc(var(--header-height) + 30px);
+    }
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize hero slider
-    const slider = document.querySelector('.hero-slider');
     const slides = document.querySelectorAll('.hero-slide');
     const indicators = document.querySelectorAll('.hero-indicator');
     const prevBtn = document.querySelector('.hero-prev');
     const nextBtn = document.querySelector('.hero-next');
-    
     let currentSlide = 0;
     let slideInterval;
-    const slideDuration = 5000; // 5 seconds
     
-    // Function to show specific slide
     function showSlide(index) {
-        // Remove active class from all slides and indicators
+        if (index >= slides.length) index = 0;
+        if (index < 0) index = slides.length - 1;
+        
         slides.forEach(slide => slide.classList.remove('active'));
         indicators.forEach(indicator => indicator.classList.remove('active'));
         
-        // Handle wrap-around
-        if (index >= slides.length) currentSlide = 0;
-        if (index < 0) currentSlide = slides.length - 1;
-        
-        // Add active class to current slide and indicator
-        slides[currentSlide].classList.add('active');
-        if (indicators[currentSlide]) {
-            indicators[currentSlide].classList.add('active');
-        }
-    }
-    
-    // Function to go to next slide
-    function nextSlide() {
-        currentSlide++;
-        showSlide(currentSlide);
-    }
-    
-    // Function to go to previous slide
-    function prevSlide() {
-        currentSlide--;
-        showSlide(currentSlide);
-    }
-    
-    // Function to go to specific slide
-    function goToSlide(index) {
+        slides[index].classList.add('active');
+        indicators[index].classList.add('active');
         currentSlide = index;
-        showSlide(currentSlide);
     }
     
-    // Function to start auto-sliding
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+    
+    function prevSlide() {
+        showSlide(currentSlide - 1);
+    }
+    
     function startAutoSlide() {
-        slideInterval = setInterval(nextSlide, slideDuration);
+        slideInterval = setInterval(nextSlide, 5000);
     }
     
-    // Function to stop auto-sliding
-    function stopAutoSlide() {
-        clearInterval(slideInterval);
-    }
-    
-    // Initialize slider
     if (slides.length > 0) {
-        showSlide(currentSlide);
+        showSlide(0);
         startAutoSlide();
         
-        // Add event listeners for controls
-        if (prevBtn) {
-            prevBtn.addEventListener('click', function() {
-                stopAutoSlide();
-                prevSlide();
-                startAutoSlide();
-            });
-        }
-        
-        if (nextBtn) {
-            nextBtn.addEventListener('click', function() {
-                stopAutoSlide();
-                nextSlide();
-                startAutoSlide();
-            });
-        }
-        
-        // Add event listeners for indicators
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', function() {
-                stopAutoSlide();
-                goToSlide(index);
-                startAutoSlide();
-            });
-        });
-        
-        // Pause auto-slide on hover
-        slider.addEventListener('mouseenter', stopAutoSlide);
-        slider.addEventListener('mouseleave', startAutoSlide);
-        
-        // Touch swipe support for mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        slider.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-            stopAutoSlide();
-        });
-        
-        slider.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
+        prevBtn.addEventListener('click', function() {
+            clearInterval(slideInterval);
+            prevSlide();
             startAutoSlide();
         });
         
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
-            
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    // Swipe left - next slide
-                    nextSlide();
-                } else {
-                    // Swipe right - previous slide
-                    prevSlide();
-                }
-            }
-        }
-    }
-    
-    // Smooth scrolling for #consultation links
-    document.querySelectorAll('a[href="#consultation"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                window.scrollTo({
-                    top: target.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
+        nextBtn.addEventListener('click', function() {
+            clearInterval(slideInterval);
+            nextSlide();
+            startAutoSlide();
         });
-    });
+        
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', function() {
+                clearInterval(slideInterval);
+                showSlide(index);
+                startAutoSlide();
+            });
+        });
+        
+        const slider = document.querySelector('.hero-slider');
+        slider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+        slider.addEventListener('mouseleave', startAutoSlide);
+    }
 });
 </script>
-
