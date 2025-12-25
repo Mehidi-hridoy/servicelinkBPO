@@ -1,99 +1,71 @@
 <!-- website/includes/navbar.html -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNavbar">
-    <div class="container">
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+    <div class="container-fluid container-lg">
         <!-- Brand Logo -->
         <a class="navbar-brand d-flex align-items-center" href="{% url 'website:home' %}">
-            <span class="text-primary fw-bold fs-3">ServiceLink</span>
-            <span class="text-dark fw-medium fs-3 ms-1">BPO</span>
+            <div class="logo-wrapper">
+                <span class="logo-text-primary">ServiceLink</span>
+                <span class="logo-text-secondary">BPO</span>
+            </div>
         </a>
         
-        <!-- Mobile Toggle Button -->
-        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" 
-                data-bs-target="#navbarContent" aria-controls="navbarContent" 
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Navbar Content -->
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-                
-                <!-- Home -->
-                <li class="nav-item mx-2">
-                    <a class="nav-link position-relative px-3 py-2 {% if request.path == '/' %}active{% endif %}" 
-                       href="{% url 'website:home' %}">
+        <!-- Desktop Navigation -->
+        <div class="desktop-nav d-none d-lg-flex align-items-center">
+            <ul class="navbar-nav mx-auto mb-0">
+                <li class="nav-item">
+                    <a class="nav-link position-relative px-3" href="{% url 'website:home' %}">
                         <span class="nav-text">Home</span>
-                        <span class="nav-underline"></span>
+                        <span class="nav-hover-effect"></span>
                     </a>
                 </li>
                 
-                <!-- About -->
-                <li class="nav-item mx-2">
-                    <a class="nav-link position-relative px-3 py-2 {% if 'about' in request.path %}active{% endif %}" 
-                       href="{% url 'website:about' %}">
-                        <span class="nav-text">About Us</span>
-                        <span class="nav-underline"></span>
+                <li class="nav-item">
+                    <a class="nav-link position-relative px-3" href="{% url 'website:about' %}">
+                        <span class="nav-text">About</span>
+                        <span class="nav-hover-effect"></span>
                     </a>
                 </li>
                 
-                <!-- Services Dropdown -->
-                <li class="nav-item dropdown mx-2">
-                    <a class="nav-link dropdown-toggle position-relative px-3 py-2 d-flex align-items-center {% if 'services' in request.path %}active{% endif %}" 
-                       href="#" id="servicesDropdown" role="button" 
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="nav-text me-1">Services</span>
-                        <span class="nav-underline"></span>
+                <!-- Services Mega Menu -->
+                <li class="nav-item dropdown mega-menu">
+                    <a class="nav-link dropdown-toggle position-relative px-3" 
+                       href="{% url 'website:services' %}" 
+                       data-bs-toggle="dropdown" 
+                       aria-expanded="false">
+                        <span class="nav-text">Services</span>
+                        <span class="nav-hover-effect"></span>
+                        <i class="fas fa-chevron-down dropdown-arrow ms-1"></i>
                     </a>
-                    
-                    <!-- Mega Dropdown Menu -->
-                    <ul class="dropdown-menu dropdown-mega dropdown-menu-end p-4 border-0 shadow-lg rounded-3" 
-                        aria-labelledby="servicesDropdown">
-                        <div class="container-fluid">
-                            <div class="row">
+                    <div class="dropdown-menu mega-dropdown p-0 border-0 shadow-lg">
+                        <div class="container-fluid px-4 py-3">
+                            <div class="row g-4">
                                 <div class="col-lg-8">
-                                    <div class="row">
-                                        {% for category in categories|default:"" %}
-                                        <div class="col-md-6 mb-3">
+                                    <div class="row row-cols-2 g-4">
+                                        {% for category in categories|slice:":6" %}
+                                        <div class="col">
                                             <a href="{% url 'website:services' %}#{{ category.slug }}" 
-                                               class="dropdown-item-card d-flex align-items-start p-3 text-decoration-none rounded-3">
-                                                <div class="dropdown-icon me-3">
-                                                    {% if category.icon %}
-                                                    <i class="{{ category.icon }} fa-lg"></i>
-                                                    {% else %}
-                                                    <i class="fas fa-cogs fa-lg"></i>
-                                                    {% endif %}
+                                               class="service-category-card d-flex p-3 text-decoration-none">
+                                                <div class="service-icon me-3">
+                                                    <i class="{{ category.icon|default:'fas fa-cogs' }}"></i>
                                                 </div>
-                                                <div class="flex-grow-1">
-                                                    <h6 class="fw-bold mb-1">{{ category.name }}</h6>
-                                                    <p class="text-muted small mb-0">
-                                                        {{ category.description|truncatechars:70|default:"Professional services" }}
-                                                    </p>
-                                                </div>
-                                                <div class="ms-2">
-                                                    <i class="fas fa-chevron-right text-muted"></i>
+                                                <div>
+                                                    <h6 class="mb-1 text-dark fw-semibold">{{ category.name }}</h6>
+                                                    <p class="small mb-0 text-muted">{{ category.description|truncatechars:60|default:'Professional services' }}</p>
                                                 </div>
                                             </a>
                                         </div>
                                         {% empty %}
-                                        <!-- Fallback items -->
+                                        <!-- Fallback if no categories -->
                                         {% for i in "123456"|make_list %}
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col">
                                             <a href="{% url 'website:services' %}" 
-                                               class="dropdown-item-card d-flex align-items-start p-3 text-decoration-none rounded-3">
-                                                <div class="dropdown-icon me-3">
-                                                    <i class="fas fa-{% cycle 'headset' 'chart-line' 'laptop-code' 'bullhorn' 'database' 'users' %} fa-lg"></i>
+                                               class="service-category-card d-flex p-3 text-decoration-none">
+                                                <div class="service-icon me-3">
+                                                    <i class="fas fa-{% cycle 'headset' 'chart-line' 'laptop-code' 'bullhorn' 'database' 'users' %}"></i>
                                                 </div>
-                                                <div class="flex-grow-1">
-                                                    <h6 class="fw-bold mb-1">{% cycle 'Customer Service' 'Finance & Accounting' 'IT Solutions' 'Digital Marketing' 'Data Analytics' 'Back Office' %}</h6>
-                                                    <p class="text-muted small mb-0">
-                                                        Professional {% cycle 'customer support' 'financial services' 'IT solutions' 'marketing services' 'analytics services' 'administrative support' %}
-                                                    </p>
-                                                </div>
-                                                <div class="ms-2">
-                                                    <i class="fas fa-chevron-right text-muted"></i>
+                                                <div>
+                                                    <h6 class="mb-1 text-dark fw-semibold">{% cycle 'Customer Service' 'Finance & Accounting' 'IT Solutions' 'Digital Marketing' 'Data Analytics' 'Back Office' %}</h6>
+                                                    <p class="small mb-0 text-muted">{% cycle '24/7 customer support' 'Financial processing' 'IT development' 'Marketing campaigns' 'Data analysis' 'Admin support' %}</p>
                                                 </div>
                                             </a>
                                         </div>
@@ -101,474 +73,695 @@
                                         {% endfor %}
                                     </div>
                                 </div>
-                                
-                                <!-- View All Column -->
                                 <div class="col-lg-4">
-                                    <div class="bg-light rounded-3 p-4 h-100">
-                                        <h6 class="fw-bold text-primary mb-3">All Services</h6>
-                                        <p class="text-muted small mb-4">
-                                            Explore our complete range of BPO services tailored for your business growth.
-                                        </p>
-                                        <a href="{% url 'website:services' %}" 
-                                           class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
-                                            <i class="fas fa-list-alt me-2"></i>
-                                            View All Services
+                                    <div class="mega-cta h-100 p-4 border rounded">
+                                        <h6 class="mb-3 text-primary fw-bold">Need Custom Solution?</h6>
+                                        <p class="small mb-4 text-muted">Let's build a tailored service package for your business needs.</p>
+                                        <a href="{% url 'website:contact' %}" class="btn btn-outline-primary w-100">
+                                            <i class="fas fa-envelope me-2"></i>Request Quote
                                         </a>
-                                        <hr class="my-3">
-                                        <p class="small text-muted mb-2">
-                                            <i class="fas fa-clock text-primary me-2"></i>
-                                            24/7 Support Available
-                                        </p>
-                                        <p class="small text-muted mb-2">
-                                            <i class="fas fa-check-circle text-primary me-2"></i>
-                                            Custom Solutions
-                                        </p>
-                                        <p class="small text-muted mb-0">
-                                            <i class="fas fa-chart-line text-primary me-2"></i>
-                                            Scalable Teams
-                                        </p>
+                                        <div class="mt-4 pt-3 border-top">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-check-circle text-primary me-2"></i>
+                                                <small class="text-muted">24/7 Support</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-check-circle text-primary me-2"></i>
+                                                <small class="text-muted">Custom Solutions</small>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-check-circle text-primary me-2"></i>
+                                                <small class="text-muted">Scalable Teams</small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row mt-4 pt-3 border-top">
+                                <div class="col-12 text-center">
+                                    <a href="{% url 'website:services' %}" class="btn btn-link text-primary">
+                                        View All Services <i class="fas fa-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </ul>
+                    </div>
                 </li>
                 
-                <!-- Contact -->
-                <li class="nav-item mx-2">
-                    <a class="nav-link position-relative px-3 py-2 {% if 'contact' in request.path %}active{% endif %}" 
-                       href="{% url 'website:contact' %}">
+                <li class="nav-item">
+                    <a class="nav-link position-relative px-3" href="{% url 'website:contact' %}">
                         <span class="nav-text">Contact</span>
-                        <span class="nav-underline"></span>
+                        <span class="nav-hover-effect"></span>
                     </a>
                 </li>
-                
-                <!-- CTA Button -->
-                <!-- In navbar.html - Update the CTA button -->
-<li class="nav-item ms-lg-4 ms-2">
-    {% if request.path == '/' %}
-        <!-- On homepage, scroll to consultation form -->
-        <a href="#home-consultation" class="btn btn-primary btn-lg px-4 py-2 fw-medium">
-            <i class="fas fa-calendar-check me-2"></i>
-            Get Consultation
-        </a>
-    {% else %}
-        <!-- On other pages, go to homepage and scroll to consultation -->
-        <a href="{% url 'website:home' %}#home-consultation" class="btn btn-primary btn-lg px-4 py-2 fw-medium">
-            <i class="fas fa-calendar-check me-2"></i>
-            Get Consultation
-        </a>
-    {% endif %}
-</li>
             </ul>
+            
+            <!-- Desktop CTA -->
+            <a href="{% if request.path == '/' %}#home-consultation{% else %}{% url 'website:home' %}#home-consultation{% endif %}" 
+               class="btn btn-primary ms-4 px-4">
+                <i class="fas fa-calendar-check me-2"></i>
+                Free Consultation
+            </a>
+        </div>
+        
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler d-lg-none border-0 shadow-none bg-transparent" 
+                type="button" 
+                id="mobileMenuToggle"
+                aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+        
+        <!-- Mobile Navigation Sidebar -->
+        <div class="mobile-nav-sidebar" id="mobileNavSidebar">
+            <div class="mobile-nav-header d-flex align-items-center justify-content-between p-4">
+                <div class="logo-wrapper">
+                    <span class="logo-text-primary">ServiceLink</span>
+                    <span class="logo-text-secondary">BPO</span>
+                </div>
+                <button class="mobile-nav-close btn-close btn-close-dark" 
+                        type="button" 
+                        id="mobileNavClose"
+                        aria-label="Close"></button>
+            </div>
+            
+            <div class="mobile-nav-content p-4">
+                <ul class="mobile-nav-list list-unstyled mb-0">
+                    <li class="mb-2">
+                        <a href="{% url 'website:home' %}" class="mobile-nav-link d-flex align-items-center py-3 px-3 text-decoration-none rounded">
+                            <i class="fas fa-home fa-fw me-3"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{% url 'website:about' %}" class="mobile-nav-link d-flex align-items-center py-3 px-3 text-decoration-none rounded">
+                            <i class="fas fa-info-circle fa-fw me-3"></i>
+                            <span>About Us</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <div class="mobile-dropdown">
+                            <button class="mobile-nav-link d-flex align-items-center justify-content-between w-100 py-3 px-3 text-decoration-none rounded border-0 bg-transparent"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#mobileServicesCollapse"
+                                    aria-expanded="false"
+                                    aria-controls="mobileServicesCollapse">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-cogs fa-fw me-3"></i>
+                                    <span>Services</span>
+                                </div>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="collapse" id="mobileServicesCollapse">
+                                <div class="ps-4 mt-2">
+                                    {% for category in categories %}
+                                    <a href="{% url 'website:services' %}#{{ category.slug }}" 
+                                       class="mobile-submenu-link d-flex align-items-center py-2 text-decoration-none">
+                                        <i class="fas fa-chevron-right fa-xs me-2"></i>
+                                        <span>{{ category.name }}</span>
+                                    </a>
+                                    {% empty %}
+                                    <a href="{% url 'website:services' %}" 
+                                       class="mobile-submenu-link d-flex align-items-center py-2 text-decoration-none">
+                                        <i class="fas fa-chevron-right fa-xs me-2"></i>
+                                        <span>All Services</span>
+                                    </a>
+                                    {% endfor %}
+                                    <a href="{% url 'website:services' %}" 
+                                       class="mobile-submenu-link d-flex align-items-center py-2 text-decoration-none text-primary fw-semibold">
+                                        <i class="fas fa-arrow-right fa-xs me-2"></i>
+                                        <span>View All Services</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{% url 'website:contact' %}" class="mobile-nav-link d-flex align-items-center py-3 px-3 text-decoration-none rounded">
+                            <i class="fas fa-envelope fa-fw me-3"></i>
+                            <span>Contact</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="mobile-cta mt-5 pt-4 border-top">
+                    <a href="tel:+8801886100303" class="btn btn-outline-primary d-flex align-items-center justify-content-center w-100 mb-3 py-3">
+                        <i class="fas fa-phone me-2"></i>
+                        <span>Call Now</span>
+                    </a>
+                    <a href="{% url 'website:contact' %}" class="btn btn-primary d-flex align-items-center justify-content-center w-100 py-3">
+                        <i class="fas fa-calendar-check me-2"></i>
+                        <span>Get Consultation</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
 
 <style>
-/* ===== IMPORTANT: Bootstrap Override Fixes ===== */
-/* Ensure Bootstrap base styles are properly overridden */
-.navbar {
-    --bs-navbar-padding-x: 0;
-    --bs-navbar-padding-y: 0.5rem;
-    --bs-navbar-color: rgba(0, 0, 0, 0.85);
-    --bs-navbar-hover-color: #4361ee;
-    --bs-navbar-disabled-color: rgba(0, 0, 0, 0.3);
-    --bs-navbar-active-color: #4361ee;
-    --bs-navbar-brand-padding-y: 0.3125rem;
-    --bs-navbar-brand-margin-end: 1rem;
-    --bs-navbar-brand-font-size: 1.25rem;
-    --bs-navbar-brand-color: #4361ee;
-    --bs-navbar-brand-hover-color: #4361ee;
-    --bs-navbar-toggler-padding-y: 0.25rem;
-    --bs-navbar-toggler-padding-x: 0.75rem;
-    --bs-navbar-toggler-font-size: 1.25rem;
-    --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2867, 97, 238, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-    --bs-navbar-toggler-border-color: transparent;
-    --bs-navbar-toggler-border-radius: 0.375rem;
-    --bs-navbar-toggler-focus-width: 0.25rem;
-    --bs-navbar-toggler-transition: box-shadow 0.15s ease-in-out;
-}
-
-/* Fix alignment issues */
-#mainNavbar .container {
-    max-width: 1320px;
-    padding-right: var(--bs-gutter-x, 0.75rem);
-    padding-left: var(--bs-gutter-x, 0.75rem);
-}
-
-#mainNavbar .navbar-nav {
-    gap: 0.5rem;
-}
-
-/* Navbar Base */
+/* ===== BASE RESET ===== */
 #mainNavbar {
     padding: 1rem 0;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
+    z-index: 1030;
     background: transparent !important;
 }
 
-/* Scrolled State */
 #mainNavbar.scrolled {
+    padding: 0.5rem 0;
     background: rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding: 0.5rem 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
 }
 
-/* Nav Link Base Styling */
+/* Logo Styles */
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.logo-text-primary {
+    font-size: 1.75rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.logo-text-secondary {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1e3c72;
+}
+
+#mainNavbar:not(.scrolled) .logo-text-secondary {
+    color: white;
+}
+
+/* ===== DESKTOP NAVIGATION ===== */
+.desktop-nav {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.desktop-nav .navbar-nav {
+    gap: 1rem;
+}
+
+/* Nav Link Base */
 .nav-link {
+    position: relative;
+    padding: 0.5rem 1rem !important;
     font-weight: 500;
     font-size: 1rem;
-    color: inherit !important;
-    border-radius: 6px;
-    transition: all 0.2s ease;
+    color: #2d3748 !important;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
-/* Transparent State Links */
-#mainNavbar:not(.scrolled) .navbar-brand .text-primary,
-#mainNavbar:not(.scrolled) .nav-text {
+#mainNavbar:not(.scrolled) .nav-link {
     color: white !important;
 }
 
-#mainNavbar:not(.scrolled) .navbar-brand .text-dark {
-    color: rgba(255, 255, 255, 0.9) !important;
+.nav-link .dropdown-arrow {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
 }
 
-#mainNavbar:not(.scrolled) .btn-primary {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white !important;
+.dropdown-toggle.show .dropdown-arrow {
+    transform: rotate(180deg);
 }
 
-/* Scrolled State Links */
-#mainNavbar.scrolled .navbar-brand .text-primary {
-    color: #4361ee !important;
-}
-
-#mainNavbar.scrolled .navbar-brand .text-dark {
-    color: #1e3c72 !important;
-}
-
-#mainNavbar.scrolled .nav-link {
-    color: rgba(0, 0, 0, 0.85) !important;
-}
-
-#mainNavbar.scrolled .btn-primary {
-    background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%) !important;
-    border: none !important;
-    color: white !important;
-    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-}
-
-/* Hover Effects */
-.nav-underline {
+/* Hover Effect */
+.nav-hover-effect {
     position: absolute;
-    bottom: 4px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%) scaleX(0);
-    width: 20px;
+    width: 80%;
     height: 2px;
-    background: currentColor;
+    background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
     border-radius: 1px;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0;
+    transition: transform 0.3s ease;
 }
 
-.nav-link:hover .nav-underline,
-.nav-link.active .nav-underline {
+.nav-link:hover .nav-hover-effect,
+.nav-link.active .nav-hover-effect {
     transform: translateX(-50%) scaleX(1);
-    opacity: 1;
 }
 
-#mainNavbar:not(.scrolled) .nav-underline {
+#mainNavbar:not(.scrolled) .nav-hover-effect {
     background: white;
 }
 
-#mainNavbar.scrolled .nav-link:hover,
-#mainNavbar.scrolled .nav-link.active {
-    color: #4361ee !important;
-}
-
-#mainNavbar.scrolled .nav-underline {
-    background: #4361ee;
-}
-
-/* Mega Dropdown */
-.dropdown-mega {
-    min-width: 700px;
-    max-width: 800px;
+/* Dropdown Mega Menu */
+.mega-dropdown {
+    min-width: 800px;
+    max-width: 1000px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     margin-top: 10px !important;
-    animation: dropdownFadeIn 0.3s ease;
+    border-radius: 16px !important;
+    animation: dropdownFadeIn 0.3s ease-out !important;
 }
 
 @keyframes dropdownFadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateX(-50%) translateY(-10px) !important;
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(-50%) translateY(0) !important;
     }
 }
 
-/* Dropdown Items */
-.dropdown-item-card {
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    background: white;
+/* Service Category Cards */
+.service-category-card {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
     transition: all 0.3s ease;
 }
 
-.dropdown-item-card:hover {
-    background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
-    border-color: transparent;
+.service-category-card:hover {
+    border-color: #4361ee;
+    background: rgba(67, 97, 238, 0.02);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+    box-shadow: 0 10px 25px rgba(67, 97, 238, 0.1);
 }
 
-.dropdown-item-card:hover h6,
-.dropdown-item-card:hover p,
-.dropdown-item-card:hover i {
-    color: white !important;
-}
-
-.dropdown-icon {
+.service-icon {
     width: 40px;
     height: 40px;
     background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 }
 
-.dropdown-icon i {
+.service-icon i {
     color: white;
+    font-size: 1rem;
 }
 
-.dropdown-item-card:hover .dropdown-icon {
-    background: rgba(255, 255, 255, 0.2);
+/* Mega CTA Box */
+.mega-cta {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
-/* Button Hover Effects */
-.btn-primary {
-    transition: all 0.3s ease;
+/* ===== MOBILE NAVIGATION ===== */
+/* Hamburger Menu */
+.hamburger {
+    width: 30px;
+    height: 24px;
     position: relative;
-    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: #4361ee;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    transform-origin: left center;
+}
+
+#mainNavbar:not(.scrolled) .hamburger span {
+    background: white;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(4px, -3px);
+    width: 28px;
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-10px);
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(4px, 3px);
+    width: 28px;
+}
+
+/* Mobile Overlay */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1040;
+}
+
+.mobile-nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Mobile Sidebar */
+.mobile-nav-sidebar {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 320px;
+    max-width: 90%;
+    height: 100%;
+    background: white;
+    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-nav-sidebar.active {
+    right: 0;
+}
+
+/* Mobile Header */
+.mobile-nav-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mobile-nav-close {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    font-size: 1.5rem;
+}
+
+.mobile-nav-close:hover {
+    opacity: 1;
+}
+
+/* Mobile Content */
+.mobile-nav-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.mobile-nav-link {
+    color: #2d3748;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+    background: rgba(67, 97, 238, 0.1);
+    color: #4361ee;
+}
+
+.mobile-nav-link[aria-expanded="true"] {
+    background: rgba(67, 97, 238, 0.1);
+    color: #4361ee;
+}
+
+.mobile-nav-link[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.mobile-dropdown .collapse {
+    transition: height 0.3s ease;
+}
+
+.mobile-submenu-link {
+    color: #64748b;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    padding-left: 1.5rem;
+}
+
+.mobile-submenu-link:hover {
+    color: #4361ee;
+    background: rgba(67, 97, 238, 0.08);
+}
+
+/* Mobile CTA */
+.mobile-cta {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+    background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4) !important;
+    box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
 }
 
-.btn-primary::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%);
-    transform-origin: 50% 50%;
+.btn-outline-primary {
+    border: 2px solid #4361ee;
+    color: #4361ee;
+    background: transparent;
+    transition: all 0.3s ease;
 }
 
-.btn-primary:focus:not(:active)::after {
-    animation: ripple 1s ease-out;
+.btn-outline-primary:hover {
+    background: #4361ee;
+    color: white;
 }
 
-@keyframes ripple {
-    0% {
-        transform: scale(0, 0);
-        opacity: 0.5;
-    }
-    100% {
-        transform: scale(20, 20);
-        opacity: 0;
-    }
-}
-
-/* Mobile Responsive */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1199.98px) {
-    .dropdown-mega {
-        min-width: 600px;
+    .mega-dropdown {
+        min-width: 700px;
     }
 }
 
 @media (max-width: 991.98px) {
-    /* Mobile - Always show solid background */
-    #mainNavbar {
-        background: rgba(255, 255, 255, 0.98) !important;
-        backdrop-filter: blur(10px) !important;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
-        padding: 0.75rem 0 !important;
+    .desktop-nav {
+        display: none !important;
     }
     
-    #mainNavbar .navbar-brand .text-primary {
-        color: #4361ee !important;
-    }
-    
-    #mainNavbar .navbar-brand .text-dark {
-        color: #1e3c72 !important;
-    }
-    
-    #mainNavbar .nav-link {
-        color: rgba(0, 0, 0, 0.85) !important;
-        padding: 0.75rem 1rem !important;
-        border-radius: 8px;
-        margin: 2px 0;
-    }
-    
-    #mainNavbar .nav-link.active,
-    #mainNavbar .nav-link:hover {
-        background: rgba(67, 97, 238, 0.1) !important;
-        color: #4361ee !important;
-    }
-    
-    .nav-underline {
-        display: none;
-    }
-    
-    .dropdown-mega {
-        min-width: 100%;
-        max-width: 100%;
-        margin-top: 0 !important;
-        box-shadow: none !important;
-        border: none !important;
-        padding: 1rem !important;
-    }
-    
-    .navbar-nav {
-        padding: 1rem 0;
-    }
-    
-    .btn-primary {
-        margin-top: 0.5rem;
-        width: 100%;
-    }
-}
-
-@media (max-width: 767.98px) {
-    .navbar-brand span {
-        font-size: 1.75rem !important;
-    }
-    
-    .dropdown-mega .row {
-        flex-direction: column;
-    }
-    
-    .dropdown-mega .col-lg-4 {
-        margin-top: 1rem;
+    .mobile-nav-sidebar {
+        width: 300px;
     }
 }
 
 @media (max-width: 575.98px) {
-    .navbar-brand span {
-        font-size: 1.5rem !important;
+    .mobile-nav-sidebar {
+        width: 280px;
     }
     
-    .btn-primary {
-        font-size: 1rem;
-        padding: 0.75rem 1.5rem;
+    .logo-text-primary,
+    .logo-text-secondary {
+        font-size: 1.5rem;
     }
+}
+
+/* Fix Bootstrap dropdown issues */
+.dropdown-menu {
+    border: none;
+    margin: 0;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+/* Ensure navbar doesn't cover content */
+body {
+    padding-top: 76px;
+}
+
+/* Fix for transparent navbar issue */
+#mainNavbar:not(.scrolled) {
+    background: transparent !important;
+}
+
+#mainNavbar:not(.scrolled) .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 </style>
 
 <script>
-// Proper Bootstrap integration script
 document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.getElementById('mainNavbar');
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+    const mobileNavSidebar = document.getElementById('mobileNavSidebar');
+    const mobileNavClose = document.getElementById('mobileNavClose');
     
-    // Scroll handler for navbar background
+    // Scroll handler
     function handleScroll() {
-        const scrollPosition = window.scrollY;
-        
-        if (scrollPosition > 50) {
+        if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
     }
     
-    // Initial check
+    // Initialize scroll state
     handleScroll();
-    
-    // Add scroll listener
     window.addEventListener('scroll', handleScroll);
     
-    // Mobile menu improvements
-    const navLinks = document.querySelectorAll('.nav-link');
-    const navbarCollapse = document.getElementById('navbarContent');
+    // Mobile menu functionality
+    function openMobileMenu() {
+        mobileNavOverlay.classList.add('active');
+        mobileNavSidebar.classList.add('active');
+        hamburger.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
     
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            if (window.innerWidth < 992) {
-                // Close mobile menu when clicking a link
-                const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
-                if (bsCollapse) {
-                    bsCollapse.hide();
-                }
+    function closeMobileMenu() {
+        mobileNavOverlay.classList.remove('active');
+        mobileNavSidebar.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    // Event listeners
+    mobileMenuToggle.addEventListener('click', openMobileMenu);
+    mobileNavClose.addEventListener('click', closeMobileMenu);
+    mobileNavOverlay.addEventListener('click', closeMobileMenu);
+    
+    // Close menu when clicking a link (mobile)
+    document.querySelectorAll('.mobile-nav-link[href], .mobile-submenu-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.getAttribute('href') !== '#') {
+                closeMobileMenu();
             }
         });
     });
     
-    // Dropdown hover for desktop
-    if (window.innerWidth >= 992) {
-        const dropdowns = document.querySelectorAll('.dropdown');
-        
-        dropdowns.forEach(dropdown => {
-            const toggle = dropdown.querySelector('.dropdown-toggle');
-            const menu = dropdown.querySelector('.dropdown-menu');
-            
-            let hideTimeout;
-            
-            dropdown.addEventListener('mouseenter', function() {
-                clearTimeout(hideTimeout);
-                const bsDropdown = bootstrap.Dropdown.getInstance(toggle) || 
-                                  new bootstrap.Dropdown(toggle);
-                bsDropdown.show();
-            });
-            
-            dropdown.addEventListener('mouseleave', function() {
-                hideTimeout = setTimeout(() => {
-                    const bsDropdown = bootstrap.Dropdown.getInstance(toggle);
-                    if (bsDropdown) {
-                        bsDropdown.hide();
+    // Fix dropdown on other pages
+    function initializeBootstrapDropdowns() {
+        // Initialize Bootstrap dropdowns
+        const dropdownElements = document.querySelectorAll('.dropdown-toggle');
+        dropdownElements.forEach(dropdown => {
+            dropdown.addEventListener('click', function(e) {
+                if (window.innerWidth >= 992) {
+                    e.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    const isVisible = dropdownMenu.classList.contains('show');
+                    
+                    // Close all other dropdowns
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                    
+                    // Toggle current dropdown
+                    if (!isVisible) {
+                        dropdownMenu.classList.add('show');
                     }
-                }, 300);
-            });
-            
-            // Prevent hiding when hovering over menu
-            menu.addEventListener('mouseenter', function() {
-                clearTimeout(hideTimeout);
-            });
-            
-            menu.addEventListener('mouseleave', function() {
-                hideTimeout = setTimeout(() => {
-                    const bsDropdown = bootstrap.Dropdown.getInstance(toggle);
-                    if (bsDropdown) {
-                        bsDropdown.hide();
-                    }
-                }, 300);
+                }
             });
         });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            }
+        });
     }
+    
+    // Initialize dropdowns
+    initializeBootstrapDropdowns();
+    
+    // Re-initialize on window resize
+    window.addEventListener('resize', function() {
+        initializeBootstrapDropdowns();
+        
+        // Close mobile menu on desktop
+        if (window.innerWidth >= 992) {
+            closeMobileMenu();
+        }
+    });
+    
+    // Hover effect for desktop dropdown
+    if (window.innerWidth >= 992) {
+        const megaMenu = document.querySelector('.mega-menu');
+        const megaDropdown = document.querySelector('.mega-dropdown');
+        
+        if (megaMenu && megaDropdown) {
+            let hideTimeout;
+            
+            megaMenu.addEventListener('mouseenter', function() {
+                clearTimeout(hideTimeout);
+                megaDropdown.classList.add('show');
+            });
+            
+            megaMenu.addEventListener('mouseleave', function() {
+                hideTimeout = setTimeout(() => {
+                    megaDropdown.classList.remove('show');
+                }, 300);
+            });
+            
+            megaDropdown.addEventListener('mouseenter', function() {
+                clearTimeout(hideTimeout);
+            });
+            
+            megaDropdown.addEventListener('mouseleave', function() {
+                hideTimeout = setTimeout(() => {
+                    megaDropdown.classList.remove('show');
+                }, 300);
+            });
+        }
+    }
+    
+    // Set active nav link based on current page
+    function setActiveNavLink() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link:not(.dropdown-toggle), .mobile-nav-link[href]');
+        
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (linkPath === currentPath || 
+                (currentPath === '/' && linkPath === '/') ||
+                (currentPath.includes('services') && linkPath && linkPath.includes('services'))) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+    
+    setActiveNavLink();
+    
+    // Close dropdowns when clicking on body (except dropdown)
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown') && !e.target.closest('.mega-dropdown')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
 });
-
-// Ensure Bootstrap is loaded
-if (typeof bootstrap === 'undefined') {
-    console.warn('Bootstrap not found. Loading from CDN...');
-    const bootstrapScript = document.createElement('script');
-    bootstrapScript.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js';
-    bootstrapScript.integrity = 'sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz';
-    bootstrapScript.crossOrigin = 'anonymous';
-    document.head.appendChild(bootstrapScript);
-}
 </script>
