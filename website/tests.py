@@ -7,12 +7,12 @@ python manage.py migrate
 python manage.py runserver
 
 git add .
-git commit -m "service updated navbar "
+git commit -m "Add navbar template"
 git push -u origin main
 
 
 git add .
-git commit -m "service updated navbar "
+git commit -m "Add navbar template"
 git push heroku main
 
 python manage.py runserver
