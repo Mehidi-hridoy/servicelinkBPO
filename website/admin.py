@@ -18,16 +18,24 @@ from .models import (
     FAQ,
 )
 
+from django.utils.html import format_html
 # =========================
 # HERO & CORE SECTIONS
 # =========================
 
+
 @admin.register(HeroSlide)
 class HeroSlideAdmin(admin.ModelAdmin):
-    list_display = ('title', 'order', 'is_active')
+    list_display = ('title', 'order', 'image_preview', 'is_active')
     list_editable = ('order', 'is_active')
     list_filter = ('is_active',)
     ordering = ('order',)
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="width: 80px; height:auto; border-radius:4px;" />', obj.image.url)
+        return "-"
+    image_preview.short_description = 'Image'
 
 
 @admin.register(ServiceHero)
@@ -69,7 +77,7 @@ class ServiceCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'order', 'is_featured')
+    list_display = ('title', 'category', 'order','image', 'is_featured')
     list_filter = ('category', 'is_featured')
     list_editable = ('order', 'is_featured')
     search_fields = ('title', 'short_description')

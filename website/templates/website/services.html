@@ -3,465 +3,840 @@
 {% load static %}
 
 {% block title %}
-    {% if service_hero.title %}
-        {{ service_hero.title }} - ServiceLink BPO
-    {% else %}
-        Our Services - ServiceLink BPO
-    {% endif %}
+    {{ service_hero.title|default:"Our Services" }} - ServiceLink BPO
 {% endblock %}
 
 {% block content %}
-{% include 'website/includes/services_hero.html' %}
+<!-- Modern Hero Section -->
+<section class="services-hero-section bg-dark position-relative overflow-hidden">
+    <div class="hero-bg-animation">
+        <div class="particles-container" id="particles-js"></div>
+        <div class="gradient-overlay"></div>
+    </div>
+    
+    <div class="container position-relative z-3">
+        <div class="row min-vh-85 align-items-center py-5">
+            <div class="col-lg-6">
+                <div class="hero-content animate-on-scroll" data-animation="fade-up">
+                    <div class="badge-wrapper mb-4">
+                        
+                    </div>
+                    
+                    <h1 class="hero-title display-2 fw-bold mb-4">
+                        <span class="gradient-text-primary">Transform Your Business</span>
+                        <br>
+                        <span class="text-white">With Expert BPO Solutions</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle lead text-light opacity-75 mb-5">
+                        {{ service_hero.subtitle|default:"Streamline operations, reduce costs, and accelerate growth with our comprehensive outsourcing services." }}
+                    </p>
+                    
+                    <div class="hero-cta d-flex flex-wrap gap-3">
+                        <a href="#services-explore" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg glow-on-hover">
+                            <i class="fas fa-play-circle me-2"></i> Explore Services
+                        </a>
+                        <a href="{% url 'website:contact' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill border-2">
+                            <i class="fas fa-calendar-check me-2"></i> Book Demo
+                        </a>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="hero-visual mt-5 mt-lg-0">
+                    <div class="floating-card card-1">
+                        <div class="card-inner bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                            <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                            <h5 class="fw-bold text-white">Customer Support</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="floating-card card-2">
+                        <div class="card-inner bg-success bg-opacity-10 border border-success border-opacity-25 rounded-4 p-4">
+                            <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                            <h5 class="fw-bold text-white">Data Analytics</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="floating-card card-3">
+                        <div class="card-inner bg-warning bg-opacity-10 border border-warning border-opacity-25 rounded-4 p-4">
+                            <i class="fas fa-users fa-3x text-warning mb-3"></i>
+                            <h5 class="fw-bold text-white">Team Management</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="main-service-visual">
+                        <div class="service-orbital-system">
+                            <div class="central-orb bg-gradient-primary rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="fas fa-cogs fa-4x text-white"></i>
+                            </div>
+                            {% for service in featured_services|slice:":4" %}
+                            <div class="orbital-service" style="--index: {{ forloop.counter }}">
+                                <div class="service-node rounded-circle bg-white shadow-lg d-flex align-items-center justify-content-center">
+                                    <i class="{{ service.icon|default:'fas fa-check' }} fa-lg text-primary"></i>
+                                </div>
+                                <span class="service-label">{{ service.title }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="scroll-indicator position-absolute bottom-0 start-50 translate-middle-x z-3">
+        <a href="#services-explore" class="text-decoration-none">
+            <div class="d-flex flex-column align-items-center">
+                <span class="text-light opacity-75 mb-2 small">Scroll to Explore</span>
+                <div class="mouse-scroll">
+                    <div class="mouse">
+                        <div class="wheel"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</section>
 
 <!-- Services Introduction -->
-<section class="py-5">
+<section class="services-intro py-6 bg-light">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10 text-center">
-                <h2 class="display-6 fw-bold mb-4">Scale Smarter. Grow Faster.</h2>
-                <p class="lead text-muted mb-5">
-                    At ServiceLink BPO, we provide comprehensive business process outsourcing solutions that help you focus on core business activities while we handle the rest. Our services are designed to deliver excellence across every touchpoint of your business.
-                </p>
+                <div class="animate-on-scroll" data-animation="fade-up">
+                    
+                    <h2 class="display-4 fw-bold mb-4">
+                        Redefining <span class="gradient-text-primary">Business Excellence</span>
+                    </h2>
+                    <p class="lead text-muted mb-5">
+                        We build partnerships that combine cutting-edge technology with human expertise to deliver solutions that scale with your ambitions.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-4 mt-4">
+            <div class="col-md-3">
+                <div class="value-card card border-0 bg-white shadow-sm rounded-4 h-100 animate-on-scroll" data-animation="fade-up" data-delay="100">
+                    <div class="card-body p-4 text-center">
+                        <div class="value-icon-wrapper bg-primary bg-opacity-10 rounded-3 p-3 d-inline-flex mb-4">
+                            <i class="fas fa-bolt fa-2x text-primary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Accelerated Growth</h4>
+                        <p class="text-muted mb-0">Scale operations 3x faster with ready-to-deploy teams.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="value-card card border-0 bg-white shadow-sm rounded-4 h-100 animate-on-scroll" data-animation="fade-up" data-delay="200">
+                    <div class="card-body p-4 text-center">
+                        <div class="value-icon-wrapper bg-success bg-opacity-10 rounded-3 p-3 d-inline-flex mb-4">
+                            <i class="fas fa-chart-pie fa-2x text-success"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Cost Efficiency</h4>
+                        <p class="text-muted mb-0">Reduce costs by up to 60% while maintaining quality.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="value-card card border-0 bg-white shadow-sm rounded-4 h-100 animate-on-scroll" data-animation="fade-up" data-delay="300">
+                    <div class="card-body p-4 text-center">
+                        <div class="value-icon-wrapper bg-warning bg-opacity-10 rounded-3 p-3 d-inline-flex mb-4">
+                            <i class="fas fa-shield-alt fa-2x text-warning"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Enterprise Security</h4>
+                        <p class="text-muted mb-0">Bank-level security with GDPR & HIPAA compliance.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="value-card card border-0 bg-white shadow-sm rounded-4 h-100 animate-on-scroll" data-animation="fade-up" data-delay="400">
+                    <div class="card-body p-4 text-center">
+                        <div class="value-icon-wrapper bg-info bg-opacity-10 rounded-3 p-3 d-inline-flex mb-4">
+                            <i class="fas fa-sync-alt fa-2x text-info"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">24/7 Support</h4>
+                        <p class="text-muted mb-0">Round-the-clock monitoring and support.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Services by Category -->
-<section id="services-list" class="py-5 bg-light">
+<section id="services-explore" class="services-categories py-6">
     <div class="container">
-        {% for category in categories %}
-        <div id="{{ category.slug }}" class="service-category mb-5">
-            <div class="row align-items-center mb-4">
-                <div class="col-md-8">
-                    <h2 class="fw-bold d-flex align-items-center">
-                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" 
-                             style="width: 60px; height: 60px;">
-                            <i class="{{ category.icon }} fa-lg text-white"></i>
-                        </div>
+        <div class="text-center mb-6">
+            <h2 class="display-4 fw-bold mb-3 animate-on-scroll" data-animation="fade-up">
+                Our <span class="gradient-text-primary">Service Categories</span>
+            </h2>
+            <p class="lead text-muted mb-0 animate-on-scroll" data-animation="fade-up" data-delay="100">
+                Comprehensive solutions across all business functions
+            </p>
+        </div>
+        
+        <div class="category-nav mb-6">
+            <div class="row g-3 justify-content-center">
+                {% for category in categories %}
+                <div class="col-auto">
+                    <button class="category-nav-btn btn btn-outline-primary rounded-pill px-4 py-2" 
+                            onclick="scrollToCategory('category-{{ category.slug }}')">
+                        <i class="{{ category.icon|default:'fas fa-cogs' }} me-2"></i>
                         {{ category.name }}
-                    </h2>
-                    {% if category.description %}
-                    <p class="text-muted mb-0">{{ category.description }}</p>
-                    {% endif %}
+                        <span class="badge bg-primary bg-opacity-25 text-primary ms-2">{{category.services.count }}</span>
+                    </button>
                 </div>
-                <div class="col-md-4 text-md-end">
-                    <a href="#consultation" class="btn btn-primary">
-                        Get Quote <i class="fas fa-arrow-right ms-2"></i>
-                    </a>
+                {% empty %}
+                <div class="col-12 text-center">
+                    <p class="text-muted">No categories available yet.</p>
                 </div>
+                {% endfor %}
             </div>
-            
-            <div class="row">
-                {% for service in category.services.all %}
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-3">{{ service.title }}</h5>
-                            <p class="text-muted mb-4">{{ service.short_description }}</p>
-                            
-                            <ul class="list-unstyled mb-4">
-                                {% for feature in service.get_features_list|slice:":3" %}
-                                <li class="mb-2">
-                                    <i class="fas fa-check text-success me-2"></i>
-                                    {{ feature }}
-                                </li>
-                                {% endfor %}
-                            </ul>
-                            
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="{% url 'website:service_detail' service.slug %}" class="btn btn-link text-primary p-0">
-                                    Learn More <i class="fas fa-arrow-right ms-1"></i>
-                                </a>
-                                {% if service.is_featured %}
-                                <span class="badge bg-warning text-dark">Featured</span>
+        </div>
+        
+        {% for category in categories %}
+        <div id="category-{{ category.slug }}" class="category-section mb-8 pt-6">
+            <div class="category-header mb-6 animate-on-scroll" data-animation="fade-up">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="category-icon-wrapper rounded-4 p-3 me-4 bg-primary bg-opacity-10">
+                                <i class="{{ category.icon|default:'fas fa-cogs' }} fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h2 class="display-5 fw-bold mb-2">{{ category.name }}</h2>
+                                {% if category.description %}
+                                <p class="lead text-muted mb-0">{{ category.description|truncatechars:150 }}</p>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-4">
+                        <div class="text-lg-end">
+                            <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-4 rounded-pill">
+                                {{ category.services.count }} Services
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                {% for service in category.services.all %}
+                <div class="col-xl-4 col-lg-6">
+                    <div class="service-card card border-0 shadow-lg h-100 animate-on-scroll" 
+                         data-animation="fade-up" data-delay="{{ forloop.counter|add:100 }}">
+                        <div class="card-body p-5">
+                            <div class="service-header mb-4">
+                                <div class="d-flex align-items-start justify-content-between mb-3">
+                                    <div class="service-icon-wrapper rounded-3 p-3 bg-primary bg-opacity-10">
+                                        <i class="{{ service.icon|default:'fas fa-check' }} fa-2x text-primary"></i>
+                                    </div>
+                                    {% if service.is_featured %}
+                                    <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 py-2 px-3">
+                                        <i class="fas fa-star me-1"></i> Featured
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <h3 class="fw-bold mb-3">{{ service.title }}</h3>
+                                <p class="text-muted mb-4">{{ service.short_description }}</p>
+                            </div>
+                            
+                            <ul class="service-features list-unstyled mb-4">
+                                {% for feature in service.get_features_list|slice:":3" %}
+                                <li class="d-flex align-items-start mb-3">
+                                    <i class="fas fa-check-circle text-success mt-1 me-3"></i>
+                                    <span>{{ feature|truncatechars:50 }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            
+                            <div class="service-cta mt-auto">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="{% url 'website:service_detail' service.slug %}" 
+                                       class="btn btn-outline-primary rounded-pill px-4">
+                                        <i class="fas fa-arrow-right me-2"></i> Learn More
+                                    </a>
+                                    <button class="btn btn-link text-decoration-none p-0" 
+                                            onclick="openInquiryModal('{{ service.title|escapejs }}', '{{ service.id }}')">
+                                        <i class="fas fa-quote-right me-2"></i> Get Quote
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-hover-layer rounded-4"></div>
+                    </div>
                 </div>
                 {% empty %}
                 <div class="col-12">
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Services for this category will be added soon.
+                    <div class="empty-state text-center py-5 animate-on-scroll" data-animation="fade-up">
+                        <div class="empty-icon mb-4">
+                            <i class="fas fa-clipboard-list fa-4x text-muted opacity-25"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Services Coming Soon</h4>
+                        <p class="text-muted mb-4">We're currently developing services for this category.</p>
+                        <a href="{% url 'website:contact' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-envelope me-2"></i> Get Notified
+                        </a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
         {% empty %}
-        <div class="text-center py-5">
-            <h3 class="fw-bold mb-3">Our Services Categories</h3>
-            <p class="text-muted mb-4">Services will be available soon. Check back later or contact us for more information.</p>
+        <div class="text-center py-6 animate-on-scroll" data-animation="fade-up">
+            <div class="empty-state">
+                <i class="fas fa-cogs fa-5x text-muted opacity-25 mb-4"></i>
+                <h3 class="fw-bold mb-3">Service Categories Coming Soon</h3>
+                <p class="lead text-muted mb-4">We're setting up our service offerings.</p>
+                <a href="{% url 'website:contact' %}" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-headset me-2"></i> Contact Us
+                </a>
+            </div>
         </div>
         {% endfor %}
     </div>
 </section>
 
+<!-- Process Section -->
+<section class="how-it-works py-6 bg-dark text-white position-relative">
+    <!-- Minimalist background vector -->
+    <svg class="position-absolute top-50 start-50 translate-middle opacity-10" 
+         width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg" 
+         style="z-index:0;">
+        <circle cx="300" cy="300" r="200" stroke="#FFD700" stroke-width="4" />
+        <circle cx="300" cy="300" r="150" stroke="#FFD700" stroke-width="3" />
+        <circle cx="300" cy="300" r="100" stroke="#FFD700" stroke-width="2" />
+    </svg>
 
-<!-- How We Work -->
-<section id="consultation" class="py-5 bg-primary text-white">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-5 mb-lg-0">
-                <h2 class="display-6 fw-bold mb-4">How We Deliver Excellence</h2>
-                <div class="how-we-work-item mb-4">
-                    <h5 class="fw-bold mb-2"><i class="fas fa-user-check me-2"></i>Rigorous Screening</h5>
-                    <p class="opacity-75">Every candidate undergoes multiple rounds of interviews and skill assessments.</p>
-                </div>
-                <div class="how-we-work-item mb-4">
-                    <h5 class="fw-bold mb-2"><i class="fas fa-graduation-cap me-2"></i>Comprehensive Training</h5>
-                    <p class="opacity-75">Industry-specific training ensures your team understands your business inside-out.</p>
-                </div>
-                <div class="how-we-work-item mb-4">
-                    <h5 class="fw-bold mb-2"><i class="fas fa-tachometer-alt me-2"></i>Performance Monitoring</h5>
-                    <p class="opacity-75">Real-time tracking and regular reporting keep you informed about team performance.</p>
-                </div>
-                <div class="how-we-work-item">
-                    <h5 class="fw-bold mb-2"><i class="fas fa-sync-alt me-2"></i>Continuous Improvement</h5>
-                    <p class="opacity-75">Regular feedback loops and optimization strategies ensure ongoing improvement.</p>
-                </div>
-            </div>
-            
-            <div  class="col-lg-6">
-                <div  class="card shadow-lg">
-                    <div class="card-body p-5">
-                        <h3 class="fw-bold mb-4 text-center">Get Your Free Service Assessment</h3>
-                        <form method="post" action="{% url 'website:submit_inquiry' %}">
-                            {% csrf_token %}
-                            
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="name" 
-                                               placeholder="Your Name *" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" name="email" 
-                                               placeholder="Your Email *" required>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <div class="form-group">
-                                    <input type="tel" class="form-control" name="phone" 
-                                           placeholder="Your Phone Number *" required>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="company" 
-                                           placeholder="Your Company (Optional)">
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <div class="form-group">
-                                    <select class="form-select" name="team_size" required>
-                                        <option value="" selected disabled>Select team size needed *</option>
-                                        <option value="1-5">1-5 team members</option>
-                                        <option value="6-10">6-10 team members</option>
-                                        <option value="11-20">11-20 team members</option>
-                                        <option value="20+">20+ team members</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <div class="form-group">
-                                    <select class="form-select" name="service_type" required>
-                                        <option value="" selected disabled>Select service type *</option>
-                                        <option value="single-service">Single Service</option>
-                                        <option value="multiple-services">Multiple Services</option>
-                                        <option value="custom-solution">Custom Solution</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <div class="form-group">
-                                    <textarea class="form-control" name="additional_requirements" 
-                                              rows="3" placeholder="Tell us about your specific requirements..."></textarea>
-                                </div>
-                            </div>
-                            
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary w-100">
-                                    Get Free Assessment <i class="fas fa-chart-bar ms-2"></i>
-                                </button>
-                            </div>
-                            
-                            <!-- Hidden fields for ServiceInquiryForm -->
-                            <input type="hidden" name="specific_service" value="">
-                            <input type="hidden" name="budget_range" value="">
-                            <input type="hidden" name="timeline" value="">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- FAQ Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-6 fw-bold">Frequently Asked Questions</h2>
-            <p class="lead text-muted">Common questions about our services</p>
+    <div class="container position-relative" style="z-index:1;">
+        <div class="text-center mb-6">
+            <h2 class="display-4 fw-bold mb-3 animate-on-scroll" data-animation="fade-up">
+                Our <span class="gradient-text-light">Process</span>
+            </h2>
+            <p class="lead opacity-75 mb-0 animate-on-scroll" data-animation="fade-up" data-delay="100">
+                5-step journey to business transformation
+            </p>
         </div>
         
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="accordion" id="servicesFAQ">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                What makes ServiceLink BPO different from other BPO providers?
-                            </button>
-                        </h2>
-                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#servicesFAQ">
-                            <div class="accordion-body">
-                                We focus on building partnerships rather than just providing services. Our distinctively different approach involves deep integration with your business culture, customized solutions, and ongoing performance optimization to ensure you get maximum value from your offshore team.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                How quickly can you scale my team up or down?
-                            </button>
-                        </h2>
-                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#servicesFAQ">
-                            <div class="accordion-body">
-                                We maintain a talent pool of pre-vetted professionals ready for deployment. Typically, we can scale your team within 2-4 weeks, depending on role complexity. For emergency scaling, we can deploy resources within 7-10 days.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                What industries do you specialize in?
-                            </button>
-                        </h2>
-                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#servicesFAQ">
-                            <div class="accordion-body">
-                                We serve a wide range of industries including e-commerce, healthcare, finance, technology, retail, education, and manufacturing. Our teams are trained in industry-specific protocols and compliance requirements.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                                How do you ensure data security and compliance?
-                            </button>
-                        </h2>
-                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#servicesFAQ">
-                            <div class="accordion-body">
-                                We implement enterprise-grade security measures including encrypted communications, secure VPN access, regular security audits, and compliance with GDPR, HIPAA, and other relevant regulations. All team members sign strict confidentiality agreements and undergo security training.
-                            </div>
-                        </div>
-                    </div>
+        <div class="process-timeline">
+            <div class="process-step animate-on-scroll" data-animation="fade-up" data-delay="150">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4 class="fw-bold mb-3">Consultation</h4>
+                    <p class="opacity-75 mb-0">Understand your business needs and goals.</p>
+                </div>
+            </div>
+            <div class="process-step animate-on-scroll" data-animation="fade-up" data-delay="200">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4 class="fw-bold mb-3">Planning</h4>
+                    <p class="opacity-75 mb-0">Create customized solution roadmap.</p>
+                </div>
+            </div>
+            <div class="process-step animate-on-scroll" data-animation="fade-up" data-delay="250">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4 class="fw-bold mb-3">Implementation</h4>
+                    <p class="opacity-75 mb-0">Deploy teams and processes.</p>
+                </div>
+            </div>
+            <div class="process-step animate-on-scroll" data-animation="fade-up" data-delay="300">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4 class="fw-bold mb-3">Optimization</h4>
+                    <p class="opacity-75 mb-0">Continuously improve performance.</p>
+                </div>
+            </div>
+            <div class="process-step animate-on-scroll" data-animation="fade-up" data-delay="350">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h4 class="fw-bold mb-3">Scaling</h4>
+                    <p class="opacity-75 mb-0">Expand solutions as you grow.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Consultation CTA -->
-<section class="py-5 bg-light">
+
+<!-- CTA Section -->
+<section class="cta-section py-6 bg-gradient-primary text-white">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
-                <h2 class="display-6 fw-bold mb-3">Not Sure Which Service You Need?</h2>
-                <p class="lead text-muted mb-4">Our experts will analyze your business requirements and recommend the perfect solution.</p>
-                <a href="{% url 'website:contact' %}" class="btn btn-primary btn-lg me-3">
-                    <i  class="fas fa-calendar-check me-2"></i>Schedule Consultation
-                </a>
-                <a href="tel:{{ contact_info.phone|default:'+8801886100303' }}" class="btn btn-outline-primary btn-lg">
-                    <i class="fas fa-phone me-2"></i>Call Now
-                </a>
+                <h2 class="display-4 fw-bold mb-4 animate-on-scroll" 
+                    data-animation="fade-up" 
+                    style="color: #000;">
+                    Ready to Transform Your Business?
+                </h2>
+                <p class="lead opacity-75 mb-5 animate-on-scroll" data-animation="fade-up" data-delay="100" style="color: #000;">
+                    Join 500+ successful businesses that trust ServiceLink BPO.
+                </p>
+                <div class="cta-buttons d-flex flex-wrap gap-3 justify-content-center animate-on-scroll" 
+                     data-animation="fade-up" data-delay="200">
+                    <a href="{% url 'website:contact' %}" class="btn btn-light btn-lg px-5 py-3 rounded-pill shadow-lg">
+                        <i class="fas fa-calendar-alt me-2"></i> Free Consultation
+                    </a>
+                    <a href="tel:+8801886100303" class="btn btn-outline-light  btn-lg px-5 py-3 rounded-pill border-2 text-dark ">
+                        <i class="fas fa-phone-alt me-2"></i> Call Now
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Inquiry Modal -->
+<div class="modal fade" id="serviceInquiryModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <h3 class="modal-title fw-bold" id="modalTitle">Get Service Quote</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 p-lg-5">
+                <form method="post" action="{% url 'website:submit_inquiry' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="specific_service" id="specificService">
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <input type="text" name="name" class="form-control" placeholder="Your Name *" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="email" name="email" class="form-control" placeholder="Your Email *" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="tel" name="phone" class="form-control" placeholder="Your Phone Number *" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="text" name="company" class="form-control" placeholder="Company Name">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <select class="form-select" name="service_type" required>
+                            <option value="" disabled selected>Service Type *</option>
+                            <option value="single-service">Single Service</option>
+                            <option value="multiple-services">Multiple Services</option>
+                            <option value="custom-solution">Custom Solution</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <textarea name="message" class="form-control" rows="3" placeholder="Tell us about your requirements..." required></textarea>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-paper-plane me-2"></i> Submit Inquiry
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_css %}
 <style>
-.services-hero-section {
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-    position: relative;
-    overflow: hidden;
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --dark-gradient: linear-gradient(135deg, #000428 0%, #004e92 100%);
 }
 
-.services-hero-section::before {
-    content: '';
+.services-hero-section {
+    min-height: 80vh;
+    background: var(--dark-gradient);
+}
+
+.hero-bg-animation {
     position: absolute;
     top: 0;
-    right: 0;
-    width: 40%;
-    height: 100%;
-    background: linear-gradient(45deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 110, 253, 0.05) 100%);
-    clip-path: polygon(100% 0, 0 0, 100% 100%);
-}
-
-.services-hero-section::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
     left: 0;
     width: 100%;
-    height: 100px;
-    background: linear-gradient(to bottom, transparent 0%, #ffffff 100%);
-    opacity: 0.02;
+    height: 100%;
+    z-index: 1;
 }
 
-.hero-title {
-    color: #ffffff;
-    line-height: 1.2;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+.gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%);
 }
 
-.hero-subtitle {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 1.25rem;
+.gradient-text-primary {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.hero-cta .btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
+.gradient-text-light {
+    background: linear-gradient(135deg, #ffffff 0%, #a8edea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.glow-on-hover {
     transition: all 0.3s ease;
 }
 
-.hero-cta .btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+.glow-on-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
 }
 
-.hero-cta .btn-primary:hover {
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+.floating-card {
+    position: absolute;
+    z-index: 3;
 }
 
-.hero-cta .btn-outline-light:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+.card-1 { top: 20%; left: 10%; animation: float1 6s infinite; }
+.card-2 { top: 10%; right: 15%; animation: float2 7s infinite; }
+.card-3 { bottom: 20%; right: 10%; animation: float3 8s infinite; }
+
+@keyframes float1 {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
 }
 
-.placeholder-image {
-    animation: pulse 2s infinite;
-    backdrop-filter: blur(10px);
+@keyframes float2 {
+    0%, 100% { transform: translateY(0) rotate(5deg); }
+    50% { transform: translateY(-25px) rotate(-5deg); }
 }
 
-@keyframes pulse {
-    0% { 
-        opacity: 0.9;
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
+@keyframes float3 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.service-orbital-system {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+}
+
+.central-orb {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--primary-gradient);
+    animation: rotate 20s linear infinite;
+}
+
+.orbital-service {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: orbit 15s linear infinite;
+    animation-delay: calc(var(--index) * -3s);
+}
+
+.service-node {
+    width: 70px;
+    height: 70px;
+    transition: all 0.3s ease;
+}
+
+@keyframes rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes orbit {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(150px) rotate(0deg);
     }
-    50% { 
-        opacity: 1;
-        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.05);
-    }
-    100% { 
-        opacity: 0.9;
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(150px) rotate(-360deg);
     }
 }
 
-.fa-cogs {
-    animation: float 3s ease-in-out infinite;
+.mouse-scroll {
+    position: relative;
 }
 
-@keyframes float {
-    0%, 100% { 
-        transform: translateY(0) rotate(0deg); 
-    }
-    50% { 
-        transform: translateY(-10px) rotate(5deg); 
-    }
+.mouse {
+    width: 30px;
+    height: 50px;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+}
+
+.wheel {
+    width: 4px;
+    height: 10px;
+    background: white;
+    border-radius: 2px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scroll 2s infinite;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+    100% { transform: translateX(-50%) translateY(20px); opacity: 0; }
+}
+
+.value-card, .service-card {
+    transition: all 0.3s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.service-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--primary-gradient);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.service-card:hover::before {
+    transform: scaleX(1);
+}
+
+.process-timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.process-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+}
+
+.process-step {
+    position: relative;
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.process-step:nth-child(odd) {
+    flex-direction: row-reverse;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.step-content {
+    width: calc(50% - 40px);
+    padding: 30px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+}
+
+.animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 @media (max-width: 992px) {
     .services-hero-section {
-        text-align: center;
+        min-height: auto;
+        padding: 100px 0;
     }
     
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .service-orbital-system {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .central-orb {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .process-timeline::before {
+        left: 30px;
+    }
+    
+    .process-step {
+        flex-direction: row !important;
+        justify-content: flex-start;
+    }
+    
+    .step-content {
+        width: calc(100% - 80px);
+        margin-left: 20px;
+    }
+}
+
+@media (max-width: 768px) {
     .hero-title {
         font-size: 2.5rem;
     }
     
-    .hero-subtitle {
-        font-size: 1.1rem;
+    .display-4 {
+        font-size: 2.5rem;
     }
-}
-
-/* Keep your existing card styling */
-.card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 12px;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
-}
-
-.service-category {
-    padding: 2rem 0;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.service-category:last-child {
-    border-bottom: none;
-}
-
-.how-we-work-item {
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.how-we-work-item:last-child {
-    border-bottom: none;
-}
-
-.accordion-button {
-    font-weight: 500;
-}
-
-.accordion-button:not(.collapsed) {
-    background-color: rgba(13, 110, 253, 0.1);
-    color: #0d6efd;
+    
+    .hero-cta {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-cta .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .category-nav {
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
 }
 </style>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-$(document).ready(function() {
-    // Smooth scrolling for category links
-    $('a[href^="#"]').on('click', function(e) {
-        var target = $(this.getAttribute('href'));
-        if(target.length) {
-            e.preventDefault();
-            $('html, body').stop().animate({
-                scrollTop: target.offset().top - 100
-            }, 1000);
-        }
+document.addEventListener('DOMContentLoaded', function() {
+    // Counter Animation
+    function animateCounter(element) {
+        const target = parseInt(element.getAttribute('data-count'));
+        const duration = 2000;
+        const increment = target / (duration / 16);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                element.textContent = target + (target === 99 ? '%' : '+');
+                clearInterval(timer);
+            } else {
+                element.textContent = Math.floor(current) + (target === 99 ? '%' : '+');
+            }
+        }, 16);
+    }
+    
+    // Animation on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                
+                if (entry.target.classList.contains('stats-container')) {
+                    entry.target.querySelectorAll('.stat-number').forEach(animateCounter);
+                }
+                
+                const delay = entry.target.getAttribute('data-delay') || 0;
+                entry.target.style.transitionDelay = `${delay}ms`;
+            }
+        });
+    }, {
+        threshold: 0.1
     });
+    
+    document.querySelectorAll('.animate-on-scroll').forEach(observer.observe.bind(observer));
+    
+    // Scroll to category
+    window.scrollToCategory = function(slug) {
+        const element = document.getElementById(slug);
+        if (element) {
+            const y = element.getBoundingClientRect().top + window.pageYOffset - 100;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+    };
+    
+    // Inquiry modal
+    window.openInquiryModal = function(serviceName, serviceId) {
+        const modal = new bootstrap.Modal(document.getElementById('serviceInquiryModal'));
+        document.getElementById('modalTitle').textContent = `Get Quote: ${serviceName}`;
+        document.getElementById('specificService').value = serviceId;
+        modal.show();
+    };
+    
+    // Particles.js (optional - can be removed to reduce JS)
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 50, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false
+                }
+            }
+        });
+    }
 });
 </script>
 {% endblock %}
