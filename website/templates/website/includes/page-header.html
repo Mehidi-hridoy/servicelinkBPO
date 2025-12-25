@@ -1,0 +1,78 @@
+<!-- website/includes/page-header.html -->
+{% load static %}
+
+<section class="page-header py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center text-white">
+                <h1 class="display-4 fw-bold">{% block page_title %}{% endblock %}</h1>
+                <p class="lead">{% block page_subtitle %}{% endblock %}</p>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="{% url 'website:home' %}" class="text-white">Home</a></li>
+                        {% block breadcrumb_items %}{% endblock %}
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.page-header {
+    position: relative;
+    padding: 120px 0 80px;
+    background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9));
+    background-size: cover;
+    background-position: center;
+    margin-top: -80px; /* Pull up behind navbar */
+    z-index: 1;
+}
+
+/* Add background image if provided */
+.page-header[style*="background-image"] {
+    /* Inherits from inline style */
+}
+
+/* Ensure content below starts properly */
+main > section:not(.page-header) {
+    position: relative;
+    z-index: 2;
+}
+
+/* Breadcrumb styling */
+.page-header .breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.page-header .breadcrumb-item.active {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.page-header .breadcrumb-item + .breadcrumb-item::before {
+    color: rgba(255, 255, 255, 0.6);
+    content: "›";
+}
+
+.page-header .breadcrumb-item a:hover {
+    color: white !important;
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-header {
+        padding: 100px 0 60px;
+    }
+    
+    .page-header h1.display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .page-header .lead {
+        font-size: 1.1rem;
+    }
+}
+</style>

@@ -1,0 +1,250 @@
+<!-- templates/website/includes/services_hero.html -->
+<!-- Modern Hero Section -->
+<section class="services-hero-section bg-dark position-relative overflow-hidden">
+    <div class="hero-bg-animation">
+        <div class="particles-container" id="particles-js"></div>
+        <div class="gradient-overlay"></div>
+    </div>
+    
+    <div class="container position-relative z-3">
+        <div class="row min-vh-85 align-items-center py-5">
+            <div class="col-lg-6">
+                <div class="hero-content animate-on-scroll" data-animation="fade-up">
+                    <div class="badge-wrapper mb-4">
+                        <span class="hero-badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill py-2 px-4 d-inline-flex align-items-center">
+                            <i class="fas fa-rocket me-2"></i>
+                            <span class="fw-medium">BPO Excellence Since 2010</span>
+                        </span>
+                    </div>
+                    
+                    <h1 class="hero-title display-2 fw-bold mb-4">
+                        <span class="gradient-text-primary">Transform Your Business</span>
+                        <br>
+                        <span class="text-white">With Expert BPO Solutions</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle lead text-light opacity-75 mb-5">
+                        {{ service_hero.subtitle|default:"Streamline operations, reduce costs, and accelerate growth with our comprehensive outsourcing services." }}
+                    </p>
+                    
+                    <div class="hero-cta d-flex flex-wrap gap-3">
+                        <a href="#services-explore" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg glow-on-hover">
+                            <i class="fas fa-play-circle me-2"></i> Explore Services
+                        </a>
+                        <a href="{% url 'website:contact' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill border-2">
+                            <i class="fas fa-calendar-check me-2"></i> Book Demo
+                        </a>
+                    </div>
+                    
+                    <div class="stats-container mt-5 pt-4">
+                        <div class="row g-4">
+                            {% with stats=stats|default:'' %}
+                            <div class="col-sm-3 col-6">
+                                <div class="stat-card text-center">
+                                    <h3 class="stat-number fw-bold text-primary mb-1" data-count="500">0</h3>
+                                    <p class="stat-label text-light opacity-75 mb-0">Happy Clients</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-6">
+                                <div class="stat-card text-center">
+                                    <h3 class="stat-number fw-bold text-primary mb-1" data-count="1200">0</h3>
+                                    <p class="stat-label text-light opacity-75 mb-0">Projects</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-6">
+                                <div class="stat-card text-center">
+                                    <h3 class="stat-number fw-bold text-primary mb-1" data-count="150">0</h3>
+                                    <p class="stat-label text-light opacity-75 mb-0">Teams</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-6">
+                                <div class="stat-card text-center">
+                                    <h3 class="stat-number fw-bold text-primary mb-1" data-count="99">0</h3>
+                                    <p class="stat-label text-light opacity-75 mb-0">% Satisfaction</p>
+                                </div>
+                            </div>
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="hero-visual mt-5 mt-lg-0">
+                    <div class="floating-card card-1">
+                        <div class="card-inner bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                            <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                            <h5 class="fw-bold text-white">Customer Support</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="floating-card card-2">
+                        <div class="card-inner bg-success bg-opacity-10 border border-success border-opacity-25 rounded-4 p-4">
+                            <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                            <h5 class="fw-bold text-white">Data Analytics</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="floating-card card-3">
+                        <div class="card-inner bg-warning bg-opacity-10 border border-warning border-opacity-25 rounded-4 p-4">
+                            <i class="fas fa-users fa-3x text-warning mb-3"></i>
+                            <h5 class="fw-bold text-white">Team Management</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="main-service-visual">
+                        <div class="service-orbital-system">
+                            <div class="central-orb bg-gradient-primary rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="fas fa-cogs fa-4x text-white"></i>
+                            </div>
+                            {% for service in featured_services|slice:":4" %}
+                            <div class="orbital-service" style="--index: {{ forloop.counter }}">
+                                <div class="service-node rounded-circle bg-white shadow-lg d-flex align-items-center justify-content-center">
+                                    <i class="{{ service.icon|default:'fas fa-check' }} fa-lg text-primary"></i>
+                                </div>
+                                <span class="service-label">{{ service.title }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="scroll-indicator position-absolute bottom-0 start-50 translate-middle-x z-3">
+        <a href="#services-explore" class="text-decoration-none">
+            <div class="d-flex flex-column align-items-center">
+                <span class="text-light opacity-75 mb-2 small">Scroll to Explore</span>
+                <div class="mouse-scroll">
+                    <div class="mouse">
+                        <div class="wheel"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</section>
+
+<style>
+.services-hero-section {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.services-hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 110, 253, 0.05) 100%);
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+
+.services-hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent 0%, #ffffff 100%);
+    opacity: 0.02;
+}
+
+.category-badge .badge {
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid rgba(13, 110, 253, 0.3);
+}
+
+.hero-title {
+    color: #ffffff;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.25rem;
+}
+
+.hero-cta .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.hero-cta .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.hero-cta .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+.hero-cta .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+.placeholder-image {
+    animation: pulse 2s infinite;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes pulse {
+    0% { 
+        opacity: 0.9;
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
+    }
+    50% { 
+        opacity: 1;
+        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.05);
+    }
+    100% { 
+        opacity: 0.9;
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+.fa-cogs, .fa-headset, .fa-chart-line, .fa-users, .fa-laptop-code, .fa-file-invoice-dollar {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(-10px) rotate(5deg); 
+    }
+}
+
+@media (max-width: 992px) {
+    .services-hero-section {
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .category-badge {
+        justify-content: center;
+    }
+}
+</style>
