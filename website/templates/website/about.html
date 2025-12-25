@@ -10,8 +10,6 @@
 
 <!-- Include the about-specific hero section -->
 {% include 'website/includes/about_hero.html' %}
-
-
 <!-- Our Process Section -->
 <section class="process-section py-5 bg-light">
     <div class="container">
@@ -132,283 +130,189 @@
     </div>
 </section>
 
-<style>
-/* Values Section Styling */
-.values-section {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
-
-/* Card Styling matching service cards */
-.value-card {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
-}
-
-.value-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* Add subtle gradient border on hover */
-.value-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #1e3c72, #2a5298);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.value-card:hover::before {
-    opacity: 1;
-}
-
-/* Icon Styling */
-.value-icon {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    transition: all 0.3s ease;
-}
-
-.value-card:hover .value-icon {
-    transform: scale(1.1);
-    box-shadow: 0 10px 20px rgba(30, 60, 114, 0.3);
-}
-
-.value-icon i {
-    font-size: 1.8rem;
-    color: white;
-}
-
-/* Text Styling */
-.value-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #1e3c72;
-    margin-bottom: 1rem;
-    text-align: center;
-    line-height: 1.3;
-}
-
-.value-description {
-    color: #555;
-    line-height: 1.6;
-    text-align: center;
-    margin-bottom: 0;
-    font-size: 0.95rem;
-}
-
-/* Section Titles */
-.section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1e3c72;
-    margin-bottom: 1rem;
-    position: relative;
-    display: inline-block;
-}
-
-.section-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, #1e3c72, #2a5298);
-    border-radius: 2px;
-}
-
-.section-subtitle {
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 3rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Responsive Design */
-@media (max-width: 992px) {
-    .value-card {
-        padding: 1.75rem;
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const navbar = document.getElementById('mainNavbar');
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+    const mobileNavSidebar = document.getElementById('mobileNavSidebar');
+    const mobileNavClose = document.getElementById('mobileNavClose');
+    
+    // Get current page path
+    const currentPath = window.location.pathname;
+    
+    // Check if we're on a page with hero section
+    function hasHeroSection() {
+        return document.querySelector('.hero-section, [class*="hero"], .contact-hero-section, .about-hero-section') !== null;
     }
     
-    .value-icon {
-        width: 65px;
-        height: 65px;
+    // Scroll handler
+    function handleScroll() {
+        if (!hasHeroSection()) {
+            // Pages without hero always have solid navbar
+            navbar.classList.add('scrolled');
+            return;
+        }
+        
+        if (window.scrollY > 100) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
     }
     
-    .value-icon i {
-        font-size: 1.6rem;
+    // Initialize navbar state
+    function initializeNavbar() {
+        // Check if page has hero section
+        if (!hasHeroSection()) {
+            // Pages without hero always have solid navbar
+            navbar.classList.add('scrolled');
+            navbar.style.position = 'fixed';
+        } else {
+            // Pages with hero: transparent when at top, solid when scrolled
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Set correct position for desktop
+            if (window.innerWidth >= 992) {
+                navbar.style.position = 'absolute';
+            } else {
+                navbar.style.position = 'fixed';
+            }
+        }
+        
+        // Initialize mobile menu state
+        closeMobileMenu();
     }
     
-    .value-title {
-        font-size: 1.2rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .section-title {
-        font-size: 2rem;
+    // Initial setup
+    initializeNavbar();
+    window.addEventListener('scroll', handleScroll);
+    
+    // Mobile menu functions
+    function openMobileMenu() {
+        mobileNavOverlay.classList.add('active');
+        mobileNavSidebar.classList.add('active');
+        hamburger.classList.add('active');
+        document.body.style.overflow = 'hidden';
     }
     
-    .section-subtitle {
-        font-size: 1rem;
+    function closeMobileMenu() {
+        mobileNavOverlay.classList.remove('active');
+        mobileNavSidebar.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.style.overflow = '';
     }
     
-    .value-card {
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
+    // Event listeners for mobile menu
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', openMobileMenu);
     }
     
-    .value-icon {
-        width: 60px;
-        height: 60px;
+    if (mobileNavClose) {
+        mobileNavClose.addEventListener('click', closeMobileMenu);
     }
     
-    .value-icon i {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .value-card {
-        padding: 1.25rem;
+    if (mobileNavOverlay) {
+        mobileNavOverlay.addEventListener('click', closeMobileMenu);
     }
     
-    .section-title {
-        font-size: 1.75rem;
+    // Close menu when clicking mobile links
+    document.querySelectorAll('.mobile-nav-link[href], .mobile-submenu-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.getAttribute('href') && this.getAttribute('href') !== '#') {
+                closeMobileMenu();
+            }
+        });
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        initializeNavbar();
+        
+        // Desktop dropdown setup
+        setupDesktopDropdowns();
+    });
+    
+    // Desktop dropdown hover functionality
+    function setupDesktopDropdowns() {
+        if (window.innerWidth >= 992) {
+            const megaMenu = document.querySelector('.mega-menu');
+            const megaDropdown = document.querySelector('.mega-dropdown');
+            
+            if (megaMenu && megaDropdown) {
+                let hideTimeout;
+                
+                megaMenu.addEventListener('mouseenter', function() {
+                    clearTimeout(hideTimeout);
+                    megaDropdown.classList.add('show');
+                });
+                
+                megaMenu.addEventListener('mouseleave', function() {
+                    hideTimeout = setTimeout(() => {
+                        megaDropdown.classList.remove('show');
+                    }, 300);
+                });
+                
+                megaDropdown.addEventListener('mouseenter', function() {
+                    clearTimeout(hideTimeout);
+                });
+                
+                megaDropdown.addEventListener('mouseleave', function() {
+                    hideTimeout = setTimeout(() => {
+                        megaDropdown.classList.remove('show');
+                    }, 300);
+                });
+            }
+        }
     }
     
-    .values-section {
-        padding: 3rem 0;
-    }
-}
-</style>
-
-<style>
-.section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1e3c72;
-    margin-bottom: 1rem;
-}
-
-.section-subtitle {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 3rem;
-}
-
-.about-content-section {
-    background: white;
-}
-
-.tagline {
-    font-size: 1.4rem;
-    color: #2a5298;
-    font-weight: 300;
-    margin-bottom: 2rem;
-}
-
-.about-text {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #444;
-}
-
-.about-image img {
-    transition: transform 0.3s ease;
-}
-
-.about-image img:hover {
-    transform: scale(1.02);
-}
-
-.process-card {
-    padding: 2rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    height: 100%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.process-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-}
-
-.process-icon {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.process-icon i {
-    font-size: 2rem;
-    color: white;
-}
-
-.step-number {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    width: 30px;
-    height: 30px;
-    background: #ff6b6b;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-.process-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #1e3c72;
-    margin-bottom: 1rem;
-}
-
-.process-description {
-    color: #666;
-    line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-    .section-title {
-        font-size: 2rem;
+    // Initialize dropdowns
+    setupDesktopDropdowns();
+    
+    // Set active nav link based on current page
+    function setActiveNavLink() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link:not(.dropdown-toggle), .mobile-nav-link[href]');
+        
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (linkPath && (
+                linkPath === currentPath || 
+                (currentPath === '/' && linkPath === '/') ||
+                (currentPath.includes('services') && linkPath.includes('services')) ||
+                (currentPath.includes('about') && linkPath.includes('about')) ||
+                (currentPath.includes('contact') && linkPath.includes('contact'))
+            )) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
     }
     
-    .process-card {
-        margin-bottom: 2rem;
+    setActiveNavLink();
+    
+    // Close dropdowns when clicking outside (desktop only)
+    if (window.innerWidth >= 992) {
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown') && !e.target.closest('.mega-dropdown')) {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            }
+        });
     }
-}
-</style>
+    
+    // Load initial state
+    window.addEventListener('load', function() {
+        initializeNavbar();
+        setActiveNavLink();
+    });
+});
+</script>
 {% endblock %}
