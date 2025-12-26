@@ -441,6 +441,46 @@
 </style>
 {% endblock %}
 
+
+<style>
+    /* Emergency fix for contact page navbar */
+    body.contact-page #mainNavbar:not(.scrolled) {
+        background: transparent !important;
+    }
+    
+    body.contact-page #mainNavbar:not(.scrolled) .logo-text-primary {
+        background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+    
+    body.contact-page #mainNavbar:not(.scrolled) .logo-text-secondary {
+        color: white !important;
+    }
+    
+    body.contact-page #mainNavbar:not(.scrolled) .nav-link {
+        color: white !important;
+    }
+    
+    body.contact-page #mainNavbar:not(.scrolled) .hamburger span {
+        background: white !important;
+    }
+    
+    body.contact-page #mainNavbar:not(.scrolled) .nav-hover-effect {
+        background: white !important;
+    }
+    
+    body.contact-page #mainNavbar:not(.scrolled) .btn-primary {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Add contact-page class to body in base.html */
+</style>
+
 {% block extra_js %}
 <script>
     function scrollToMap() {

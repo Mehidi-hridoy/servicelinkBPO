@@ -314,5 +314,13 @@ document.addEventListener('DOMContentLoaded', function() {
         setActiveNavLink();
     });
 });
+
+
+
+// Add to base.html or each page
+console.log('Page loaded:', window.location.pathname);
+console.log('Navbar classList:', document.getElementById('mainNavbar').classList);
+console.log('Body padding-top:', window.getComputedStyle(document.body).paddingTop);
+console.log('Window scrollY:', window.scrollY);
 </script>
 {% endblock %}

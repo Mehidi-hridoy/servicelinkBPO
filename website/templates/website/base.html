@@ -19,38 +19,62 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+        <link rel="stylesheet" href="{% static 'css/hero.css' %}">
+
     {% block extra_css %}{% endblock %}
     
     <style>
         /* Base styles that apply to all pages */
+        <style>
+        /* Add this to base.html <head> */
         :root {
-            --header-height: 80px;
+            --header-height: 76px;
         }
         
-        html {
-            scroll-behavior: smooth;
-        }
-        
+        /* Fix body to account for fixed navbar */
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            padding-top: 0 !important; /* Override any other padding-top */
         }
         
+        /* Make sure content doesn't hide under navbar */
         main {
-            flex: 1;
-        }
-        
-        /* Default page header padding */
-        .has-page-header {
             padding-top: var(--header-height);
         }
     </style>
+    <style>
+    /* SIMPLE FIX - Force navbar to always be sticky */
+    #mainNavbar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 9999 !important;
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08) !important;
+        padding: 0.5rem 0 !important;
+    }
+    
+    /* Remove transparent styles */
+    #mainNavbar:not(.scrolled) {
+        background: rgba(255, 255, 255, 0.98) !important;
+    }
+    
+    /* Adjust hero sections */
+    .hero-section {
+        margin-top: calc(-1 * 76px);
+        padding-top: 76px;
+    }
+    
+    /* Push all content down */
+    body {
+        padding-top: 76px;
+    }
+</style>
 </head>
-<body class="{% block body_class %}{% endblock %}">
-    <!-- Navbar -->
+<body class="{% if request.path == '/contact/' %}contact-page{% endif %} {% block body_class %}{% endblock %}">
+        <!-- Navbar -->
     {% include 'website/includes/navbar.html' %}
     {% include 'website/includes/messages.html' %}
     

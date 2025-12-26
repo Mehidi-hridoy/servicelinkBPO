@@ -1,164 +1,64 @@
-<!-- templates/website/includes/about_hero.html -->
 {% load static %}
+{% load custom_filters %}
 
-<section class="hero-section about-hero">
+<!-- templates/website/includes/about_hero.html -->
+<section class="hero-section">
     <div class="hero-slider">
         <div class="hero-slide active" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
             {% if hero.background_image and hero.background_image.url %}url('{{ hero.background_image.url }}'){% else %}#2c3e50{% endif %};">
             <div class="container">
                 <div class="hero-content text-white">
-                    <h1 class="display-4 fw-bold mb-3">{{ hero.title }}</h1>
-                    {% if hero.subtitle %}
-                    <p class="lead mb-4">{{ hero.subtitle }}</p>
-                    {% endif %}
+                    <h1 class="display-4 fw-bold mb-3">
+                        {% if hero.title %}
+                            {{ hero.title }}
+                        {% else %}
+                            About ServiceLink BPO
+                        {% endif %}
+                    </h1>
+                    <p class="lead mb-4">
+                        {% if hero.subtitle %}
+                            {{ hero.subtitle }}
+                        {% else %}
+                            Your trusted partner in business process outsourcing solutions
+                        {% endif %}
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#our-story" class="btn btn-primary btn-lg me-3 mb-3">
+                            <i class="fas fa-book-open me-2"></i>Our Story
+                        </a>
+                        <a href="#team" class="btn btn-outline-light btn-lg mb-3">
+                            <i class="fas fa-users me-2"></i>Meet Our Team
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-  
+    <!-- Navigation Controls -->
+    <div class="hero-controls">
+        <button class="hero-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="hero-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    
+    <!-- Indicators -->
+    <div class="hero-indicators">
+        <button class="hero-indicator active" data-index="0"></button>
+    </div>
+    
+    <!-- Breadcrumb -->
+    <div class="hero-breadcrumb">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">About Us</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
 </section>
-
-<style>
-/* Main hero styles that match your design */
-.about-hero {
-    position: relative;
-    height: 70vh;
-    min-height: 500px;
-    overflow: hidden;
-    margin-top: calc(-1 * var(--header-height, 70px));
-}
-
-.about-hero .hero-slider {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.about-hero .hero-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    opacity: 1;
-    z-index: 1;
-}
-
-.about-hero .hero-content {
-    max-width: 600px;
-    opacity: 1;
-    transform: translateY(0);
-    padding-top: calc(var(--header-height, 70px) + 50px);
-}
-
-.about-hero .display-4 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.about-hero .lead {
-    font-size: 1.5rem;
-    font-weight: 300;
-    opacity: 0.9;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-}
-
-/* Breadcrumb styling that matches hero design */
-.hero-breadcrumb {
-    position: absolute;
-    bottom: 30px;
-    left: 0;
-    right: 0;
-    z-index: 10;
-}
-
-.hero-breadcrumb .container {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
-
-.hero-breadcrumb .breadcrumb {
-    background: transparent;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.hero-breadcrumb .breadcrumb-item {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-}
-
-.hero-breadcrumb .breadcrumb-item a {
-    color: white;
-    text-decoration: none;
-    transition: opacity 0.3s ease;
-}
-
-.hero-breadcrumb .breadcrumb-item a:hover {
-    opacity: 0.8;
-}
-
-.hero-breadcrumb .breadcrumb-item.active {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.hero-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
-    content: "/";
-    color: rgba(255, 255, 255, 0.6);
-    padding: 0 0.5rem;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .about-hero {
-        height: 60vh;
-        min-height: 400px;
-    }
-    
-    .about-hero .display-4 {
-        font-size: 2.5rem;
-    }
-    
-    .about-hero .lead {
-        font-size: 1.25rem;
-    }
-    
-    .about-hero .hero-content {
-        padding-top: calc(var(--header-height, 70px) + 30px);
-    }
-}
-
-@media (max-width: 576px) {
-    .about-hero {
-        height: 50vh;
-        min-height: 350px;
-    }
-    
-    .about-hero .display-4 {
-        font-size: 2rem;
-    }
-    
-    .about-hero .lead {
-        font-size: 1.1rem;
-    }
-    
-    .hero-breadcrumb {
-        bottom: 20px;
-    }
-    
-    .hero-breadcrumb .breadcrumb-item {
-        font-size: 0.8rem;
-    }
-}
-</style>

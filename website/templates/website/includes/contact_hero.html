@@ -1,165 +1,53 @@
-<!-- templates/website/includes/contact_hero.html -->
-<section class="contact-hero-section bg-dark text-white">
-    <div class="container py-5">
-        <div class="row align-items-center py-lg-5">
-            <div class="col-lg-6">
-                <div class="hero-content">
-                    <h1 class="hero-title display-4 fw-bold mb-4">
+{% load static %}
+{% load custom_filters %}
+
+<section class="hero-section">
+    <div class="hero-slider">
+        <div class="hero-slide active" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+            {% if contact_hero.background_image and contact_hero.background_image.url %}url('{{ contact_hero.background_image.url }}'){% else %}#2c3e50{% endif %};">
+            <div class="container">
+                <div class="hero-content text-white">
+                    <h1 class="display-4 fw-bold mb-3">
                         {% if contact_hero.title %}
                             {{ contact_hero.title }}
                         {% else %}
                             Contact ServiceLink BPO
                         {% endif %}
                     </h1>
-                    <p class="hero-subtitle lead mb-4 text-light">
+                    <p class="lead mb-4">
                         {% if contact_hero.subtitle %}
                             {{ contact_hero.subtitle }}
                         {% else %}
-                            Connect with our expert team for tailored business process outsourcing solutions that drive efficiency and growth.
+                            Connect with our expert team for tailored business process outsourcing solutions
                         {% endif %}
                     </p>
                     <div class="hero-cta">
                         <a href="#contact-form" class="btn btn-primary btn-lg me-3 mb-3">
                             <i class="fas fa-paper-plane me-2"></i>Send Message
                         </a>
-                        <a href="tel:{% if contact_info %}{{ contact_info.phone }}{% else %}+15551234567{% endif %}" 
+                        <a href="tel:{% if contact_info.phone %}{{ contact_info.phone }}{% else %}+15551234567{% endif %}" 
                            class="btn btn-outline-light btn-lg mb-3">
                             <i class="fas fa-phone-alt me-2"></i>Call Now
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="hero-image text-center">
-                    {% if contact_hero.background_image %}
-                        <img src="{{ contact_hero.background_image.url }}" 
-                             alt="{{ contact_hero.title }}" 
-                             class="img-fluid rounded shadow-lg">
-                    {% else %}
-                        <div class="placeholder-image bg-black bg-opacity-25 rounded shadow-lg d-flex align-items-center justify-content-center" 
-                             style="height: 400px; border: 2px solid rgba(255,255,255,0.1);">
-                            <div class="text-center p-4">
-                                <i class="fas fa-headset fa-6x text-white mb-4 opacity-75"></i>
-                                <h4 class="fw-bold text-white">24/7 Support Available</h4>
-                                <p class="text-light opacity-75">Get expert assistance anytime</p>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
         </div>
     </div>
+    
+    <!-- Navigation Controls (will be hidden by CSS for single slide) -->
+    <div class="hero-controls">
+        <button class="hero-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="hero-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    
+    <!-- Indicators (will be hidden by CSS for single slide) -->
+    <div class="hero-indicators">
+        <button class="hero-indicator active" data-index="0"></button>
+    </div>
 </section>
-
-<style>
-.contact-hero-section {
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-    position: relative;
-    overflow: hidden;
-}
-
-.contact-hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 40%;
-    height: 100%;
-    background: linear-gradient(45deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 110, 253, 0.05) 100%);
-    clip-path: polygon(100% 0, 0 0, 100% 100%);
-}
-
-.contact-hero-section::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: linear-gradient(to bottom, transparent 0%, #ffffff 100%);
-    opacity: 0.02;
-}
-
-.hero-title {
-    color: #ffffff;
-    line-height: 1.2;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-.hero-subtitle {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 1.25rem;
-}
-
-.hero-cta .btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.hero-cta .btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-}
-
-.hero-cta .btn-primary:hover {
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
-}
-
-.hero-cta .btn-outline-light:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
-}
-
-.placeholder-image {
-    animation: pulse 2s infinite;
-    backdrop-filter: blur(10px);
-}
-
-@keyframes pulse {
-    0% { 
-        opacity: 0.9;
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
-    }
-    50% { 
-        opacity: 1;
-        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.05);
-    }
-    100% { 
-        opacity: 0.9;
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-    }
-}
-
-.fa-headset {
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { 
-        transform: translateY(0) rotate(0deg); 
-    }
-    50% { 
-        transform: translateY(-10px) rotate(5deg); 
-    }
-}
-
-@media (max-width: 992px) {
-    .contact-hero-section {
-        text-align: center;
-    }
-    
-    .hero-title {
-        font-size: 2.5rem;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.1rem;
-    }
-}
-</style>
+<!-- NO STYLE NEEDED - uses global hero.css -->

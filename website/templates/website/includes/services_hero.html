@@ -1,110 +1,89 @@
+{% load static %}
+{% load custom_filters %}
+
 <!-- templates/website/includes/services_hero.html -->
-<!-- Modern Hero Section -->
-<section class="services-hero-section bg-dark position-relative overflow-hidden">
-    <div class="hero-bg-animation">
-        <div class="particles-container" id="particles-js"></div>
-        <div class="gradient-overlay"></div>
-    </div>
-    
-    <div class="container position-relative z-3">
-        <div class="row min-vh-85 align-items-center py-5">
-            <div class="col-lg-6">
-                <div class="hero-content animate-on-scroll" data-animation="fade-up">
-                    <div class="badge-wrapper mb-4">
-                        <span class="hero-badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill py-2 px-4 d-inline-flex align-items-center">
-                            <i class="fas fa-rocket me-2"></i>
-                            <span class="fw-medium">BPO Excellence Since 2010</span>
-                        </span>
-                    </div>
-                    
-                    <h1 class="hero-title display-2 fw-bold mb-4">
-                        <span class="gradient-text-primary">Transform Your Business</span>
-                        <br>
-                        <span class="text-white">With Expert BPO Solutions</span>
-                    </h1>
-                    
-                    <p class="hero-subtitle lead text-light opacity-75 mb-5">
-                        {{ service_hero.subtitle|default:"Streamline operations, reduce costs, and accelerate growth with our comprehensive outsourcing services." }}
-                    </p>
-                    
-                    <div class="hero-cta d-flex flex-wrap gap-3">
-                        <a href="#services-explore" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg glow-on-hover">
-                            <i class="fas fa-play-circle me-2"></i> Explore Services
-                        </a>
-                        <a href="{% url 'website:contact' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill border-2">
-                            <i class="fas fa-calendar-check me-2"></i> Book Demo
-                        </a>
-                    </div>
-                    
-                    <div class="stats-container mt-5 pt-4">
-                        <div class="row g-4">
-                            {% with stats=stats|default:'' %}
-                            <div class="col-sm-3 col-6">
-                                <div class="stat-card text-center">
-                                    <h3 class="stat-number fw-bold text-primary mb-1" data-count="500">0</h3>
-                                    <p class="stat-label text-light opacity-75 mb-0">Happy Clients</p>
-                                </div>
+<section class="hero-section">
+    <div class="hero-slider">
+        <div class="hero-slide active" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+            {% if service_hero.background_image and service_hero.background_image.url %}url('{{ service_hero.background_image.url }}'){% else %}#2c3e50{% endif %};">
+            <div class="container">
+                <div class="row min-vh-85 align-items-center py-5">
+                    <div class="col-lg-6">
+                        <div class="hero-content text-white">
+                            <!-- Badge -->
+                            <div class="badge-wrapper mb-4">
+                                <span class="hero-badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill py-2 px-4 d-inline-flex align-items-center">
+                                    <i class="fas fa-rocket me-2"></i>
+                                    <span class="fw-medium">BPO Excellence Since 2010</span>
+                                </span>
                             </div>
-                            <div class="col-sm-3 col-6">
-                                <div class="stat-card text-center">
-                                    <h3 class="stat-number fw-bold text-primary mb-1" data-count="1200">0</h3>
-                                    <p class="stat-label text-light opacity-75 mb-0">Projects</p>
-                                </div>
+                            
+                            <!-- Title -->
+                            <h1 class="display-4 fw-bold mb-4">
+                                <span class="gradient-text-primary">Transform Your Business</span>
+                                <br>
+                                <span class="text-white">With Expert BPO Solutions</span>
+                            </h1>
+                            
+                            <!-- Subtitle -->
+                            <p class="lead mb-4">
+                                {% if service_hero.subtitle %}
+                                    {{ service_hero.subtitle }}
+                                {% else %}
+                                    Streamline operations, reduce costs, and accelerate growth with our comprehensive outsourcing services.
+                                {% endif %}
+                            </p>
+                            
+                            <!-- CTA Buttons -->
+                            <div class="hero-cta d-flex flex-wrap gap-3 mb-5">
+                                <a href="#services-explore" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg">
+                                    <i class="fas fa-play-circle me-2"></i> Explore Services
+                                </a>
+                                <a href="{% url 'website:contact' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill border-2">
+                                    <i class="fas fa-calendar-check me-2"></i> Book Demo
+                                </a>
                             </div>
-                            <div class="col-sm-3 col-6">
-                                <div class="stat-card text-center">
-                                    <h3 class="stat-number fw-bold text-primary mb-1" data-count="150">0</h3>
-                                    <p class="stat-label text-light opacity-75 mb-0">Teams</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 col-6">
-                                <div class="stat-card text-center">
-                                    <h3 class="stat-number fw-bold text-primary mb-1" data-count="99">0</h3>
-                                    <p class="stat-label text-light opacity-75 mb-0">% Satisfaction</p>
-                                </div>
-                            </div>
-                            {% endwith %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-6">
-                <div class="hero-visual mt-5 mt-lg-0">
-                    <div class="floating-card card-1">
-                        <div class="card-inner bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
-                            <i class="fas fa-headset fa-3x text-primary mb-3"></i>
-                            <h5 class="fw-bold text-white">Customer Support</h5>
                         </div>
                     </div>
                     
-                    <div class="floating-card card-2">
-                        <div class="card-inner bg-success bg-opacity-10 border border-success border-opacity-25 rounded-4 p-4">
-                            <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
-                            <h5 class="fw-bold text-white">Data Analytics</h5>
-                        </div>
-                    </div>
-                    
-                    <div class="floating-card card-3">
-                        <div class="card-inner bg-warning bg-opacity-10 border border-warning border-opacity-25 rounded-4 p-4">
-                            <i class="fas fa-users fa-3x text-warning mb-3"></i>
-                            <h5 class="fw-bold text-white">Team Management</h5>
-                        </div>
-                    </div>
-                    
-                    <div class="main-service-visual">
-                        <div class="service-orbital-system">
-                            <div class="central-orb bg-gradient-primary rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="fas fa-cogs fa-4x text-white"></i>
-                            </div>
-                            {% for service in featured_services|slice:":4" %}
-                            <div class="orbital-service" style="--index: {{ forloop.counter }}">
-                                <div class="service-node rounded-circle bg-white shadow-lg d-flex align-items-center justify-content-center">
-                                    <i class="{{ service.icon|default:'fas fa-check' }} fa-lg text-primary"></i>
+                    <div class="col-lg-6">
+                        <div class="hero-visual position-relative">
+                            <!-- Floating Cards -->
+                            <div class="floating-card card-1 position-absolute">
+                                <div class="card-inner bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
+                                    <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                                    <h5 class="fw-bold text-white">Customer Support</h5>
                                 </div>
-                                <span class="service-label">{{ service.title }}</span>
                             </div>
-                            {% endfor %}
+                            
+                            <div class="floating-card card-2 position-absolute">
+                                <div class="card-inner bg-success bg-opacity-10 border border-success border-opacity-25 rounded-4 p-4">
+                                    <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                                    <h5 class="fw-bold text-white">Data Analytics</h5>
+                                </div>
+                            </div>
+                            
+                            <div class="floating-card card-3 position-absolute">
+                                <div class="card-inner bg-warning bg-opacity-10 border border-warning border-opacity-25 rounded-4 p-4">
+                                    <i class="fas fa-users fa-3x text-warning mb-3"></i>
+                                    <h5 class="fw-bold text-white">Team Management</h5>
+                                </div>
+                            </div>
+                            
+                            <!-- Orbital System -->
+                            <div class="service-orbital-system position-relative">
+                                <div class="central-orb bg-gradient-primary rounded-circle d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle">
+                                    <i class="fas fa-cogs fa-4x text-white"></i>
+                                </div>
+                                {% for service in featured_services|slice:":4" %}
+                                <div class="orbital-service" style="--index: {{ forloop.counter }}">
+                                    <div class="service-node rounded-circle bg-white shadow-lg d-flex align-items-center justify-content-center">
+                                        <i class="{{ service.icon|default:'fas fa-check' }} fa-lg text-primary"></i>
+                                    </div>
+                                    <span class="service-label">{{ service.title }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -112,10 +91,26 @@
         </div>
     </div>
     
-    <div class="scroll-indicator position-absolute bottom-0 start-50 translate-middle-x z-3">
+    <!-- Navigation Controls -->
+    <div class="hero-controls">
+        <button class="hero-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="hero-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    
+    <!-- Indicators -->
+    <div class="hero-indicators">
+        <button class="hero-indicator active" data-index="0"></button>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator position-absolute bottom-30 start-50 translate-middle-x z-3">
         <a href="#services-explore" class="text-decoration-none">
             <div class="d-flex flex-column align-items-center">
-                <span class="text-light opacity-75 mb-2 small">Scroll to Explore</span>
+                <span class="text-white opacity-75 mb-2 small">Scroll to Explore</span>
                 <div class="mouse-scroll">
                     <div class="mouse">
                         <div class="wheel"></div>
@@ -127,124 +122,235 @@
 </section>
 
 <style>
-.services-hero-section {
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+/* Add ONLY custom styles for services hero that aren't in hero.css */
+.services-hero-visual {
     position: relative;
-    overflow: hidden;
+    height: 400px;
 }
 
-.services-hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 40%;
-    height: 100%;
-    background: linear-gradient(45deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 110, 253, 0.05) 100%);
-    clip-path: polygon(100% 0, 0 0, 100% 100%);
+/* Floating Cards */
+.floating-card {
+    width: 140px;
+    animation: floatCard 6s ease-in-out infinite;
+    z-index: 2;
 }
 
-.services-hero-section::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: linear-gradient(to bottom, transparent 0%, #ffffff 100%);
-    opacity: 0.02;
+.floating-card.card-1 {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
 }
 
-.category-badge .badge {
-    font-size: 0.9rem;
-    font-weight: 500;
-    border: 1px solid rgba(13, 110, 253, 0.3);
+.floating-card.card-2 {
+    top: 40%;
+    right: 15%;
+    animation-delay: 2s;
 }
 
-.hero-title {
-    color: #ffffff;
-    line-height: 1.2;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+.floating-card.card-3 {
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
 }
 
-.hero-subtitle {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 1.25rem;
+@keyframes floatCard {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
 }
 
-.hero-cta .btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
+.card-inner {
+    backdrop-filter: blur(10px);
     transition: all 0.3s ease;
 }
 
-.hero-cta .btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+.card-inner:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-.hero-cta .btn-primary:hover {
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+/* Service Orbital System */
+.service-orbital-system {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
 }
 
-.hero-cta .btn-outline-light:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+.central-orb {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    box-shadow: 0 10px 30px rgba(13, 110, 253, 0.3);
+    z-index: 1;
 }
 
-.placeholder-image {
-    animation: pulse 2s infinite;
-    backdrop-filter: blur(10px);
+.orbital-service {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(calc(var(--index) * 90deg)) translateX(150px) rotate(calc(var(--index) * -90deg));
 }
 
-@keyframes pulse {
-    0% { 
-        opacity: 0.9;
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
-    }
-    50% { 
+.service-node {
+    width: 60px;
+    height: 60px;
+    border: 3px solid #0d6efd;
+    transition: all 0.3s ease;
+}
+
+.service-node:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px rgba(13, 110, 253, 0.3);
+}
+
+.service-label {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.orbital-service:hover .service-label {
+    opacity: 1;
+}
+
+/* Gradient Text */
+.gradient-text-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Scroll Indicator Custom */
+.scroll-indicator {
+    bottom: 80px;
+}
+
+.mouse-scroll {
+    display: inline-block;
+}
+
+.mouse {
+    width: 26px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 13px;
+    position: relative;
+}
+
+.wheel {
+    width: 4px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheel 2s infinite;
+}
+
+@keyframes scrollWheel {
+    0% {
         opacity: 1;
-        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.05);
+        transform: translateX(-50%) translateY(0);
     }
-    100% { 
-        opacity: 0.9;
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(16px);
     }
 }
 
-.fa-cogs, .fa-headset, .fa-chart-line, .fa-users, .fa-laptop-code, .fa-file-invoice-dollar {
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { 
-        transform: translateY(0) rotate(0deg); 
+/* Responsive */
+@media (max-width: 1200px) {
+    .floating-card {
+        width: 120px;
     }
-    50% { 
-        transform: translateY(-10px) rotate(5deg); 
+    
+    .floating-card .card-inner {
+        padding: 1rem !important;
+    }
+    
+    .floating-card .fa-3x {
+        font-size: 2rem;
     }
 }
 
 @media (max-width: 992px) {
-    .services-hero-section {
-        text-align: center;
+    .hero-visual {
+        height: 300px;
+        margin-top: 3rem;
     }
     
-    .hero-title {
-        font-size: 2.5rem;
+    .service-orbital-system {
+        width: 250px;
+        height: 250px;
     }
     
-    .hero-subtitle {
-        font-size: 1.1rem;
+    .central-orb {
+        width: 100px;
+        height: 100px;
     }
     
-    .category-badge {
-        justify-content: center;
+    .orbital-service {
+        transform: translate(-50%, -50%) rotate(calc(var(--index) * 90deg)) translateX(120px) rotate(calc(var(--index) * -90deg));
+    }
+    
+    .service-node {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .floating-card {
+        display: none; /* Hide floating cards on mobile */
+    }
+    
+    .hero-visual {
+        height: 250px;
+    }
+    
+    .service-orbital-system {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .central-orb {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .central-orb .fa-4x {
+        font-size: 2rem;
+    }
+    
+    .orbital-service {
+        transform: translate(-50%, -50%) rotate(calc(var(--index) * 90deg)) translateX(100px) rotate(calc(var(--index) * -90deg));
+    }
+    
+    .service-node {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .scroll-indicator {
+        bottom: 60px;
     }
 }
 </style>
+
+<script>
+// Use GLOBAL hero.js script (already in base.html)
+// This hero will automatically work with the global hero.js
+</script>

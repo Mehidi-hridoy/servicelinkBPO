@@ -7,100 +7,8 @@
 {% endblock %}
 
 {% block content %}
-<!-- Modern Hero Section -->
-<section class="services-hero-section bg-dark position-relative overflow-hidden">
-    <div class="hero-bg-animation">
-        <div class="particles-container" id="particles-js"></div>
-        <div class="gradient-overlay"></div>
-    </div>
-    
-    <div class="container position-relative z-3">
-        <div class="row min-vh-85 align-items-center py-5">
-            <div class="col-lg-6">
-                <div class="hero-content animate-on-scroll" data-animation="fade-up">
-                    <div class="badge-wrapper mb-4">
-                        
-                    </div>
-                    
-                    <h1 class="hero-title display-2 fw-bold mb-4">
-                        <span class="gradient-text-primary">Transform Your Business</span>
-                        <br>
-                        <span class="text-white">With Expert BPO Solutions</span>
-                    </h1>
-                    
-                    <p class="hero-subtitle lead text-light opacity-75 mb-5">
-                        {{ service_hero.subtitle|default:"Streamline operations, reduce costs, and accelerate growth with our comprehensive outsourcing services." }}
-                    </p>
-                    
-                    <div class="hero-cta d-flex flex-wrap gap-3">
-                        <a href="#services-explore" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg glow-on-hover">
-                            <i class="fas fa-play-circle me-2"></i> Explore Services
-                        </a>
-                        <a href="{% url 'website:contact' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill border-2">
-                            <i class="fas fa-calendar-check me-2"></i> Book Demo
-                        </a>
-                    </div>
-                    
-                    
-                </div>
-            </div>
-            
-            <div class="col-lg-6">
-                <div class="hero-visual mt-5 mt-lg-0">
-                    <div class="floating-card card-1">
-                        <div class="card-inner bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-4 p-4">
-                            <i class="fas fa-headset fa-3x text-primary mb-3"></i>
-                            <h5 class="fw-bold text-white">Customer Support</h5>
-                        </div>
-                    </div>
-                    
-                    <div class="floating-card card-2">
-                        <div class="card-inner bg-success bg-opacity-10 border border-success border-opacity-25 rounded-4 p-4">
-                            <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
-                            <h5 class="fw-bold text-white">Data Analytics</h5>
-                        </div>
-                    </div>
-                    
-                    <div class="floating-card card-3">
-                        <div class="card-inner bg-warning bg-opacity-10 border border-warning border-opacity-25 rounded-4 p-4">
-                            <i class="fas fa-users fa-3x text-warning mb-3"></i>
-                            <h5 class="fw-bold text-white">Team Management</h5>
-                        </div>
-                    </div>
-                    
-                    <div class="main-service-visual">
-                        <div class="service-orbital-system">
-                            <div class="central-orb bg-gradient-primary rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="fas fa-cogs fa-4x text-white"></i>
-                            </div>
-                            {% for service in featured_services|slice:":4" %}
-                            <div class="orbital-service" style="--index: {{ forloop.counter }}">
-                                <div class="service-node rounded-circle bg-white shadow-lg d-flex align-items-center justify-content-center">
-                                    <i class="{{ service.icon|default:'fas fa-check' }} fa-lg text-primary"></i>
-                                </div>
-                                <span class="service-label">{{ service.title }}</span>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="scroll-indicator position-absolute bottom-0 start-50 translate-middle-x z-3">
-        <a href="#services-explore" class="text-decoration-none">
-            <div class="d-flex flex-column align-items-center">
-                <span class="text-light opacity-75 mb-2 small">Scroll to Explore</span>
-                <div class="mouse-scroll">
-                    <div class="mouse">
-                        <div class="wheel"></div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </div>
-</section>
+{% include 'website/includes/services_hero.html' %}
+
 
 <!-- Services Introduction -->
 <section class="services-intro py-6 bg-light">
@@ -455,10 +363,7 @@
     --dark-gradient: linear-gradient(135deg, #000428 0%, #004e92 100%);
 }
 
-.services-hero-section {
-    min-height: 80vh;
-    background: var(--dark-gradient);
-}
+
 
 .hero-bg-animation {
     position: absolute;
@@ -693,10 +598,6 @@
 }
 
 @media (max-width: 992px) {
-    .services-hero-section {
-        min-height: auto;
-        padding: 100px 0;
-    }
     
     .hero-title {
         font-size: 3rem;
