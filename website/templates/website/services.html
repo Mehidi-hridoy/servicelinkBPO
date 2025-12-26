@@ -96,7 +96,7 @@
                             onclick="scrollToCategory('category-{{ category.slug }}')">
                         <i class="{{ category.icon|default:'fas fa-cogs' }} me-2"></i>
                         {{ category.name }}
-                        <span class="badge bg-primary bg-opacity-25 text-primary ms-2">{{category.services.count }}</span>
+                        <span class="badge bg-primary bg-opacity-25 text-primary ms-2">{{ category.services.count }}</span>
                     </button>
                 </div>
                 {% empty %}
@@ -171,7 +171,7 @@
                                         <i class="fas fa-arrow-right me-2"></i> Learn More
                                     </a>
                                     <button class="btn btn-link text-decoration-none p-0" 
-                                            onclick="openInquiryModal('{{ service.title|escapejs }}', '{{ service.id }}')">
+                                            onclick="openInquiryModal('{{ service.title|escapejs }}', '{{ service.id }}', '{{ service.slug }}')">
                                         <i class="fas fa-quote-right me-2"></i> Get Quote
                                     </button>
                                 </div>
@@ -301,54 +301,150 @@
     </div>
 </section>
 
-<!-- Inquiry Modal -->
-<div class="modal fade" id="serviceInquiryModal" tabindex="-1">
+<!-- Service Inquiry Modal -->
+<div class="modal fade" id="serviceInquiryModal" tabindex="-1" aria-labelledby="serviceInquiryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content rounded-4 border-0 shadow-lg">
-            <div class="modal-header border-0 pb-0">
-                <h3 class="modal-title fw-bold" id="modalTitle">Get Service Quote</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header border-0 pb-0 position-relative">
+                <div class="w-100 text-center">
+                    <h3 class="modal-title fw-bold mb-1" id="modalTitle">Get Service Quote</h3>
+                    <p class="text-muted small mb-0" id="modalServiceName"></p>
+                </div>
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4 p-lg-5">
-                <form method="post" action="{% url 'website:submit_inquiry' %}">
+                <form id="serviceInquiryForm" method="post" action="{% url 'website:submit_inquiry' %}" novalidate>
                     {% csrf_token %}
-                    <input type="hidden" name="specific_service" id="specificService">
                     
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <input type="text" name="name" class="form-control" placeholder="Your Name *" required>
+                    <!-- Hidden fields for service info -->
+                    <input type="hidden" name="service_slug" id="service_slug_input" value="">
+                    <input type="hidden" name="specific_service" id="specific_service_input" value="">
+                    
+                    {% if service_inquiry_form %}
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ service_inquiry_form.name }}
+                                    <label for="{{ service_inquiry_form.name.id_for_label }}">Full Name *</label>
+                                </div>
+                                {% if service_inquiry_form.name.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ service_inquiry_form.name.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ service_inquiry_form.email }}
+                                    <label for="{{ service_inquiry_form.email.id_for_label }}">Email Address *</label>
+                                </div>
+                                {% if service_inquiry_form.email.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ service_inquiry_form.email.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <input type="email" name="email" class="form-control" placeholder="Your Email *" required>
+                        
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ service_inquiry_form.phone }}
+                                    <label for="{{ service_inquiry_form.phone.id_for_label }}">Phone Number *</label>
+                                </div>
+                                {% if service_inquiry_form.phone.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ service_inquiry_form.phone.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ service_inquiry_form.company }}
+                                    <label for="{{ service_inquiry_form.company.id_for_label }}">Company (Optional)</label>
+                                </div>
+                                {% if service_inquiry_form.company.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ service_inquiry_form.company.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <input type="tel" name="phone" class="form-control" placeholder="Your Phone Number *" required>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <input type="text" name="company" class="form-control" placeholder="Company Name">
-                    </div>
-                    
-                    <div class="mb-4">
-                        <select class="form-select" name="service_type" required>
-                            <option value="" disabled selected>Service Type *</option>
-                            <option value="single-service">Single Service</option>
-                            <option value="multiple-services">Multiple Services</option>
-                            <option value="custom-solution">Custom Solution</option>
-                        </select>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <textarea name="message" class="form-control" rows="3" placeholder="Tell us about your requirements..." required></textarea>
-                    </div>
-                    
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-paper-plane me-2"></i> Submit Inquiry
-                        </button>
-                    </div>
+                        
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ service_inquiry_form.team_size }}
+                                    <label for="{{ service_inquiry_form.team_size.id_for_label }}"></label>
+                                </div>
+                                {% if service_inquiry_form.team_size.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ service_inquiry_form.team_size.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ service_inquiry_form.budget_range }}
+                                    <label for="{{ service_inquiry_form.budget_range.id_for_label }}">Budget Range (Optional)</label>
+                                </div>
+                                {% if service_inquiry_form.budget_range.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ service_inquiry_form.budget_range.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                {{ service_inquiry_form.timeline }}
+                                <label for="{{ service_inquiry_form.timeline.id_for_label }}">Project Timeline (Optional)</label>
+                            </div>
+                            {% if service_inquiry_form.timeline.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ service_inquiry_form.timeline.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                {{ service_inquiry_form.additional_requirements }}
+                                <label for="{{ service_inquiry_form.additional_requirements.id_for_label }}">Additional Requirements</label>
+                            </div>
+                            {% if service_inquiry_form.additional_requirements.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ service_inquiry_form.additional_requirements.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Hidden fields -->
+                        <div style="display: none;">
+                            {{ service_inquiry_form.service_type }}
+                            {{ service_inquiry_form.specific_service }}
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg py-3">
+                                <i class="fas fa-paper-plane me-2"></i> Submit Inquiry
+                            </button>
+                        </div>
+                        
+                        <p class="text-muted small mt-3 mb-0 text-center">
+                            <i class="fas fa-lock me-1"></i> Your information is secure and will only be used to contact you about our services.
+                        </p>
+                    {% else %}
+                        <div class="alert alert-warning text-center">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Form not available. Please refresh the page or contact us directly.
+                        </div>
+                    {% endif %}
                 </form>
             </div>
         </div>
@@ -362,8 +458,6 @@
     --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --dark-gradient: linear-gradient(135deg, #000428 0%, #004e92 100%);
 }
-
-
 
 .hero-bg-animation {
     position: absolute;
@@ -597,8 +691,162 @@
     transform: translateY(0);
 }
 
+/* Service Inquiry Modal Styles */
+#serviceInquiryModal .form-control,
+#serviceInquiryModal .form-select {
+    border-radius: 8px;
+    padding: 10px 15px;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s;
+    height: auto;
+}
+
+#serviceInquiryModal .form-control:focus,
+#serviceInquiryModal .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+#serviceInquiryModal .form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+#serviceInquiryModal .modal-content {
+    border-radius: 15px;
+    border: none;
+}
+
+#serviceInquiryModal .modal-header {
+    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    padding: 2rem 2rem 1rem 2rem;
+}
+
+#serviceInquiryModal .modal-header .btn-close {
+    filter: invert(1) brightness(200%);
+    opacity: 0.8;
+    background: none;
+}
+
+#serviceInquiryModal .btn-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+#serviceInquiryModal .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
+}
+
+#serviceInquiryModal .form-floating {
+    position: relative;
+}
+
+#serviceInquiryModal .form-floating > .form-control,
+#serviceInquiryModal .form-floating > .form-select {
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+    padding: 1rem 0.75rem;
+}
+
+#serviceInquiryModal .form-floating > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 1rem 0.75rem;
+    pointer-events: none;
+    border: 1px solid transparent;
+    transform-origin: 0 0;
+    transition: opacity .1s ease-in-out, transform .1s ease-in-out;
+}
+
+#serviceInquiryModal .form-floating > .form-control:focus ~ label,
+#serviceInquiryModal .form-floating > .form-control:not(:placeholder-shown) ~ label,
+#serviceInquiryModal .form-floating > .form-select ~ label {
+    opacity: .65;
+    transform: scale(.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+/* Service card hover effects */
+.service-card .service-hover-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.05) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: 1rem;
+}
+
+.service-card:hover .service-hover-layer {
+    opacity: 1;
+}
+
+/* Category highlight animation */
+.category-section.category-highlight {
+    animation: highlightPulse 2s ease;
+}
+
+@keyframes highlightPulse {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(13, 110, 253, 0.05); }
+    100% { background-color: transparent; }
+}
+
+/* Category navigation button styling */
+.category-nav-btn {
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.category-nav-btn:hover {
+    transform: translateY(-2px);
+    background-color: #0d6efd !important;
+    color: white !important;
+}
+
+.category-nav-btn:hover .badge {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #065f46;
+    border-left: 4px solid #10b981;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    color: #7f1d1d;
+    border-left: 4px solid #ef4444;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+    border-left: 4px solid #f59e0b;
+}
+
 @media (max-width: 992px) {
-    
     .hero-title {
         font-size: 3rem;
     }
@@ -626,6 +874,10 @@
         width: calc(100% - 80px);
         margin-left: 20px;
     }
+    
+    #serviceInquiryModal .modal-dialog {
+        margin: 1rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -650,6 +902,19 @@
     .category-nav {
         overflow-x: auto;
         padding-bottom: 10px;
+        flex-wrap: nowrap;
+    }
+    
+    .category-nav .row {
+        flex-wrap: nowrap;
+    }
+    
+    .category-nav .col-auto {
+        flex-shrink: 0;
+    }
+    
+    #serviceInquiryModal .modal-body {
+        padding: 1.5rem;
     }
 }
 </style>
@@ -694,50 +959,227 @@ document.addEventListener('DOMContentLoaded', function() {
         threshold: 0.1
     });
     
-    document.querySelectorAll('.animate-on-scroll').forEach(observer.observe.bind(observer));
+    document.querySelectorAll('.animate-on-scroll').forEach(element => {
+        observer.observe(element);
+    });
     
     // Scroll to category
-    window.scrollToCategory = function(slug) {
-        const element = document.getElementById(slug);
+    window.scrollToCategory = function(categoryId) {
+        const element = document.getElementById(categoryId);
         if (element) {
-            const y = element.getBoundingClientRect().top + window.pageYOffset - 100;
-            window.scrollTo({ top: y, behavior: 'smooth' });
+            const headerHeight = document.querySelector('.navbar').offsetHeight;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+            
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+            
+            // Highlight the category briefly
+            element.classList.add('category-highlight');
+            setTimeout(() => {
+                element.classList.remove('category-highlight');
+            }, 2000);
         }
     };
     
-    // Inquiry modal
-    window.openInquiryModal = function(serviceName, serviceId) {
-        const modal = new bootstrap.Modal(document.getElementById('serviceInquiryModal'));
-        document.getElementById('modalTitle').textContent = `Get Quote: ${serviceName}`;
-        document.getElementById('specificService').value = serviceId;
-        modal.show();
+    // Function to open service inquiry modal
+    window.openInquiryModal = function(serviceName, serviceId, serviceSlug) {
+        console.log('Opening inquiry modal for:', serviceName, serviceId, serviceSlug);
+        
+        const modal = document.getElementById('serviceInquiryModal');
+        if (modal) {
+            // Update the modal title
+            const modalTitle = modal.querySelector('#modalTitle');
+            const modalServiceName = modal.querySelector('#modalServiceName');
+            if (modalTitle) {
+                modalTitle.textContent = 'Get Quote';
+            }
+            if (modalServiceName) {
+                modalServiceName.textContent = serviceName;
+            }
+            
+            // Set the service ID and slug in hidden inputs
+            const serviceSlugInput = modal.querySelector('#service_slug_input');
+            const serviceIdInput = modal.querySelector('#specific_service_input');
+            
+            if (serviceSlugInput) {
+                serviceSlugInput.value = serviceSlug;
+            }
+            if (serviceIdInput) {
+                serviceIdInput.value = serviceId;
+            }
+            
+            // Clear any previous alerts
+            const alerts = modal.querySelectorAll('.alert');
+            alerts.forEach(alert => alert.remove());
+            
+            // Clear any previous error messages
+            const errorMessages = modal.querySelectorAll('.text-danger');
+            errorMessages.forEach(error => error.textContent = '');
+            
+            // Reset form validation
+            const form = modal.querySelector('form');
+            if (form) {
+                form.classList.remove('was-validated');
+                const formControls = form.querySelectorAll('.form-control');
+                formControls.forEach(control => {
+                    control.classList.remove('is-invalid', 'is-valid');
+                });
+            }
+            
+            // Show the modal
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+        } else {
+            console.error('Service inquiry modal not found!');
+            // Fallback: redirect to service detail page
+            if (serviceSlug) {
+                window.location.href = '/services/' + serviceSlug + '#inquiry-form';
+            }
+        }
     };
     
-    // Particles.js (optional - can be removed to reduce JS)
-    if (typeof particlesJS !== 'undefined') {
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 50, density: { enable: true, value_area: 800 } },
-                color: { value: "#ffffff" },
-                opacity: { value: 0.5, random: true },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#ffffff",
-                    opacity: 0.2,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: "none",
-                    random: true,
-                    straight: false
+    // AJAX form submission for service inquiry
+    const serviceInquiryForm = document.getElementById('serviceInquiryForm');
+    
+    if (serviceInquiryForm) {
+        serviceInquiryForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            
+            // Show loading state
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+            submitButton.disabled = true;
+            
+            // Clear previous errors
+            const errorElements = this.querySelectorAll('.text-danger');
+            errorElements.forEach(el => el.textContent = '');
+            
+            // Clear previous alerts
+            const existingAlerts = this.parentElement.querySelectorAll('.alert');
+            existingAlerts.forEach(alert => alert.remove());
+            
+            // Send AJAX request
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
                 }
-            }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Form submission response:', data);
+                
+                if (data.success) {
+                    // Show success message
+                    const successAlert = document.createElement('div');
+                    successAlert.className = 'alert alert-success alert-dismissible fade show mt-3';
+                    successAlert.innerHTML = `
+                        <i class="fas fa-check-circle me-2"></i>
+                        <strong>Success!</strong> ${data.message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+                    
+                    const modalBody = serviceInquiryForm.parentElement;
+                    modalBody.insertBefore(successAlert, serviceInquiryForm.nextSibling);
+                    
+                    // Reset form
+                    serviceInquiryForm.reset();
+                    
+                    // Close modal after 2 seconds
+                    setTimeout(() => {
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('serviceInquiryModal'));
+                        if (modal) {
+                            modal.hide();
+                        }
+                        
+                        // Redirect if needed
+                        if (data.redirect && data.redirect_url) {
+                            window.location.href = data.redirect_url;
+                        }
+                    }, 2000);
+                } else {
+                    // Show error message
+                    if (data.errors) {
+                        // Handle field errors
+                        Object.keys(data.errors).forEach(field => {
+                            const fieldElement = this.querySelector(`[name="${field}"]`);
+                            if (fieldElement) {
+                                const errorDiv = fieldElement.parentElement.querySelector('.text-danger');
+                                if (errorDiv) {
+                                    errorDiv.textContent = data.errors[field][0].message;
+                                }
+                                fieldElement.classList.add('is-invalid');
+                            }
+                        });
+                    }
+                    
+                    // Show general error alert
+                    const errorAlert = document.createElement('div');
+                    errorAlert.className = 'alert alert-danger alert-dismissible fade show mt-3';
+                    errorAlert.innerHTML = `
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <strong>Error!</strong> ${data.message || 'Please correct the errors above.'}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+                    
+                    const modalBody = serviceInquiryForm.parentElement;
+                    modalBody.insertBefore(errorAlert, serviceInquiryForm.nextSibling);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                
+                // Show error message
+                const errorAlert = document.createElement('div');
+                errorAlert.className = 'alert alert-danger alert-dismissible fade show mt-3';
+                errorAlert.innerHTML = `
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <strong>Error!</strong> An error occurred. Please try again or contact us directly.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                
+                const modalBody = serviceInquiryForm.parentElement;
+                modalBody.insertBefore(errorAlert, serviceInquiryForm.nextSibling);
+            })
+            .finally(() => {
+                // Reset button state
+                submitButton.innerHTML = originalButtonText;
+                submitButton.disabled = false;
+            });
         });
     }
+    
+    // Initialize form floating labels
+    const formFloatings = document.querySelectorAll('.form-floating');
+    formFloatings.forEach(formFloating => {
+        const input = formFloating.querySelector('.form-control, .form-select');
+        if (input) {
+            input.addEventListener('input', function() {
+                if (this.value) {
+                    this.classList.add('has-value');
+                } else {
+                    this.classList.remove('has-value');
+                }
+            });
+            
+            // Trigger input event on load for pre-filled values
+            if (input.value) {
+                input.dispatchEvent(new Event('input'));
+            }
+        }
+    });
 });
 </script>
 {% endblock %}

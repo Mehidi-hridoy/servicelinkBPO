@@ -7,12 +7,12 @@ python manage.py migrate
 python manage.py runserver
 
 git add .
-git commit -m "Navabr has updated "
+git commit -m "Frm has updated  "
 git push -u origin main
 
 
 git add .
-git commit -m "Navabr has updated "
+git commit -m "Frm has updated  "
 git push heroku main
 
 python manage.py runserver

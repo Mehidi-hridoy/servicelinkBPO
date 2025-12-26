@@ -278,6 +278,7 @@ Submitted at: {consultation.submitted_at}
     })
 
 
+# views.py
 def submit_service_inquiry(request, service_slug=None):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     
@@ -289,8 +290,11 @@ def submit_service_inquiry(request, service_slug=None):
         
         service = None
         if service_slug:
-            service = get_object_or_404(Service, slug=service_slug)
-            print(f"Found service: {service.title} (ID: {service.id})")
+            try:
+                service = Service.objects.get(slug=service_slug)
+                print(f"Found service: {service.title} (ID: {service.id})")
+            except Service.DoesNotExist:
+                print(f"Service with slug {service_slug} not found")
         
         # Create form with POST data
         form = ServiceInquiryForm(request.POST)
@@ -312,6 +316,17 @@ def submit_service_inquiry(request, service_slug=None):
                     inquiry.service_type = 'single-service'
                     print(f"Set specific_service to: {service.id}")
                     print(f"Set service_type to: single-service")
+                else:
+                    # If no service slug, check if specific_service is in POST data
+                    specific_service_id = request.POST.get('specific_service')
+                    if specific_service_id and specific_service_id != '':
+                        try:
+                            specific_service = Service.objects.get(id=specific_service_id)
+                            inquiry.specific_service = specific_service
+                            inquiry.service_type = 'single-service'
+                            print(f"Set specific_service from POST: {specific_service_id}")
+                        except (Service.DoesNotExist, ValueError):
+                            pass
                 
                 # Get user IP and user agent
                 x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -438,7 +453,6 @@ IP Address: {ip}
         return redirect('website:service_detail', slug=service_slug)
     else:
         return redirect('website:services')
-
 
 # views.py - Update ServicesView
 class ServicesView(ListView):
