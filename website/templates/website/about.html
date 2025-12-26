@@ -10,25 +10,345 @@
 
 <!-- Include the about-specific hero section -->
 {% include 'website/includes/about_hero.html' %}
-<!-- Our Process Section -->
-<section class="process-section py-5 bg-light">
+
+<!-- Vision & Mission Section -->
+<section class="vision-mission py-12 position-relative overflow-hidden">
     <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-5">
-                <h2 class="section-title">Our Process</h2>
-                <p class="section-subtitle">How we deliver excellence in BPO services</p>
+        <div class="row align-items-center g-6">
+            <div class="col-lg-6">
+                <div class="pe-lg-5 animate-on-scroll" data-animation="fade-right">
+                    <span class="badge bg-gradient-primary text-white rounded-pill py-2 px-4 mb-3 shadow-sm">
+                        <i class="fas fa-bullseye me-2"></i> Our Vision
+                    </span>
+                    <h2 class="display-4 fw-bold mb-4 text-gradient">
+                        Redefining Global Business Standards
+                    </h2>
+                    <p class="lead text-muted mb-4 lh-lg">
+                        To become the world's most trusted partner for business process transformation, 
+                        empowering organizations to scale globally with unparalleled efficiency.
+                    </p>
+                    <div class="vision-stats d-flex flex-wrap gap-5 mt-6">
+                        <div class="stat-item">
+                            <div class="stat-box">
+                                <h3 class="display-5 fw-bold text-primary mb-0">500+</h3>
+                                <p class="text-muted small mb-0">Global Clients</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-box">
+                                <h3 class="display-5 fw-bold text-success mb-0">99%</h3>
+                                <p class="text-muted small mb-0">Client Retention</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-box">
+                                <h3 class="display-5 fw-bold text-warning mb-0">24/7</h3>
+                                <p class="text-muted small mb-0">Support</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mission-card shadow-xl animate-on-scroll" data-animation="fade-left">
+                    <div class="mission-icon-wrapper">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Our Mission</h3>
+                    <p class="text-muted mb-4 lh-lg">
+                        To deliver exceptional BPO solutions that drive measurable growth, 
+                        reduce operational costs, and enhance customer satisfaction.
+                    </p>
+                    <ul class="mission-points list-unstyled">
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="fas fa-check-circle text-success me-3 mt-1 flex-shrink-0"></i>
+                            <span>Drive operational excellence through strategic outsourcing</span>
+                        </li>
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="fas fa-check-circle text-success me-3 mt-1 flex-shrink-0"></i>
+                            <span>Implement cutting-edge technology for maximum efficiency</span>
+                        </li>
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="fas fa-check-circle text-success me-3 mt-1 flex-shrink-0"></i>
+                            <span>Foster long-term partnerships based on trust and results</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="row">
-            {% for step in process_steps %}
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="process-card text-center">
-                    <div class="process-icon">
-                        <i class="{{ step.icon }}"></i>
-                        <span class="step-number">0{{ step.step_number }}</span>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="decoration decoration-1"></div>
+    <div class="decoration decoration-2"></div>
+</section>
+
+<!-- Our Values Section -->
+<section class="our-values py-12 bg-dark text-white position-relative overflow-hidden">
+    <div class="container">
+        <div class="text-center mb-10">
+            <span class="badge bg-primary bg-opacity-25 text-primary rounded-pill py-2 px-4 mb-3">
+                <i class="fas fa-heart me-2"></i> Our Core Values
+            </span>
+            <h2 class="display-4 fw-bold mb-3">
+                The <span class="text-gradient-light">Principles</span> That Guide Us
+            </h2>
+            <p class="lead opacity-75 mb-0">
+                Our values are the foundation of everything we do
+            </p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="value-card h-100 animate-on-scroll" data-animation="fade-up" data-delay="100">
+                    <div class="value-icon-wrapper">
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h4 class="process-title">{{ step.title }}</h4>
-                    <p class="process-description">{{ step.description }}</p>
+                    <h4 class="fw-bold mb-3">Integrity First</h4>
+                    <p class="opacity-75 mb-0">
+                        We conduct business with honesty, transparency, and ethical standards that build lasting trust.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="value-card h-100 animate-on-scroll" data-animation="fade-up" data-delay="200">
+                    <div class="value-icon-wrapper">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Client-Centric</h4>
+                    <p class="opacity-75 mb-0">
+                        Your success is our priority. We tailor solutions to meet your unique business needs.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="value-card h-100 animate-on-scroll" data-animation="fade-up" data-delay="300">
+                    <div class="value-icon-wrapper">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Innovation Driven</h4>
+                    <p class="opacity-75 mb-0">
+                        Constantly evolving with technology and industry trends to deliver cutting-edge solutions.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="value-card h-100 animate-on-scroll" data-animation="fade-up" data-delay="400">
+                    <div class="value-icon-wrapper">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Excellence in Execution</h4>
+                    <p class="opacity-75 mb-0">
+                        Delivering measurable results with precision, quality, and attention to detail.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-glow"></div>
+</section>
+
+<!-- Our Story Section -->
+<section class="our-story py-12">
+    <div class="container">
+        <div class="row align-items-center g-8">
+            <div class="col-lg-6">
+                <div class="story-image animate-on-scroll" data-animation="fade-right">
+                    <div class="image-wrapper shadow-xl">
+                        <img src="{% static 'images/about/team-meeting.jpg' %}" 
+                             alt="ServiceLink BPO Team" 
+                             class="img-fluid"
+                             onerror="this.src='https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <div class="experience-badge">
+                        <h3 class="display-2 fw-bold mb-0">15+</h3>
+                        <p class="mb-0">Years Experience</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="ps-lg-5 animate-on-scroll" data-animation="fade-left">
+                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill py-2 px-4 mb-3">
+                        <i class="fas fa-history me-2"></i> Our Journey
+                    </span>
+                    <h2 class="display-4 fw-bold mb-4 text-gradient">
+                        From Startup to Industry Leader
+                    </h2>
+                    <p class="text-muted mb-6 lh-lg">
+                        Founded in 2008, ServiceLink BPO began as a small team of dedicated professionals 
+                        with a vision to revolutionize business process outsourcing. Today, we're a global 
+                        leader serving clients across 30+ countries.
+                    </p>
+                    <div class="timeline-wrapper">
+                        {% for item in timeline_items %}
+                        <div class="timeline-item animate-on-scroll" data-animation="fade-right" data-delay="{{ forloop.counter|add:100 }}">
+                            <div class="timeline-date">
+                                <h5 class="fw-bold mb-0">{{ item.year }}</h5>
+                            </div>
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h5 class="fw-bold mb-2">{{ item.title }}</h5>
+                                <p class="text-muted mb-0">{{ item.description }}</p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="timeline-item animate-on-scroll" data-animation="fade-right" data-delay="100">
+                            <div class="timeline-date"><h5 class="fw-bold mb-0">2008</h5></div>
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h5 class="fw-bold mb-2">Humble Beginnings</h5>
+                                <p class="text-muted mb-0">Started with 5 employees focusing on customer service outsourcing</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item animate-on-scroll" data-animation="fade-right" data-delay="200">
+                            <div class="timeline-date"><h5 class="fw-bold mb-0">2015</h5></div>
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h5 class="fw-bold mb-2">Global Reach</h5>
+                                <p class="text-muted mb-0">Expanded to serve international clients across 3 continents</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item animate-on-scroll" data-animation="fade-right" data-delay="300">
+                            <div class="timeline-date"><h5 class="fw-bold mb-0">2023</h5></div>
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h5 class="fw-bold mb-2">Industry Leader</h5>
+                                <p class="text-muted mb-0">500+ clients, 2000+ employees, 30+ service offerings</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Process Section -->
+<section class="process-section py-12 bg-light position-relative overflow-hidden">
+    <div class="container">
+        <div class="text-center mb-10">
+            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill py-2 px-4 mb-3">
+                <i class="fas fa-cogs me-2"></i> How We Work
+            </span>
+            <h2 class="display-4 fw-bold mb-3 text-gradient">
+                Our Proven Process
+            </h2>
+            <p class="lead text-muted mb-0">
+                A systematic approach to delivering exceptional results
+            </p>
+        </div>
+        
+        <div class="row g-4">
+            {% for step in process_steps %}
+            <div class="col-lg-3 col-md-6">
+                <div class="process-step-card animate-on-scroll" data-animation="fade-up" data-delay="{{ forloop.counter|add:100 }}">
+                    <div class="step-number-wrapper">
+                        <span class="step-number">{{ step.step_number }}</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">{{ step.title }}</h5>
+                    <p class="text-muted small mb-0">{{ step.description }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-lg-3 col-md-6">
+                <div class="process-step-card animate-on-scroll" data-animation="fade-up" data-delay="100">
+                    <div class="step-number-wrapper"><span class="step-number">1</span></div>
+                    <h5 class="fw-bold mb-2">Discovery</h5>
+                    <p class="text-muted small mb-0">Understand your business needs</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="process-step-card animate-on-scroll" data-animation="fade-up" data-delay="200">
+                    <div class="step-number-wrapper"><span class="step-number">2</span></div>
+                    <h5 class="fw-bold mb-2">Planning</h5>
+                    <p class="text-muted small mb-0">Create customized strategy</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="process-step-card animate-on-scroll" data-animation="fade-up" data-delay="300">
+                    <div class="step-number-wrapper"><span class="step-number">3</span></div>
+                    <h5 class="fw-bold mb-2">Implementation</h5>
+                    <p class="text-muted small mb-0">Deploy solutions efficiently</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="process-step-card animate-on-scroll" data-animation="fade-up" data-delay="400">
+                    <div class="step-number-wrapper"><span class="step-number">4</span></div>
+                    <h5 class="fw-bold mb-2">Support</h5>
+                    <p class="text-muted small mb-0">Provide ongoing assistance</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="process-decoration"></div>
+</section>
+
+<!-- Leadership Team Section -->
+<section class="leadership-team py-12">
+    <div class="container">
+        <div class="text-center mb-10">
+            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill py-2 px-4 mb-3">
+                <i class="fas fa-users-cog me-2"></i> Meet Our Leaders
+            </span>
+            <h2 class="display-4 fw-bold mb-3 text-gradient">
+                Expert Leadership
+            </h2>
+            <p class="lead text-muted mb-0">
+                Guided by industry veterans with decades of experience
+            </p>
+        </div>
+        
+        <div class="row g-4">
+            {% for leader in leadership_team %}
+            <div class="col-lg-4 col-md-6">
+                <div class="team-card animate-on-scroll" data-animation="fade-up" data-delay="{{ forloop.counter|add:100 }}">
+                    <div class="team-img-wrapper {% if forloop.counter == 2 %}bg-success{% elif forloop.counter == 3 %}bg-warning{% endif %}">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-info p-4">
+                        <h5 class="fw-bold mb-1">{{ leader.name }}</h5>
+                        <p class="text-primary small mb-2">{{ leader.position }}</p>
+                        <p class="text-muted small mb-0">{{ leader.bio }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-lg-4 col-md-6">
+                <div class="team-card animate-on-scroll" data-animation="fade-up" data-delay="100">
+                    <div class="team-img-wrapper">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-info p-4">
+                        <h5 class="fw-bold mb-1">John Smith</h5>
+                        <p class="text-primary small mb-2">CEO & Founder</p>
+                        <p class="text-muted small mb-0">20+ years in BPO industry. Visionary leader focused on innovation and growth.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="team-card animate-on-scroll" data-animation="fade-up" data-delay="200">
+                    <div class="team-img-wrapper bg-success">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-info p-4">
+                        <h5 class="fw-bold mb-1">Sarah Johnson</h5>
+                        <p class="text-primary small mb-2">COO</p>
+                        <p class="text-muted small mb-0">Operations expert specializing in process optimization and quality assurance.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="team-card animate-on-scroll" data-animation="fade-up" data-delay="300">
+                    <div class="team-img-wrapper bg-warning">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-info p-4">
+                        <h5 class="fw-bold mb-1">Michael Chen</h5>
+                        <p class="text-primary small mb-2">CTO</p>
+                        <p class="text-muted small mb-0">Technology innovator with expertise in AI, automation, and digital transformation.</p>
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -36,291 +356,888 @@
     </div>
 </section>
 
-<!-- Our Values Section -->
-<section class="values-section py-5 bg-light">
+<!-- Global Presence Section -->
+<section class="global-presence py-12 bg-dark text-white position-relative overflow-hidden">
     <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-5">
-                <h2 class="section-title">Our Values</h2>
-                <p class="section-subtitle">What drives us to deliver exceptional service</p>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Value 1 -->
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="value-card h-100">
-                    <div class="value-icon mb-4">
-                        <i class="fas fa-bullseye"></i>
-                    </div>
-                    <h4 class="value-title">Client-Centric Excellence</h4>
-                    <p class="value-description">
-                        We prioritize your business goals, delivering tailored solutions that drive measurable results and exceed expectations.
+        <div class="row align-items-center g-8">
+            <div class="col-lg-6">
+                <div class="pe-lg-5 animate-on-scroll" data-animation="fade-right">
+                    <span class="badge bg-primary bg-opacity-25 text-primary rounded-pill py-2 px-4 mb-3">
+                        <i class="fas fa-globe-americas me-2"></i> Global Reach
+                    </span>
+                    <h2 class="display-4 fw-bold mb-4 text-gradient-light">
+                        Serving Worldwide Clients
+                    </h2>
+                    <p class="opacity-75 mb-6 lh-lg">
+                        With offices and delivery centers across the globe, we provide seamless 
+                        BPO services to clients in over 30 countries, delivering exceptional 
+                        value and localized expertise.
                     </p>
+                    <div class="presence-stats">
+                        <div class="stat-card animate-on-scroll" data-animation="fade-up" data-delay="100">
+                            <h3 class="display-5 fw-bold mb-1">30+</h3>
+                            <p class="opacity-75 mb-0">Countries</p>
+                        </div>
+                        <div class="stat-card animate-on-scroll" data-animation="fade-up" data-delay="200">
+                            <h3 class="display-5 fw-bold mb-1">5</h3>
+                            <p class="opacity-75 mb-0">Continents</p>
+                        </div>
+                        <div class="stat-card animate-on-scroll" data-animation="fade-up" data-delay="300">
+                            <h3 class="display-5 fw-bold mb-1">2000+</h3>
+                            <p class="opacity-75 mb-0">Employees</p>
+                        </div>
+                        <div class="stat-card animate-on-scroll" data-animation="fade-up" data-delay="400">
+                            <h3 class="display-5 fw-bold mb-1">24/7</h3>
+                            <p class="opacity-75 mb-0">Operations</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Value 2 -->
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="value-card h-100">
-                    <div class="value-icon mb-4">
-                        <i class="fas fa-handshake"></i>
-                    </div>
-                    <h4 class="value-title">Integrity & Transparency</h4>
-                    <p class="value-description">
-                        Open communication, honest partnerships, and clear processes define every interaction with our team and clients.
-                    </p>
-                </div>
-            </div>
-            
-            <!-- Value 3 -->
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="value-card h-100">
-                    <div class="value-icon mb-4">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h4 class="value-title">Innovation & Agility</h4>
-                    <p class="value-description">
-                        We embrace change, leverage cutting-edge technology, and adapt quickly to evolving market demands and challenges.
-                    </p>
-                </div>
-            </div>
-            
-            <!-- Value 4 -->
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="value-card h-100">
-                    <div class="value-icon mb-4">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h4 class="value-title">Team Empowerment</h4>
-                    <p class="value-description">
-                        We invest in our talent, fostering growth, collaboration, and ownership to deliver exceptional service quality.
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Optional: Additional value cards -->
-        <div class="row justify-content-center">
-            <!-- Value 5 -->
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="value-card h-100">
-                    <div class="value-icon mb-4">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h4 class="value-title">Sustainable Growth</h4>
-                    <p class="value-description">
-                        Building long-term partnerships focused on scalable, efficient, and profitable outcomes for all stakeholders.
-                    </p>
-                </div>
-            </div>
-            
-            <!-- Value 6 -->
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="value-card h-100">
-                    <div class="value-icon mb-4">
+            <div class="col-lg-6">
+                <div class="world-map animate-on-scroll" data-animation="fade-left">
+                    <div class="map-wrapper">
                         <i class="fas fa-globe"></i>
+                        <div class="location-marker" style="top: 30%; left: 25%;">
+                            <div class="marker-dot"></div>
+                            <div class="marker-label">North America</div>
+                        </div>
+                        <div class="location-marker" style="top: 50%; left: 50%;">
+                            <div class="marker-dot"></div>
+                            <div class="marker-label">Europe</div>
+                        </div>
+                        <div class="location-marker" style="top: 60%; left: 70%;">
+                            <div class="marker-dot"></div>
+                            <div class="marker-label">Asia Pacific</div>
+                        </div>
                     </div>
-                    <h4 class="value-title">Global Excellence</h4>
-                    <p class="value-description">
-                        Delivering world-class BPO solutions with local market understanding and international best practices.
-                    </p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<style>/* ================================
+   GLOBAL PRESENCE SECTION
+================================ */
 
+.global-presence {
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    position: relative;
+}
+
+/* ================================
+   TEXT & HEADING
+================================ */
+
+.text-gradient-light {
+    background: linear-gradient(90deg, #60a5fa, #22d3ee);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.global-presence p {
+    color: rgba(255,255,255,0.8);
+}
+
+/* ================================
+   STATS
+================================ */
+
+.presence-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(6px);
+}
+
+.stat-card h3 {
+    color: #ffffff;
+}
+
+.stat-card p {
+    font-size: 0.95rem;
+}
+
+/* ================================
+   MAP AREA
+================================ */
+
+.world-map {
+    position: relative;
+    width: 100%;
+    height: 420px;
+}
+
+.map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, #020617, #0f172a);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ================================
+   GLOBE ICON (CLEAR & STRONG)
+================================ */
+
+.map-wrapper > i {
+    font-size: 18rem;
+    color: rgba(255,255,255,0.08);
+    position: absolute;
+}
+
+/* ================================
+   LOCATION MARKERS
+================================ */
+
+.location-marker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+/* marker dot */
+.marker-dot {
+    width: 14px;
+    height: 14px;
+    background: #22d3ee;
+    border-radius: 50%;
+    box-shadow: 0 0 0 6px rgba(34,211,238,0.25);
+    animation: pulse 2s infinite;
+}
+
+/* label */
+.marker-label {
+    position: absolute;
+    top: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15,23,42,0.9);
+    color: #ffffff;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    border: 1px solid rgba(255,255,255,0.15);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* show label on hover */
+.location-marker:hover .marker-label {
+    opacity: 1;
+}
+
+/* ================================
+   PULSE ANIMATION
+================================ */
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(34,211,238,0.5);
+    }
+    70% {
+        box-shadow: 0 0 0 14px rgba(34,211,238,0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(34,211,238,0);
+    }
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 991px) {
+    .world-map {
+        height: 340px;
+        margin-top: 3rem;
+    }
+
+    .map-wrapper > i {
+        font-size: 14rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .world-map {
+        height: 300px;
+    }
+
+    .map-wrapper > i {
+        font-size: 11rem;
+    }
+}
+</style>
+
+<!-- CTA Section -->
+<section class="about-cta py-50 bg-gradient-primary text-dark position-relative overflow-hidden">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="display-4 fw-bold mb-4 animate-on-scroll" data-animation="fade-up">
+                    Ready to Partner with Experts?
+                </h2>
+                <p class="lead opacity-75 mb-6 animate-on-scroll" data-animation="fade-up" data-delay="100">
+                    Join 500+ successful businesses that trust ServiceLink BPO for their growth journey.
+                </p>
+                <div class="cta-buttons animate-on-scroll" data-animation="fade-up" data-delay="200">
+                    <a href="{% url 'website:contact' %}" class="btn btn-light btn-lg px-5 py-3 rounded-pill shadow-lg me-3 hover-lift">
+                        <i class="fas fa-calendar-alt me-2"></i> Schedule Consultation
+                    </a>
+                    <a href="{% url 'website:services' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill border-2 hover-lift">
+                        <i class="fas fa-cogs me-2"></i> Explore Services
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cta-decoration"></div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ========== ENHANCED STYLING ========== */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 30px 80px rgba(0, 0, 0, 0.12);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Typography */
+.text-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-light {
+    background: linear-gradient(135deg, #ffffff 0%, #a8edea 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ========== VISION & MISSION ========== */
+.vision-mission {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    position: relative;
+}
+
+.stat-box {
+    padding: 20px;
+    border-radius: 12px;
+    background: white;
+    border: 2px solid #f0f0f0;
+    transition: var(--transition);
+}
+
+.stat-box:hover {
+    border-color: #0d6efd;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+}
+
+.mission-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    border: 1px solid #f0f0f0;
+    z-index: 2;
+}
+
+.mission-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-gradient);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: white;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.decoration {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.03;
+    pointer-events: none;
+}
+
+.decoration-1 {
+    width: 400px;
+    height: 400px;
+    background: #0d6efd;
+    top: -100px;
+    right: -100px;
+}
+
+.decoration-2 {
+    width: 300px;
+    height: 300px;
+    background: #0dcaf0;
+    bottom: -50px;
+    left: -50px;
+}
+
+/* ========== VALUES SECTION ========== */
+.our-values {
+    position: relative;
+}
+
+.value-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    padding: 40px 25px;
+    text-align: center;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.value-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 110, 253, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.value-card:hover {
+    transform: translateY(-15px);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.value-card:hover::before {
+    opacity: 1;
+}
+
+.value-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    font-size: 32px;
+    color: white;
+    transition: var(--transition);
+}
+
+.value-card:hover .value-icon-wrapper {
+    background: var(--primary-gradient);
+    transform: scale(1.1) rotateZ(5deg);
+}
+
+.bg-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(13, 110, 253, 0.1), transparent);
+    bottom: -200px;
+    right: -200px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* ========== STORY SECTION ========== */
+.story-image {
+    position: relative;
+}
+
+.image-wrapper {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    border: 1px solid #f0f0f0;
+}
+
+.image-wrapper img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.6s ease;
+}
+
+.story-image:hover .image-wrapper img {
+    transform: scale(1.05);
+}
+
+.experience-badge {
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 20px;
+    padding: 30px 25px;
+    position: absolute;
+    bottom: 30px;
+    right: -30px;
+    z-index: 3;
+    min-width: 160px;
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(0, -15px); }
+}
+
+/* Timeline */
+.timeline-wrapper {
+    position: relative;
+    padding-left: 40px;
+}
+
+.timeline-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--primary-gradient);
+}
+
+.timeline-item {
+    display: flex;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.timeline-date {
+    position: absolute;
+    left: -50px;
+    top: 0;
+    text-align: right;
+    min-width: 45px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -52px;
+    top: 10px;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border: 4px solid #0d6efd;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.timeline-content {
+    padding-left: 20px;
+}
+
+/* ========== PROCESS SECTION ========== */
+.process-step-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    border: 2px solid #f0f0f0;
+    transition: var(--transition);
+    position: relative;
+}
+
+.process-step-card:hover {
+    border-color: #0d6efd;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-10px);
+}
+
+.step-number-wrapper {
+    margin-bottom: 25px;
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    transition: var(--transition);
+    position: relative;
+    z-index: 1;
+}
+
+.process-step-card:hover .step-number {
+    transform: scale(1.15) rotateZ(360deg);
+    box-shadow: 0 15px 40px rgba(13, 110, 253, 0.4);
+}
+
+.process-decoration {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(13, 110, 253, 0.05), transparent);
+    bottom: -200px;
+    left: -200px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* ========== TEAM SECTION ========== */
+.team-card {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+    transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.team-card:hover {
+    transform: translateY(-20px);
+    box-shadow: var(--shadow-xl);
+    border-color: #0d6efd;
+}
+
+.team-img-wrapper {
+    height: 250px;
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.1), rgba(13, 206, 240, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    color: rgba(13, 110, 253, 0.2);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.team-img-wrapper.bg-success {
+    background: linear-gradient(135deg, rgba(25, 135, 84, 0.1), rgba(25, 135, 84, 0.05));
+    color: rgba(25, 135, 84, 0.2);
+}
+
+.team-img-wrapper.bg-warning {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.05));
+    color: rgba(255, 193, 7, 0.2);
+}
+
+.team-card:hover .team-img-wrapper {
+    transform: scale(1.1);
+}
+
+.team-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ========== GLOBAL PRESENCE ========== */
+.presence-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.world-map {
+    position: relative;
+    height: 400px;
+}
+
+.map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    font-size: 150px;
+    color: rgba(255, 255, 255, 0.1);
+}
+
+.location-marker {
+    animation: drift 4s ease-in-out infinite;
+}
+
+@keyframes drift {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.1); }
+}
+
+.marker-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    position: relative;
+    animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 currentColor;
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+.marker-label {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 12px;
+    white-space: nowrap;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.location-marker:hover .marker-label {
+    opacity: 1;
+}
+
+/* ========== CTA SECTION ========== */
+.about-cta {
+        padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn.hover-lift {
+    transition: var(--transition);
+    position: relative;
+    z-index: 2;
+}
+
+.btn.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.cta-decoration {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+    bottom: -300px;
+    right: -300px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* ========== ANIMATIONS ========== */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 992px) {
+    .display-4 { font-size: 2.5rem; }
+    .display-5 { font-size: 2rem; }
+    
+    .timeline-wrapper {
+        padding-left: 0;
+    }
+    
+    .timeline-wrapper::before {
+        display: none;
+    }
+    
+    .timeline-marker,
+    .timeline-date {
+        display: none;
+    }
+    
+    .timeline-item {
+        margin-bottom: 30px;
+    }
+    
+    .presence-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .display-4 { font-size: 2rem; }
+    .display-5 { font-size: 1.8rem; }
+    
+    .experience-badge {
+        right: -50px;
+        bottom: 20px;
+        padding: 20px 15px;
+    }
+    
+    .value-card {
+        padding: 30px 20px;
+    }
+    
+    .presence-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+    }
+    
+    .cta-buttons .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .display-4 { font-size: 1.75rem; }
+    
+    .mission-card {
+        padding: 30px 20px;
+    }
+    
+    .world-map {
+        height: 300px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const navbar = document.getElementById('mainNavbar');
-    const hamburger = document.querySelector('.hamburger');
-    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
-    const mobileNavSidebar = document.getElementById('mobileNavSidebar');
-    const mobileNavClose = document.getElementById('mobileNavClose');
-    
-    // Get current page path
-    const currentPath = window.location.pathname;
-    
-    // Check if we're on a page with hero section
-    function hasHeroSection() {
-        return document.querySelector('.hero-section, [class*="hero"], .contact-hero-section, .about-hero-section') !== null;
-    }
-    
-    // Scroll handler
-    function handleScroll() {
-        if (!hasHeroSection()) {
-            // Pages without hero always have solid navbar
-            navbar.classList.add('scrolled');
-            return;
-        }
-        
-        if (window.scrollY > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    }
-    
-    // Initialize navbar state
-    function initializeNavbar() {
-        // Check if page has hero section
-        if (!hasHeroSection()) {
-            // Pages without hero always have solid navbar
-            navbar.classList.add('scrolled');
-            navbar.style.position = 'fixed';
-        } else {
-            // Pages with hero: transparent when at top, solid when scrolled
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-            
-            // Set correct position for desktop
-            if (window.innerWidth >= 992) {
-                navbar.style.position = 'absolute';
-            } else {
-                navbar.style.position = 'fixed';
-            }
-        }
-        
-        // Initialize mobile menu state
-        closeMobileMenu();
-    }
-    
-    // Initial setup
-    initializeNavbar();
-    window.addEventListener('scroll', handleScroll);
-    
-    // Mobile menu functions
-    function openMobileMenu() {
-        mobileNavOverlay.classList.add('active');
-        mobileNavSidebar.classList.add('active');
-        hamburger.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    function closeMobileMenu() {
-        mobileNavOverlay.classList.remove('active');
-        mobileNavSidebar.classList.remove('active');
-        hamburger.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    
-    // Event listeners for mobile menu
-    if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', openMobileMenu);
-    }
-    
-    if (mobileNavClose) {
-        mobileNavClose.addEventListener('click', closeMobileMenu);
-    }
-    
-    if (mobileNavOverlay) {
-        mobileNavOverlay.addEventListener('click', closeMobileMenu);
-    }
-    
-    // Close menu when clicking mobile links
-    document.querySelectorAll('.mobile-nav-link[href], .mobile-submenu-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-            if (this.getAttribute('href') && this.getAttribute('href') !== '#') {
-                closeMobileMenu();
+    // Intersection Observer for animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const delay = entry.target.getAttribute('data-delay') || 0;
+                entry.target.style.transitionDelay = `${delay}ms`;
+                entry.target.classList.add('animated');
             }
         });
-    });
+    }, { threshold: 0.1 });
     
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        initializeNavbar();
-        
-        // Desktop dropdown setup
-        setupDesktopDropdowns();
-    });
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
     
-    // Desktop dropdown hover functionality
-    function setupDesktopDropdowns() {
-        if (window.innerWidth >= 992) {
-            const megaMenu = document.querySelector('.mega-menu');
-            const megaDropdown = document.querySelector('.mega-dropdown');
-            
-            if (megaMenu && megaDropdown) {
-                let hideTimeout;
-                
-                megaMenu.addEventListener('mouseenter', function() {
-                    clearTimeout(hideTimeout);
-                    megaDropdown.classList.add('show');
-                });
-                
-                megaMenu.addEventListener('mouseleave', function() {
-                    hideTimeout = setTimeout(() => {
-                        megaDropdown.classList.remove('show');
-                    }, 300);
-                });
-                
-                megaDropdown.addEventListener('mouseenter', function() {
-                    clearTimeout(hideTimeout);
-                });
-                
-                megaDropdown.addEventListener('mouseleave', function() {
-                    hideTimeout = setTimeout(() => {
-                        megaDropdown.classList.remove('show');
-                    }, 300);
-                });
-            }
+    // Counter animations
+    const counterElements = document.querySelectorAll('[class*="display-"]');
+    let counted = false;
+    
+    const countObserver = new IntersectionObserver((entries) => {
+        if (!counted && entries[0].isIntersecting) {
+            counterElements.forEach(el => animateCounter(el));
+            counted = true;
         }
+    }, { threshold: 0.5 });
+    
+    if (counterElements.length) {
+        countObserver.observe(counterElements[0]);
     }
     
-    // Initialize dropdowns
-    setupDesktopDropdowns();
-    
-    // Set active nav link based on current page
-    function setActiveNavLink() {
-        const currentPath = window.location.pathname;
-        const navLinks = document.querySelectorAll('.nav-link:not(.dropdown-toggle), .mobile-nav-link[href]');
+    function animateCounter(el) {
+        const text = el.textContent;
+        const num = parseInt(text);
+        if (isNaN(num)) return;
         
-        navLinks.forEach(link => {
-            const linkPath = link.getAttribute('href');
-            if (linkPath && (
-                linkPath === currentPath || 
-                (currentPath === '/' && linkPath === '/') ||
-                (currentPath.includes('services') && linkPath.includes('services')) ||
-                (currentPath.includes('about') && linkPath.includes('about')) ||
-                (currentPath.includes('contact') && linkPath.includes('contact'))
-            )) {
-                link.classList.add('active');
+        const duration = 2000;
+        const increment = num / (duration / 16);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= num) {
+                el.textContent = num + (text.includes('%') ? '%' : text.includes('+') ? '+' : '');
+                clearInterval(timer);
             } else {
-                link.classList.remove('active');
+                el.textContent = Math.floor(current) + (text.includes('%') ? '%' : text.includes('+') ? '+' : '');
             }
-        });
+        }, 16);
     }
     
-    setActiveNavLink();
-    
-    // Close dropdowns when clicking outside (desktop only)
-    if (window.innerWidth >= 992) {
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.dropdown') && !e.target.closest('.mega-dropdown')) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                    menu.classList.remove('show');
-                });
-            }
+    // Parallax effect
+    const worldMap = document.querySelector('.world-map');
+    if (worldMap) {
+        window.addEventListener('scroll', () => {
+            const offset = window.scrollY * 0.05;
+            worldMap.style.transform = `translateY(${offset}px)`;
         });
     }
-    
-    // Load initial state
-    window.addEventListener('load', function() {
-        initializeNavbar();
-        setActiveNavLink();
-    });
 });
-
-
-
-// Add to base.html or each page
-console.log('Page loaded:', window.location.pathname);
-console.log('Navbar classList:', document.getElementById('mainNavbar').classList);
-console.log('Body padding-top:', window.getComputedStyle(document.body).paddingTop);
-console.log('Window scrollY:', window.scrollY);
 </script>
 {% endblock %}

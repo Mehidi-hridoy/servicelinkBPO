@@ -16,3 +16,10 @@ def resolve_url(value):
     if value in url_mapping:
         return reverse(url_mapping[value])
     return value
+
+@register.filter
+def multiply(value, arg):
+    try:
+        return float(value) * float(arg)
+    except Exception:
+        return ''
